@@ -103,14 +103,14 @@ public class DayView extends View
         if(todaysEvents.isEmpty())
         {
             paint.setTextSize(titleSize);
-            top += FormattedInfo.drawWrappedText(resources.getString(R.string.no_activities), 10, top, getWidth() - 20, paint, canvas);
+            top += FormattedInfo.drawTextWrapped(resources.getString(R.string.no_activities), 10, top, getWidth() - 20, paint, canvas);
         }
         else
         {
             for(Incident event : todaysEvents)
             {
                 paint.setTextSize(titleSize);
-                top += FormattedInfo.drawWrappedText(event.getTitle(), 10, top, getWidth() - 20, paint, canvas);
+                top += FormattedInfo.drawTextWrapped(event.title(), 10, top, getWidth() - 20, paint, canvas);
                 
                 paint.setTextSize(infoSize);
                 StringBuffer sb = new StringBuffer(30);
@@ -118,7 +118,7 @@ public class DayView extends View
                 if(!event.isAllDay())
                 {
                     sb.append(MessageFormat.format(resources.getString(R.string.time_period), 
-                            new Object[] { FormattedInfo.getTimeString(event.getStart()), FormattedInfo.getTimeString(event.getEnd())}));
+                            new Object[] { FormattedInfo.getTimeString(event.startAt()), FormattedInfo.getTimeString(event.endsAt())}));
                 }
                 else
                     sb.append(resources.getString(R.string.all_day_event));
@@ -126,17 +126,17 @@ public class DayView extends View
                 top += Math.round(Math.abs(paint.ascent()));
                 canvas.drawText(sb.toString(), 10, top, paint);
                 top += paint.descent();
-                if(event.getEventLocation() != null)
-                    if(event.getEventLocation().length() > 0)
+                if(event.eventLocation() != null)
+                    if(event.eventLocation().length() > 0)
                     {
-                        top += FormattedInfo.drawWrappedText(resources.getString(R.string.location) + event.getEventLocation(), 
+                        top += FormattedInfo.drawTextWrapped(resources.getString(R.string.location) + event.eventLocation(), 
                                 10, top, getWidth() - 20, paint, canvas);
                     }
     
-                if(event.getDescription() != null)
-                    if(event.getDescription().length() > 0)
+                if(event.description() != null)
+                    if(event.description().length() > 0)
                     {
-                        top += FormattedInfo.drawWrappedText(event.getDescription(), 10, top, getWidth() - 20, paint, canvas);
+                        top += FormattedInfo.drawTextWrapped(event.description(), 10, top, getWidth() - 20, paint, canvas);
                     }
     
                 top += Math.round(Math.abs(paint.ascent()));

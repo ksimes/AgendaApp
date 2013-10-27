@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ExpandableListFragment;
 import android.view.LayoutInflater;
@@ -51,31 +52,31 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
             {
-                Incident item = allAgendaItems.get(groupPosition).getEventsOnThisDay().get(childPosition);
+                Incident item = allAgendaItems.get(groupPosition).eventsOnThisDay().get(childPosition);
                 
                 Intent intent = new Intent(v.getContext(), AgendaItemDisplay.class);
                 
-                intent.putExtra(Incident.Title, item.getTitle());
+                intent.putExtra(Incident.Title, item.title());
                 String period = "";
                 if (!item.isAllDay())
                 {
                     period = MessageFormat.format(getString(R.string.time_period),
-                            new Object[] { FormattedInfo.getTimeString(item.getStart()), FormattedInfo.getTimeString(item.getEnd()) });
+                            new Object[] { FormattedInfo.getTimeString(item.startAt()), FormattedInfo.getTimeString(item.endsAt()) });
                 }
                 else
                     period = getString(R.string.all_day_event);
                 
                 intent.putExtra(Incident.Period, period);
                 
-                if (item.getEventLocation() != null)
+                if (item.eventLocation() != null)
                 {
-                    if (item.getEventLocation().length() > 0)
+                    if (item.eventLocation().length() > 0)
                     {
-                        intent.putExtra(Incident.Location, getString(R.string.location) + item.getEventLocation());
+                        intent.putExtra(Incident.Location, getString(R.string.location) + item.eventLocation());
                     }
                 }
                 
-                intent.putExtra(Incident.Description, item.getDescription());
+                intent.putExtra(Incident.Description, item.description());
                 
                 startActivity(intent);      
                 return false;
@@ -125,11 +126,9 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
         {
             AgendaItem item = allAgendaItems.get(0);
             // If the first item is not for today then we have no events for today.
-            if (!item.getDate().isToday())
+            if (!item.date().isToday())
             {
-                Incident newIncident = new Incident();
-                newIncident.setTitle(getString(R.string.no_activities));
-                newIncident.setAllDay(true);
+                Incident newIncident = new Incident(getString(R.string.no_activities), null, null, null, null, true, -1, null, Color.BLACK, 1);
                 List<Incident> newEventsForDate = new ArrayList<Incident>();
                 newEventsForDate.add(newIncident);
                 AgendaItem newItem = new AgendaItem(new DateInfo(), newEventsForDate);

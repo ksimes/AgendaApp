@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.stronans.android.agenda.support.DateInfo;
 
+/**
+ * Immutable pojo object set only by the constructor
+ * @author SimonKing
+ *
+ */
 public class AgendaItem
 {
     List<Incident> eventsOnThisDay;
@@ -19,29 +24,15 @@ public class AgendaItem
     /**
      * @return the eventsOnThisDay
      */
-    public List<Incident> getEventsOnThisDay()
+    public List<Incident> eventsOnThisDay()
     {
         return eventsOnThisDay;
     }
     /**
-     * @param eventsOnThisDay the eventsOnThisDay to set
-     */
-    public void setEventsOnThisDay(List<Incident> eventsOnThisDay)
-    {
-        this.eventsOnThisDay = eventsOnThisDay;
-    }
-    /**
      * @return the dateToday
      */
-    public DateInfo getDate()
+    public DateInfo date()
     {
         return dateToday;
-    }
-    /**
-     * @param dateToday the dateToday to set
-     */
-    public void setDateToday(DateInfo dateToday)
-    {
-        this.dateToday = dateToday;
     }
 }

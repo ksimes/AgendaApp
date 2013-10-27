@@ -201,11 +201,11 @@ public class WeekDayView extends View
         {
             // TODO: Put in icons for the calendar account/event type 
             Rect markerRect = new Rect(getPaddingLeft(), shift, getPaddingLeft() + infoSize, shift + infoSize);
-            paint.setColor(event.getCalendarColour());
+            paint.setColor(event.calendarColour());
             canvas.drawRect(markerRect, paint);
 
             paint.setColor(resources.getColor(R.color.Black));
-            shift += FormattedInfo.drawWrappedText(FormattedInfo.getShortEventString(event), 
+            shift += FormattedInfo.drawTextWrapped(FormattedInfo.getShortEventString(event), 
                     getPaddingLeft() + infoSize + getPaddingLeft(), shift, displayWidth - 10, paint, canvas);
         }
         

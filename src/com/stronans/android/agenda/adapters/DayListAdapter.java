@@ -70,13 +70,13 @@ public class DayListAdapter extends BaseAdapter
 
         Incident item = items.get(position);
 
-        Utilities.setTextView(view, R.id.incidenttitle, item.getTitle());
+        Utilities.setTextView(view, R.id.incidenttitle, item.title());
         
         String periodTxt = new String();
         if(!item.isAllDay())
         {
             periodTxt = MessageFormat.format(resources.getString(R.string.time_period), 
-                    new Object[] { FormattedInfo.getTimeString(item.getStart()), FormattedInfo.getTimeString(item.getEnd())});
+                    new Object[] { FormattedInfo.getTimeString(item.startAt()), FormattedInfo.getTimeString(item.endsAt())});
         }
         else
             periodTxt = resources.getString(R.string.all_day_event);
@@ -84,19 +84,19 @@ public class DayListAdapter extends BaseAdapter
         Utilities.setTextView(view, R.id.incidentperiod, periodTxt);
         
         TextView location = (TextView)view.findViewById(R.id.incidentlocation);
-        if(Utilities.hasContent(item.getEventLocation()))
+        if(Utilities.hasContent(item.eventLocation()))
         {
             location.setVisibility(View.VISIBLE);
-            location.setText(resources.getString(R.string.location) + item.getEventLocation());
+            location.setText(resources.getString(R.string.location) + item.eventLocation());
         }
         else
             location.setVisibility(View.GONE);
 
         TextView description = (TextView)view.findViewById(R.id.incidentdescription);
-        if(Utilities.hasContent(item.getDescription()))
+        if(Utilities.hasContent(item.description()))
         {
             description.setVisibility(View.VISIBLE);
-            description.setText(item.getDescription());
+            description.setText(item.description());
         }
         else
             description.setVisibility(View.GONE);

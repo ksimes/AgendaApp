@@ -100,7 +100,9 @@ public class AgendaConfiguration
     
     public Bitmap getScaledToken(int index, int width, int height)
     {
-        Bitmap result = Bitmap.createScaledBitmap(window, width, height, false);
+        int tokenSize = tokens.getHeight(); // All tokens are square
+        Bitmap step1 = Bitmap.createBitmap(tokens, index * tokenSize, 0, tokenSize, tokenSize); 
+        Bitmap result = Bitmap.createScaledBitmap(step1, width, height, false);
         return result;
     }
     

@@ -1,51 +1,44 @@
 package com.stronans.android.agenda.model;
 
+/**
+ * Immutable object to hold EventCategory
+ * @author SimonKing
+ *
+ */
 public class EventCategory
 {
     long id;                // Database identifier
     String description;     // Description of Category
-    int marker = 10;         // id for an icon.
+    int marker = 0;         // id for an icon.
     
+    public EventCategory(long id, String description, int marker)
+    {
+        super();
+        
+        this.id = id;
+        this.description = description;
+        this.marker = marker;
+    }
+
     /**
      * @return the id
      */
-    public long getId()
+    public long id()
     {
         return id;
     }
     /**
-     * @param id the id to set
-     */
-    public void setId(long id)
-    {
-        this.id = id;
-    }
-    /**
      * @return the description
      */
-    public String getDescription()
+    public String description()
     {
         return description;
     }
     /**
-     * @param description the description to set
-     */
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-    /**
      * @return the marker
      */
-    public int getMarker()
+    public int marker()
     {
         return marker;
-    }
-    /**
-     * @param marker the marker to set
-     */
-    public void setMarker(int marker)
-    {
-        this.marker = marker;
     }
 }

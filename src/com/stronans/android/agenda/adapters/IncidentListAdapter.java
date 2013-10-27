@@ -63,14 +63,14 @@ public class IncidentListAdapter extends BaseAdapter
 
         Incident item = items.get(position);
 
-        Utilities.setTextView(view, R.id.incidenttitle, item.getTitle());
+        Utilities.setTextView(view, R.id.incidenttitle, item.title());
 
         StringBuffer sb = new StringBuffer(30);
         
         if(!item.isAllDay())
         {
             sb.append(MessageFormat.format(resources.getString(R.string.time_period), 
-                    new Object[] { FormattedInfo.getTimeString(item.getStart()), FormattedInfo.getTimeString(item.getEnd())}));
+                    new Object[] { FormattedInfo.getTimeString(item.startAt()), FormattedInfo.getTimeString(item.endsAt())}));
         }
         else
             sb.append(resources.getString(R.string.all_day_event));
@@ -79,9 +79,9 @@ public class IncidentListAdapter extends BaseAdapter
 
         String location = "";
         
-        if(Utilities.hasContent(item.getEventLocation()))
+        if(Utilities.hasContent(item.eventLocation()))
         {
-            location = resources.getString(R.string.location) + item.getEventLocation();
+            location = resources.getString(R.string.location) + item.eventLocation();
         }
 
         Utilities.setTextView(view, R.id.incidentlocation, location);

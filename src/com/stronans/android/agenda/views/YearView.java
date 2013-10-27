@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -19,6 +20,7 @@ import android.view.View;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
+import com.stronans.android.agenda.enums.LabelOrientation;
 import com.stronans.android.agenda.enums.ViewType;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.support.DateInfo;
@@ -37,6 +39,7 @@ public class YearView extends View
     String[] monthNames;
     AgendaController controller;
     List<Incident> eventList = null;          // List of all events which occur in this grid (may include extra days before beginning and after end of month).
+    int cellBackground, singleEvent, doubleEvent, moreEvents, weekend;
 
     // Used when inflated from a layout
     public YearView(Context context, AttributeSet attrs)
@@ -77,6 +80,17 @@ public class YearView extends View
                 return false;
             }
         });
+        
+        setColours();
+    }
+    
+    private void setColours()
+    {
+        cellBackground = resources.getColor(R.color.Ivory);
+        singleEvent = resources.getColor(R.color.ForestGreen);
+        doubleEvent = resources.getColor(R.color.Amber);
+        moreEvents = resources.getColor(R.color.red);
+        weekend = resources.getColor(R.color.red);  // BrickRed
     }
     
     private void refreshEvents()
@@ -99,23 +113,23 @@ public class YearView extends View
     
     private int getbackgroundColour(List<Incident> eventList, DateInfo selected)
     {
-        int backColour = resources.getColor(R.color.Ivory);
+        int backColour = cellBackground;
         switch(Incident.extractForDate(eventList, selected).size())
         {
         case 0 : 
-            backColour = resources.getColor(R.color.Ivory);
+            backColour = cellBackground;
             break;
 
         case 1 : 
-            backColour = resources.getColor(R.color.ForestGreen);
+            backColour = singleEvent;
             break;
 
         case 2 : 
-            backColour = resources.getColor(R.color.DarkOrange);
+            backColour = doubleEvent;
             break;
         
         default:
-            backColour = resources.getColor(R.color.red);
+            backColour = moreEvents;
             break;
         }
         
@@ -125,7 +139,7 @@ public class YearView extends View
     @Override
     public void onDraw(Canvas canvas)
     {
-        canvas.drawColor(resources.getColor(R.color.Ivory));
+        canvas.drawColor(cellBackground);
         refreshEvents();
         int top = 0;
         // Draw Year header text (Which is the year plus buttons to roll up or down)
@@ -135,11 +149,9 @@ public class YearView extends View
     
     private int drawHeader(Canvas canvas, int Y)
     {
-        int top = Y; 
         GradientDrawable mDrawable;
-        int shift = top;
         int headerHeight = 0;
-        Rect mRect;
+        Rect mRect; 
         int width = canvas.getWidth();
         
         Paint paint = new Paint();
@@ -157,33 +169,15 @@ public class YearView extends View
         mDrawable.setShape(GradientDrawable.RECTANGLE);
         mDrawable.setGradientRadius((float)(Math.sqrt(2) * 60));
   
-        mRect = new Rect(0, top, width, top + headerHeight);
+        mRect = new Rect(0, Y, width, Y + headerHeight);
 
         mDrawable.setBounds(mRect);
         mDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
         mDrawable.draw(canvas);
         
         String dateString = FormattedInfo.getYearString(selected);
-        paint.getTextBounds(dateString, 0, dateString.length(), mRect); 
-        int x = 0;
-        switch(config.getHeaderOrientation())
-        {
-        case left:
-            x = 5;
-            break;
-        case right:
-            x = width - mRect.width() - 5;
-            break;
-        case centre:
-            x = (width / 2) - (mRect.width() / 2);
-            break;
-        }
-        paint.setTextSize(TITLE_SIZE);
-        paint.getTextBounds(dateString, 0, dateString.length(), mRect);
-        shift += mRect.height();
-        canvas.drawText(dateString, x, shift + paint.descent(), paint);
         
-        return top + headerHeight;
+        return Y + FormattedInfo.drawTextInBox(dateString, mRect, TITLE_SIZE, config.getHeaderOrientation(), paint, canvas);
     }
     
     private int drawMonthGrid(Canvas canvas, int Y)
@@ -231,7 +225,7 @@ public class YearView extends View
     
     private void drawMonth(Canvas canvas, DateInfo month, int x, int y, float width, float height)
     {
-        Rect mRect;
+        Rect mRect, bounds;
         int shift = y;
         String monthName;        
         
@@ -248,9 +242,8 @@ public class YearView extends View
         mRect = new Rect();
         paint.getTextBounds(monthName, 0, monthName.length(), mRect);
         int step = Math.round(Math.abs(paint.ascent()) + paint.descent()); 
-        shift += step;
-        canvas.drawText(monthName, x + (width / 2) - (mRect.width() / 2), shift - paint.descent(), paint);
-        shift += 2;
+        bounds = new Rect(x, y, x + (int)width, y + step);
+        shift += FormattedInfo.drawTextInBox(monthName, bounds, MONTHNAME_SIZE, LabelOrientation.centre, paint, canvas);
 
         int weekstart = config.getWeekStart();      // Actual start day of the week, i.e. Sunday, Monday, Tue... etc.
         int firstDay = month.getFirstDayOfMonth(); 
@@ -295,7 +288,7 @@ public class YearView extends View
 
                 if(beforeStart || afterEnd)
                 {
-                    paint.setColor(resources.getColor(R.color.Ivory));
+                    paint.setColor(cellBackground);
                     canvas.drawRect(cellRect, paint);
                 }
                 else
@@ -313,16 +306,16 @@ public class YearView extends View
                     paint.setColor(getbackgroundColour(eventList, di));
                     canvas.drawRect(cellRect, paint);
 
-                    if(paint.getColor() != resources.getColor(R.color.Ivory))
+                    if(paint.getColor() != cellBackground)
                     {
-                        paint.setColor(resources.getColor(R.color.White));
+                        paint.setColor(Color.WHITE);
                     }
                     else
                     {
                         if((weekstart == Calendar.SUNDAY) ||(weekstart == Calendar.SATURDAY))
-                            paint.setColor(resources.getColor(R.color.RegalRed));
+                            paint.setColor(weekend);
                         else
-                            paint.setColor(resources.getColor(R.color.Black));
+                            paint.setColor(Color.BLACK);
                     }
                     
                     canvas.drawText(date, (cellRect.left + cellRect.width()) -  mRect.width() - 6, cellRect.top + mRect.height() + 5, paint);
@@ -332,12 +325,12 @@ public class YearView extends View
                         paint.setStyle(Paint.Style.STROKE);
                         paint.setStrokeWidth(4);
                         RectF selectedMarker = new RectF(cellRect);
-                        paint.setColor(resources.getColor(R.color.ElectricBlue));
+                        paint.setColor(Color.BLUE);
                         selectedMarker.inset(-3, -3);
                         canvas.drawRoundRect(selectedMarker, 5, 5, paint);
-                        paint.setColor(resources.getColor(R.color.Black));
+                        paint.setColor(Color.BLACK);
                         paint.setStrokeWidth(1);
-                        paint.setStyle(Paint.Style.FILL);
+                        paint.setStyle(Paint.Style.FILL_AND_STROKE);
                     }
                 }
             }

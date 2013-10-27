@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.stronans.android.agenda.support.DateInfo;
 
+/**
+ * Immutable object
+ * @author SimonKing
+ *
+ */
 public class Incident
 {
     public static final String Title = "title";
@@ -12,38 +17,40 @@ public class Incident
     public static final String Location = "location";
     public static final String Period = "period";
     
-    String title;                   // title of an event
-    String description;             // description
-    String location;           // eventLocation
+    String title;               // title of an event
+    String description;         // description
+    String location;            // eventLocation
     DateInfo start;
     DateInfo end;
     boolean allDay;
-    int eventStatus;                // eventStatus
+    int eventStatus;            // eventStatus
     boolean hasStatus;
     int calendarColour;
-        
     int calendarId;             // calendar_id
     EventCategory category;
     
-    public Incident()
+    public Incident(String title, String description, String location, DateInfo start, DateInfo end, boolean allDay,
+            int eventStatus, EventCategory category, int calendarColour, int calendarId)
     {
         super();
-        category = new EventCategory();
-        eventStatus = -1;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.start = start;
+        this.end = end;
+        this.allDay = allDay;
+        this.eventStatus = eventStatus;
+        this.calendarColour = calendarColour;
+        this.calendarId = calendarId;
+        this.eventStatus = eventStatus;
+        this.category = category; 
     }
     /**
      * @return the title
      */
-    public String getTitle()
+    public String title()
     {
         return title;
-    }
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title)
-    {
-        this.title = title;
     }
     /**
      * Checks the title to see if it is non-null and has some text in it
@@ -61,16 +68,9 @@ public class Incident
     /**
      * @return the description
      */
-    public String getDescription()
+    public String description()
     {
         return description;
-    }
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description)
-    {
-        this.description = description;
     }
     /**
      * Checks the description to see if it is non-null and has some text in it
@@ -88,16 +88,9 @@ public class Incident
     /**
      * @return the eventLocation
      */
-    public String getEventLocation()
+    public String eventLocation()
     {
         return location;
-    }
-    /**
-     * @param eventLocation the eventLocation to set
-     */
-    public void setEventLocation(String eventLocation)
-    {
-        this.location = eventLocation;
     }
     /**
      * Checks the eventLocation to see if it is non-null and has some text in it
@@ -115,30 +108,16 @@ public class Incident
     /**
      * @return the start date/time of the event
      */
-    public DateInfo getStart()
+    public DateInfo startAt()
     {
         return start;
     }
     /**
-     * @param start the start date/time to set
-     */
-    public void setStart(DateInfo start)
-    {
-        this.start = start;
-    }
-    /**
      * @return the end date/time
      */
-    public DateInfo getEnd()
+    public DateInfo endsAt()
     {
         return end;
-    }
-    /**
-     * @param end the end date/time to set
-     */
-    public void setEnd(DateInfo end)
-    {
-        this.end = end;
     }
     /**
      * @return true if the event is an allDay event
@@ -148,25 +127,11 @@ public class Incident
         return allDay;
     }
     /**
-     * @param allDay the allDay status to set
-     */
-    public void setAllDay(boolean allDay)
-    {
-        this.allDay = allDay;
-    }
-    /**
      * @return the eventStatus
      */
-    public int getEventStatus()
+    public int eventStatus()
     {
         return eventStatus;
-    }
-    /**
-     * @param eventStatus the eventStatus to set
-     */
-    public void setEventStatus(int eventStatus)
-    {
-        this.eventStatus = eventStatus;
     }
     /**
      * @return the hasStatus
@@ -176,53 +141,25 @@ public class Incident
         return hasStatus;
     }
     /**
-     * @param hasStatus the hasStatus to set
-     */
-    public void setHasStatus(boolean hasStatus)
-    {
-        this.hasStatus = hasStatus;
-    }
-    /**
      * @return the calendarId
      */
-    public int getCalendarId()
+    public int calendarId()
     {
         return calendarId;
     }
     /**
-     * @param calendarId the calendarId to set
-     */
-    public void setCalendarId(int calendarId)
-    {
-        this.calendarId = calendarId;
-    }
-    /**
      * @return the category
      */
-    public EventCategory getCategory()
+    public EventCategory category()
     {
         return category;
     }
     /**
-     * @param category the category to set
-     */
-    public void setCategory(EventCategory category)
-    {
-        this.category = category;
-    }
-    /**
      * @return the calendarColour
      */
-    public int getCalendarColour()
+    public int calendarColour()
     {
         return calendarColour;
-    }
-    /**
-     * @param calendarColour the calendarColour to set
-     */
-    public void setCalendarColour(int calendarColour)
-    {
-        this.calendarColour = calendarColour;
     }
 
     /**
@@ -238,7 +175,7 @@ public class Incident
         if(events != null)
             for(Incident anEvent : events)
             {
-                if(anEvent.getStart().equals(thisDate))
+                if(anEvent.startAt().equals(thisDate))
                 {
                     result.add(anEvent);
                 }

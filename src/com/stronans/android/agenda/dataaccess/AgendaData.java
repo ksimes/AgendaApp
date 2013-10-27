@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.provider.CalendarContract.Events;
 import android.provider.CalendarContract.Instances;
 
 import com.stronans.android.agenda.model.Account2_2;
+import com.stronans.android.agenda.model.EventCategory;
 import com.stronans.android.agenda.model.Events2_2;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.model.Task;
@@ -49,9 +51,12 @@ public class AgendaData
     static AgendaData agendaData;
     static Context applicationContext;
     static TaskListTable taskListData;
+    Random randomGenerator;
 
     private AgendaData()
     {
+        randomGenerator = new Random();
+                
         // Initial core data (load or setup)
 
     }
@@ -92,99 +97,90 @@ public class AgendaData
         Calendar x = Calendar.getInstance();
         x.setTime(currentTime);
         x.add(Calendar.DAY_OF_MONTH, 1);
+
+        Calendar y = Calendar.getInstance();
+        y.setTime(x.getTime());
+        y.add(Calendar.HOUR, 1);
         
-        Incident event = new Incident();
-        event.setTitle("Fake title which is quite long");
-        event.setDescription(null);
-        event.setStart(new DateInfo(x.getTime()));
-        
-        x.add(Calendar.HOUR, 1);
-        event.setEnd(new DateInfo(x.getTime()));
-        event.setCalendarColour(Color.BLUE);
-        event.setCalendarId(1);
-        event.setAllDay(false);
+        Incident event = new Incident("Fake title which is quite long", null, null, 
+                new DateInfo(x.getTime()), new DateInfo(y.getTime()), false, -1, 
+                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.BLUE);
         result.add(event);
 
-        event = new Incident();
-        event.setTitle("Theo King's Birthday");
-        event.setDescription("Large birthday celebrartions which will include the ritual counting of snails in the back garden and other things");
         x.add(Calendar.DAY_OF_MONTH, 1);
-        event.setStart(new DateInfo(x.getTime()));
-        x.add(Calendar.HOUR, 2);
-        event.setEnd(new DateInfo(x.getTime()));
-        event.setCalendarColour(Color.YELLOW);
-        event.setCalendarId(1);
-        event.setAllDay(true);
+        y.setTime(x.getTime());
+        y.add(Calendar.HOUR, 2);
+        event = new Incident("Theo King's Birthday", 
+                "Large birthday celebrations which will include the ritual counting of snails in the back garden and other things", null, 
+                new DateInfo(x.getTime()), new DateInfo(y.getTime()), true, -1, 
+                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.YELLOW);
         result.add(event);
 
-        event = new Incident();
-        event.setTitle("Job Interview");
-        event.setDescription("Remember to review CV and read up on Java services");
-        event.setStart(new DateInfo(x.getTime()));
         x.add(Calendar.HOUR, 2);
-        event.setEnd(new DateInfo(x.getTime()));
-        event.setCalendarColour(Color.GREEN);
-        event.setCalendarId(1);
+        y.setTime(x.getTime());
+
+        event = new Incident("Job Interview", 
+                "Remember to review CV and read up on Java services", null, 
+                new DateInfo(x.getTime()), new DateInfo(y.getTime()), true, -1, 
+                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.GREEN);
         result.add(event);
 
-        event = new Incident();
-        event.setTitle("Meet for coffee");
-        event.setDescription("look out copy of Lost Horizon for Steve");
-        event.setStart(new DateInfo(x.getTime()));
         x.add(Calendar.HOUR, 2);
-        event.setEnd(new DateInfo(x.getTime()));
-        event.setCalendarColour(Color.BLUE);
-        event.setCalendarId(1);
+        y.setTime(x.getTime());
+        y.add(Calendar.HOUR, 2);
+        event = new Incident("Meet for coffee", 
+                "look out copy of Lost Horizon for Steve", null, 
+                new DateInfo(x.getTime()), new DateInfo(y.getTime()), true, -1, 
+                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.BLUE);
         result.add(event);
 
-        event = new Incident();
-        event.setTitle("Go To pub");
-        event.setDescription("Meet up with John to give back DVD");
-        event.setStart(new DateInfo(x.getTime()));
         x.add(Calendar.HOUR, 1);
-        event.setEnd(new DateInfo(x.getTime()));
-        event.setCalendarColour(Color.MAGENTA);
-        event.setCalendarId(1);
+        y.setTime(x.getTime());
+        y.add(Calendar.HOUR, 4);
+        event = new Incident("Go To pub", 
+                "Meet up with John to give back DVD", null, 
+                new DateInfo(x.getTime()), new DateInfo(y.getTime()), true, -1, 
+                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.MAGENTA);
         result.add(event);
 
-        event = new Incident();
-        event.setTitle("Another's Birthday");
-        event.setDescription("Equally large birthday celebrartions which will mainly include the ritual counting of snails in the back garden");
-        x.add(Calendar.DAY_OF_MONTH, 1);
-        event.setStart(new DateInfo(x.getTime()));
-        x.add(Calendar.HOUR, 1);
-        event.setEnd(new DateInfo(x.getTime()));
-        event.setCalendarColour(Color.GREEN);
-        event.setCalendarId(1);
-        event.setAllDay(false);
-        result.add(event);
-
-        event = new Incident();
-        event.setTitle("Short piece of text");
-        event.setDescription("Reasonable sized description");
-        event.setEventLocation("Glasgow");
-        x.add(Calendar.DAY_OF_MONTH, 2);
-        event.setStart(new DateInfo(x.getTime()));
-        x.add(Calendar.MINUTE, 35);
-        event.setEnd(new DateInfo(x.getTime()));
-        event.setCalendarColour(Color.MAGENTA);
-        event.setCalendarId(1);
-        event.setAllDay(false);
-        result.add(event);
-
-        event = new Incident();
-        event.setTitle("Another reasonable long piece of text for the title text");
-        event.setDescription("Reasonable sized description, which is not too long");
-        event.setEventLocation("Glasgow");
-        x.add(Calendar.DAY_OF_MONTH, 1);
-        event.setStart(new DateInfo(x.getTime()));
-        x.add(Calendar.MINUTE, 55);
-        event.setEnd(new DateInfo(x.getTime()));
-//        event.setCalendarColour(displayResources.getColor(R.color.Aquamarine));
-        event.setCalendarColour(Color.RED);
-        event.setCalendarId(1);
-        event.setAllDay(false);
-        result.add(event);
+//        event = new Incident();
+//        event.setTitle("Another's Birthday");
+//        event.setDescription("Equally large birthday celebrartions which will mainly include the ritual counting of snails in the back garden");
+//        x.add(Calendar.DAY_OF_MONTH, 1);
+//        event.setStart(new DateInfo(x.getTime()));
+//        x.add(Calendar.HOUR, 1);
+//        event.setEnd(new DateInfo(x.getTime()));
+//        event.setCalendarColour(Color.GREEN);
+//        event.setCalendarId(1);
+//        event.setAllDay(false);
+//        result.add(event);
+//
+//        event = new Incident();
+//        event.setTitle("Short piece of text");
+//        event.setDescription("Reasonable sized description");
+//        event.setEventLocation("Glasgow");
+//        x.add(Calendar.DAY_OF_MONTH, 2);
+//        event.setStart(new DateInfo(x.getTime()));
+//        x.add(Calendar.MINUTE, 35);
+//        event.setEnd(new DateInfo(x.getTime()));
+//        event.setCalendarColour(Color.MAGENTA);
+//        event.setCalendarId(1);
+//        event.setAllDay(false);
+//        result.add(event);
+//
+//        event = new Incident();
+//        event.setTitle("Another reasonable long piece of text for the title text");
+//        event.setDescription("Reasonable sized description, which is not too long");
+//        event.setEventLocation("Glasgow");
+//        x.add(Calendar.DAY_OF_MONTH, 1);
+//        event.setStart(new DateInfo(x.getTime()));
+//        x.add(Calendar.MINUTE, 55);
+//        event.setEnd(new DateInfo(x.getTime()));
+////        event.setCalendarColour(displayResources.getColor(R.color.Aquamarine));
+//        event.setCalendarColour(Color.RED);
+//        event.setCalendarId(1);
+//        event.setAllDay(false);
+//        result.add(event);
 
         return result;
     }
@@ -217,15 +213,18 @@ public class AgendaData
             int count = cursor.getCount();
             for (int i = 0; i < count; i++)
             {
-                Incident event = new Incident();
-                event.setTitle(cursor.getString(cursor.getColumnIndex(Events2_2.TITLE)));
-                event.setDescription(cursor.getString(cursor.getColumnIndex(Events2_2.DESCRIPTION)));
-                event.setStart(new DateInfo(cursor.getLong(cursor.getColumnIndex(Instances.BEGIN))));
-                event.setEnd(new DateInfo(cursor.getLong(cursor.getColumnIndex(Instances.END))));
-                event.setCalendarColour(cursor.getInt(cursor.getColumnIndex(Account2_2.COLOR)));
-                event.setCalendarId(cursor.getInt(cursor.getColumnIndex(Events2_2.CALENDAR_ID)));
-                event.setAllDay(getBoolean(cursor.getInt(cursor.getColumnIndex(Events2_2.ALL_DAY))));
-                result.add(event);
+                String title = cursor.getString(cursor.getColumnIndex(Events2_2.TITLE));
+                String description = cursor.getString(cursor.getColumnIndex(Events2_2.DESCRIPTION));
+                String location = ""; 
+                DateInfo start = new DateInfo(cursor.getLong(cursor.getColumnIndex(Instances.BEGIN)));
+                DateInfo end = new DateInfo(cursor.getLong(cursor.getColumnIndex(Instances.END)));
+                int calendarColour = cursor.getInt(cursor.getColumnIndex(Account2_2.COLOR));
+                int calendarId = cursor.getInt(cursor.getColumnIndex(Events2_2.CALENDAR_ID));
+                boolean allDay = getBoolean(cursor.getInt(cursor.getColumnIndex(Events2_2.ALL_DAY)));
+                
+                result.add(new Incident(title, description, location, start, end, allDay, -1, 
+                        new EventCategory(1, "", randomGenerator.nextInt(32)), calendarColour, 
+                        calendarId));
                 cursor.moveToNext();
             }
             cursor.close();
@@ -265,16 +264,17 @@ public class AgendaData
             int count = cursor.getCount();
             for (int i = 0; i < count; i++)
             {
-                Incident event = new Incident();
-                event.setTitle(cursor.getString(cursor.getColumnIndex(Events.TITLE)));
-                event.setDescription(cursor.getString(cursor.getColumnIndex(Events.DESCRIPTION)));
-                event.setEventLocation(cursor.getString(cursor.getColumnIndex(Events.EVENT_LOCATION)));
-                event.setStart(new DateInfo(cursor.getLong(cursor.getColumnIndex(Instances.BEGIN))));
-                event.setEnd(new DateInfo(cursor.getLong(cursor.getColumnIndex(Instances.END))));
-                event.setAllDay(getBoolean(cursor.getInt(cursor.getColumnIndex(Events.ALL_DAY))));
-                event.setCalendarColour(cursor.getInt(cursor.getColumnIndex(Calendars.CALENDAR_COLOR)));
-                event.setCalendarId(cursor.getInt(cursor.getColumnIndex(Events.CALENDAR_ID)));
-                result.add(event);
+                String title = cursor.getString(cursor.getColumnIndex(Events.TITLE));
+                String description = cursor.getString(cursor.getColumnIndex(Events.DESCRIPTION));
+                String location = cursor.getString(cursor.getColumnIndex(Events.EVENT_LOCATION));
+                DateInfo start = new DateInfo(cursor.getLong(cursor.getColumnIndex(Instances.BEGIN)));
+                DateInfo end = new DateInfo(cursor.getLong(cursor.getColumnIndex(Instances.END)));
+                boolean allDay = getBoolean(cursor.getInt(cursor.getColumnIndex(Events.ALL_DAY)));
+                int calendarColour = cursor.getInt(cursor.getColumnIndex(Calendars.CALENDAR_COLOR));
+                int calendarId = cursor.getInt(cursor.getColumnIndex(Events.CALENDAR_ID));
+
+                result.add(new Incident(title, description, location, start, end, allDay, -1, 
+                        new EventCategory(1, "", calendarId), calendarColour, calendarId));
                 cursor.moveToNext();
             }
             cursor.close();

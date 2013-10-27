@@ -348,10 +348,14 @@ public class MonthGridView extends View implements RefreshNotifier
         for(Incident event : todaysEvents)
         {
             if(event.isAllDay())
-                images.allDay = this.config.getScaledToken(event.getCategory().getMarker(), 
+                images.allDay = this.config.getScaledToken(event.category().marker(), 
                         gridData.getCellWidth() / 2 - 2, gridData.getCellWidth() / 2 - 2);
             else
-                images.others.add(this.config.getToken(event.getCategory().getMarker()));
+            {
+                images.others.add(this.config.getScaledToken(event.category().marker(), 
+                        gridData.getCellWidth() / 2 - 2, gridData.getCellWidth() / 2 - 2));
+//                images.others.add(this.config.getToken(event.getCategory().getMarker()));
+            }
         }
         
         return images;

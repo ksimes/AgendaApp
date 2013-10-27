@@ -52,7 +52,7 @@ public class AgendaListAdapter extends BaseExpandableListAdapter
     @Override
     public int getChildrenCount(int groupPosition)
     {
-        return agendaItems.get(groupPosition).getEventsOnThisDay().size();
+        return agendaItems.get(groupPosition).eventsOnThisDay().size();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class AgendaListAdapter extends BaseExpandableListAdapter
     @Override
     public Object getChild(int groupPosition, int childPosition)
     {
-        return agendaItems.get(groupPosition).getEventsOnThisDay().get(childPosition);
+        return agendaItems.get(groupPosition).eventsOnThisDay().get(childPosition);
     }
 
     @Override
@@ -98,12 +98,12 @@ public class AgendaListAdapter extends BaseExpandableListAdapter
 
         AgendaItem item = agendaItems.get(groupPosition);
 
-        String dateInfoTxt = FormattedInfo.getDateString(item.getDate());
-        String intervalTxt = ResourceInfo.getIntervalString(item.getDate(), resources);
+        String dateInfoTxt = FormattedInfo.getDateString(item.date());
+        String intervalTxt = ResourceInfo.getIntervalString(item.date(), resources);
 
-        if (item.getDate().getCalendar().get(Calendar.YEAR) != new DateInfo().getCalendar().get(Calendar.YEAR))
+        if (item.date().getCalendar().get(Calendar.YEAR) != new DateInfo().getCalendar().get(Calendar.YEAR))
         {
-            dateInfoTxt += " " + FormattedInfo.getYearString(item.getDate());
+            dateInfoTxt += " " + FormattedInfo.getYearString(item.date());
         }
 
         Utilities.setTextView(view, R.id.DateInfo, dateInfoTxt);
@@ -125,16 +125,16 @@ public class AgendaListAdapter extends BaseExpandableListAdapter
             view = vi.inflate(R.layout.incident_list_item, null);
         }
 
-        Incident item = agendaItems.get(groupPosition).getEventsOnThisDay().get(childPosition);
+        Incident item = agendaItems.get(groupPosition).eventsOnThisDay().get(childPosition);
 
-        Utilities.setTextView(view, R.id.incidenttitle, item.getTitle());
+        Utilities.setTextView(view, R.id.incidenttitle, item.title());
 
         StringBuffer sb = new StringBuffer(30);
 
         if (!item.isAllDay())
         {
             sb.append(MessageFormat.format(resources.getString(R.string.time_period),
-                    new Object[] { FormattedInfo.getTimeString(item.getStart()), FormattedInfo.getTimeString(item.getEnd()) }));
+                    new Object[] { FormattedInfo.getTimeString(item.startAt()), FormattedInfo.getTimeString(item.endsAt()) }));
         }
         else
             sb.append(resources.getString(R.string.all_day_event));
@@ -142,14 +142,14 @@ public class AgendaListAdapter extends BaseExpandableListAdapter
         Utilities.setTextView(view, R.id.incidentperiod, sb.toString());
 
         String location = "";
-        if(Utilities.hasContent(item.getEventLocation()))
+        if(Utilities.hasContent(item.eventLocation()))
         {
-            location = resources.getString(R.string.location) + item.getEventLocation();
+            location = resources.getString(R.string.location) + item.eventLocation();
         }
 
         Utilities.setTextView(view, R.id.incidentlocation, location);
 
-        int dayOfWeek = agendaItems.get(groupPosition).getDate().getCurrentDayOfMonth();
+        int dayOfWeek = agendaItems.get(groupPosition).date().getCurrentDayOfMonth();
 
         if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY)
         {
