@@ -1,7 +1,11 @@
 package com.stronans.android.agenda.support;
 
+import hirondelle.date4j.DateTime;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import android.text.format.Time;
 
@@ -46,15 +50,24 @@ public class DateInfo
      */
     public int intervalToToday()
     {
-        //TODO: Fix rounding problems which make day before yesterday = yesterday
-        long today = new Date().getTime() / DAYLENGTH; 
-        long current = calendar.getTimeInMillis() / DAYLENGTH; 
+        DateTime today = DateTime.today(TimeZone.getDefault());
         
-        long diff = today - current;
+        DateTime current = DateTime.forDateOnly(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE));
         
-        return (int)diff;     
+        int diff = current.numDaysFrom(today);
+        
+        return diff;     
     }
 
+    public String format(String format)
+    {
+        DateTime current = DateTime.forInstant(calendar.getTimeInMillis(), TimeZone.getDefault());
+        
+        String result = current.format(format, Locale.getDefault());
+        
+        return result;
+    }
+    
     /**
      * 
      * @return The first day of the current month (based on ordinal of Weekday enum) 

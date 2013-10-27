@@ -1,6 +1,7 @@
 package com.stronans.android.agenda.support;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -16,23 +17,23 @@ public class FormattedInfo
     
     static private String formatInfo(DateInfo timeInfo, String format)
     {
-        DateFormat output = DateFormat.getDateInstance(DateFormat.DEFAULT); 
+        SimpleDateFormat output = new SimpleDateFormat(format, Locale.getDefault()); 
         return output.format(timeInfo.getDate());
     }
     
     static public String getUniversalString(DateInfo timeInfo)
     {
-        return formatInfo(timeInfo, "yyyyMMddHHmmss");
+        return timeInfo.format("yyyyMMddHHmmss");
     }
     
     static public String getTimeString(DateInfo timeInfo)
     {
-        return formatInfo(timeInfo, "HH:mm");
+        return timeInfo.format("hh:mm");
     }
     
     static public String getDateString(DateInfo timeInfo)
     {
-        return formatInfo(timeInfo, "EEEE dd MMMM");
+        return timeInfo.format("WWWW, MMMM D, YYYY");
     }
     
     static public String getDateTimeString(DateInfo timeInfo)

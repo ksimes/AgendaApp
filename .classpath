@@ -6,5 +6,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="D:/Programming/Projects/Android/AgendaApp/libs/date4j.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
