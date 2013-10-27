@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+	<com.stronans.android.agenda.views.DateHeaderView
+        android:id="@+id/dateHeader"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.1"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+	<com.stronans.android.agenda.views.WeekDayView
+        android:id="@+id/weekDay1"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.128"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+	<com.stronans.android.agenda.views.WeekDayView
+        android:id="@+id/weekDay2"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.128"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+	<com.stronans.android.agenda.views.WeekDayView
+        android:id="@+id/weekDay3"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.128"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+	<com.stronans.android.agenda.views.WeekDayView
+        android:id="@+id/weekDay4"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.128"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+	<com.stronans.android.agenda.views.WeekDayView
+        android:id="@+id/weekDay5"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.128"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+	<com.stronans.android.agenda.views.WeekDayView
+        android:id="@+id/weekDay6"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.128"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+	<com.stronans.android.agenda.views.WeekDayView
+        android:id="@+id/weekDay7"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.128"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+</LinearLayout>

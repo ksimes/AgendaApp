@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This file contains resource definitions for displayed strings, allowing
+     them to be changed based on the locale and options. -->
+
+<resources>
+    <!-- Menu strings. -->
+    <string name="about">About</string>
+    <string name="exit">Quit</string>
+    <string name="configure">Configure</string>
+    <string name="addevent">Add Event</string>
+    <string name="addtask">Add Task</string>
+    <string name="refresh">Refresh</string>
+    <string name="gototoday">Go To Today</string>
+    
+    <!-- Application descriptor strings. -->
+    <string name="agenda_app">Horologicon</string>
+    <string name="app_title">Horologicon</string>
+    <string name="app_description">A book of hours for the user to organise and collate their life all found in a single convenient and useful application.</string>
+    <string name="app_link">produced by</string>
+    <string name="app_company">Cathcart Software Limited</string>
+    <string name="app_version">version 1.0 copyright 2013</string>
+    
+    <string name="task_title">ToDo/Task List</string>
+    <string name="titletext">Title</string>
+	<string name="descriptiontext">Description</string>
+    <string name="notestext">Notes</string>
+    <string name="plannedstarttext">Planned Start</string>
+    <string name="startdatetext">Actual Start date</string>
+    <string name="percentagetext">Percentage Complete</string>
+	<string name="targetdatetext">Target date</string>
+    <string name="lastUpdated">Last Updated</string>
+	<string name="notYetStarted">Not started</string>
+    	
+    <!-- View descriptor strings. -->
+    <string name="shortweekdays">Sun,Mon,Tue,Wed,Thu,Fri,Sat</string>
+    <string name="fullweekdays">Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday</string>
+    <string name="longmonthnames">January,February,March,April,May,June,July,August,September,October,November,December</string>
+    
+    <string name="yesterday">Yesterday</string>
+	<string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+	<string name="inPast">{0,number,integer} days ago</string>
+    <string name="inFuture">{0,number,integer} days in the future</string>
+    <string name="agendaHeaderText">Agenda for next {0,number,integer} days</string>
+    <string name="DayOfYear">The {0,number,integer}{1} day</string>
+    <string name="WeekOfYear">Occurring in the {0,number,integer} week of the year</string>
+    
+    <string name="no_activities">No activities planned for today</string>
+    <string name="time_period">from {0} till {1}</string>
+    <string name="all_day_event"> (All day event)</string>
+    <string name="location">Location :</string>
+    
+    <!-- Tabs descriptor strings. -->
+    <string name="agenda">Agenda</string>
+	<string name="tasks">Tasks</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+	<string name="month">Month</string>
+    <string name="year">Year</string>
+        
+    <string name="agendaView">Agenda for this day</string>
+    <string name="dayView">Day View</string>
+    <string name="weekView">Week View</string>
+    <string name="monthView">Month View</string>
+    <string name="yearView">Year View</string>
+    
+    <string name="submitButton">Submit</string>
+</resources>
+

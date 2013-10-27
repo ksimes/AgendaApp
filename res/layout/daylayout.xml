@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+	<com.stronans.android.agenda.views.DateHeaderView
+        android:id="@+id/dateHeader"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.1"
+		android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	     />
+	
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="0.9"
+        android:background="@color/Ivory" 	    
+	    android:orientation="vertical" >
+	    
+		<ListView android:id="@+id/DayList" 
+	        android:layout_width="match_parent"
+	        android:visibility="gone"
+	        android:divider="@color/DarkGrey"
+	        android:dividerHeight="1dp"
+	        android:layout_height="fill_parent"
+			android:layout_marginLeft="5dp"
+		    android:layout_marginRight="5dp" />
+	    
+	    <TextView
+	        android:id="@+id/DayListEmpty"
+	        android:layout_width="wrap_content"
+	        android:visibility="gone"
+	        android:textColor="@color/DarkGrey"
+	        android:layout_height="fill_parent" />
+	</LinearLayout>
+
+</LinearLayout>

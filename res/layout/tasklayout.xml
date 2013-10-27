@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   	android:background="@color/Ivory"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    	android:background="@color/StandardBlue"
+		android:paddingLeft="5dp"
+	   	android:paddingRight="5dp"
+	   	android:paddingBottom="5dp"
+    	android:textColor="@color/White"
+	    android:textSize="22sp"
+        android:text="@string/task_title" />
+    
+    <ListView
+        android:id="@+id/taskList"
+        android:layout_width="match_parent"
+        android:divider="@color/DarkGrey"
+        android:dividerHeight="1dp"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

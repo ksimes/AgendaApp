@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+              android:orientation="vertical"  
+              android:layout_width="fill_parent"  
+              android:layout_height="fill_parent"  
+        >  
+    <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="This is a 'sans' demo!"  
+            android:typeface="sans"  
+            />  
+     <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="This is a 'serif' demo!"  
+            android:typeface="serif"  
+            />  
+     <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="This is a 'monospace' demo!"  
+            android:typeface="monospace"  
+            />  
+    <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="This is bold!"  
+            android:textStyle="bold"  
+            />  
+    <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="15sp is the 'normal' size."  
+            android:textSize="15sp"  
+            />
+    <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="25sp is BIG size."  
+            android:textSize="25sp"  
+            />
+    <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="10sp is small size."  
+            android:textSize="10sp"  
+            />
+    <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="Is it possible to draw 5sp and still read it?"  
+            android:textSize="5sp"  
+            />
+    <TextView  
+            android:layout_width="fill_parent"  
+            android:layout_height="wrap_content"  
+            android:text="A light blue color."  
+            android:textColor="#00ccff"  
+            />
+	<TextView  
+			android:layout_width="fill_parent"  
+			android:layout_height="wrap_content"  
+			android:text="A light blue shadow."  
+			android:shadowColor="#00ccff"  
+			android:shadowRadius="1.5"  
+			android:shadowDx="1"  
+			android:shadowDy="1"  
+			/>
+	
+</LinearLayout>  

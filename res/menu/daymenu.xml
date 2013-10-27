@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/agendamenu_add"
+          android:title="@string/addevent"
+		  android:icon="@drawable/ic_menu_btn_add"
+          android:orderInCategory="1"  />
+    
+    <item android:id="@+id/menu_refresh"
+          android:title="@string/refresh"
+		  android:icon="@drawable/ic_menu_refresh"
+		  android:showAsAction="ifRoom" 		  
+          android:orderInCategory="2" />
+    
+    <item android:id="@+id/menu_gototoday"
+		  android:icon="@drawable/ic_menu_goto"
+		  android:showAsAction="ifRoom" 		  
+          android:title="@string/gototoday"
+          android:orderInCategory="3" />
+    
+</menu>

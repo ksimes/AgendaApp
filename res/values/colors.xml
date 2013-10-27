@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- This file contains resource definitions for solid colors.  In
+     addition to plain color resources (retrieved via Resources.getColor()
+     and friends), we are also using it to define drawables that are
+     a solid color. -->
+
+<resources>
+    <!-- Retrieved via Resources.getColor() and friends. -->
+    <color name="red">#f00</color>
+
+    <!-- Retrieved via Resources.getDrawable() and friends. -->
+    <drawable name="semi_black">#80000000</drawable>
+    <drawable name="all_white">#FFFFFF</drawable>
+        
+	<color name="tabMedium">#2B2B2B</color>
+	<color name="tabDark">#000000</color>
+	<color name="tabTransparent">#10ffffff</color>
+	
+    <color name="Black">#000000</color>
+    <color name="White">#ffffff</color>
+            
+	<color name="Ivory">#fffff0</color>
+	<color name="Beige">#ffff99</color>
+	<color name="Chalk">#fffacd</color>
+	    	
+    <color name="LightBlue">#009cce</color>
+	<color name="Purple">#C231E1</color>
+	<color name="Mustard">#ffce31</color>
+	<color name="DarkOrange">#e1632e</color>
+	<color name="DarkRed">#ce0063</color>
+	<color name="MossGreen">#008000</color>
+	<color name="Grey">#7f7f7f</color>
+    <color name="LightGrey">#c0c0c0</color>
+	<color name="MediumGrey">#808080</color>
+	<color name="DarkGrey">#606060</color>
+	<color name="LightGreen">#c0dcc0</color>
+	<color name="Aquamarine">#008080</color>
+	<color name="TwilightBlue">#6666cc</color>
+	<color name="TwilightViolet">#9966cd</color>
+	<color name="SkyBlue">#00ccff</color>
+	<color name="SoftPink">#ff9999</color>
+	<color name="PowderBlue">#ccccff</color>
+	<color name="RegalRed">#cc3366</color>
+	<color name="RedBrown">#cc6633</color>
+	<color name="Plum">#660066</color>
+	<color name="KentuckyGreen">#339966</color>
+	<color name="IceBlue">#99ffff</color>
+	<color name="GrassGreen">#009933</color>
+	<color name="ForestGreen">#006633</color>
+	<color name="ElectricBlue">#6666ff</color>
+	<color name="EasterPurple">#cc66ff</color>
+	<color name="StandardBlue">#336699</color>
+	<color name="DustyRose">#cc6699</color>
+	<color name="DesertBlue">#336699</color>
+	<color name="ArmyGreen">#669966</color>
+	<color name="AutumnOrange">#ff6633</color>
+	<color name="AvocadoGreen">#669933</color>
+	<color name="BabyBlue">#6699ff</color>
+	<color name="BananaYellow">#cccc33</color>
+	<color name="BrickRed">#cc3300</color>
+	<color name="Brown">#996633</color>
+	<color name="Crimson">#993366</color>
+	<color name="OceanGreen">#996633</color>
+	<color name="Walnut">#663300</color>
+</resources>
