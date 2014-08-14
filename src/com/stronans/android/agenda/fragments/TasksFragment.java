@@ -147,6 +147,9 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         listView.setLongClickable(true);
         listView.setOnItemLongClickListener(onLongClickListener);
 
+        ImageButton imageButton = (ImageButton) mainView.findViewById(R.id.taskParent);
+        imageButton.setOnClickListener(taskParentClickListener);
+
         refreshDisplay();
 
         return mainView;
@@ -156,21 +159,36 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         return AgendaData.getInst().getTasks(parentPosition);
     }
 
+
+    private View.OnClickListener taskParentClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Task item = AgendaData.getInst().getTask(parentPosition);
+            long parent = 1;
+
+            if (item != null) {
+                parent = item.parent();
+            }
+
+            setParentPosition(parent);
+        }
+    };
+
     @Override
     public void refreshDisplay() {
         taskItems = getTaskList(parentPosition);
 
         if (mainView != null) {
             TextView tv = (TextView) mainView.findViewById(R.id.taskHeader);
-            ImageButton ib = (ImageButton) mainView.findViewById(R.id.taskParent);
+            ImageButton imageButton = (ImageButton) mainView.findViewById(R.id.taskParent);
 
             if (parentPosition == ROOT) {
                 tv.setText(getString(R.string.task_title));
-                ib.setVisibility(View.GONE);
+                imageButton.setVisibility(View.GONE);
             } else {
                 Task t = AgendaData.getInst().getTask(parentPosition);
                 tv.setText(t.title());
-                ib.setVisibility(View.VISIBLE);
+                imageButton.setVisibility(View.VISIBLE);
             }
         }
 
