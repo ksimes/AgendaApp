@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/editTaskButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/editButton"/>
+
+    <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/addSubTaskButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/addSubTask"/>
+
+    <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/taskDeleteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/deleteButton"/>
+
+    <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/taskCancelButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cancelButton"/>
+
+</LinearLayout>
