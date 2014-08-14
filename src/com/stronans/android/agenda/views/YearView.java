@@ -1,144 +1,122 @@
 package com.stronans.android.agenda.views;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.enums.LabelOrientation;
 import com.stronans.android.agenda.enums.ViewType;
+import com.stronans.android.agenda.model.AgendaConfiguration;
+import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Incident;
-import com.stronans.android.agenda.support.DateInfo;
 import com.stronans.android.agenda.support.FormattedInfo;
-import com.stronans.android.controllers.AgendaConfiguration;
 import com.stronans.android.controllers.AgendaController;
 
-public class YearView extends View
-{
+import java.util.Calendar;
+import java.util.List;
+
+public class YearView extends View {
     static final int MONTHNAME_SIZE = 30;
-    static final int TITLE_SIZE = 40;   // 25;
+    static final int TITLE_SIZE = 40;  // 25;
 
     AgendaConfiguration config;
     Resources resources;
     DateInfo selected;
     String[] monthNames;
     AgendaController controller;
-    List<Incident> eventList = null;          // List of all events which occur in this grid (may include extra days before beginning and after end of month).
+    List<Incident> eventList = null; // List of all events which occur in this grid (may include extra days before
+    // beginning and after end of month).
     int cellBackground, singleEvent, doubleEvent, moreEvents, weekend;
 
     // Used when inflated from a layout
-    public YearView(Context context, AttributeSet attrs)
-    {
+    public YearView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setFocusable(true);
         resources = context.getResources();
         init();
-   }
+    }
 
     // Only used when called from another activity
-    public YearView(Context context)
-    {
+    public YearView(Context context) {
         super(context);
         setFocusable(true);
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         config = AgendaStaticData.getStaticData().getConfig();
         controller = AgendaController.getInst();
 
         selected = config.getDateInfo();
         monthNames = config.getLongMonthNames();
-        
-//        setOnTouchListener(new touchOnScreen()); // TODO
-        
+
+        // setOnTouchListener(new touchOnScreen()); // TODO
+
         setLongClickable(true);
         setOnLongClickListener(new OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v)
-            {
-                // New Selected month (set to the 1st) will have been set by the touch down action 
+            public boolean onLongClick(View v) {
+                // New Selected month (set to the 1st) will have been set by the touch down action
                 // so now we switch to the Month view to show what we have.
                 controller.setView(ViewType.Month);
                 controller.getTabHost().setCurrentTab(controller.getViewInt());
                 return false;
             }
         });
-        
+
         setColours();
     }
-    
-    private void setColours()
-    {
+
+    private void setColours() {
         cellBackground = resources.getColor(R.color.Ivory);
         singleEvent = resources.getColor(R.color.ForestGreen);
         doubleEvent = resources.getColor(R.color.Amber);
         moreEvents = resources.getColor(R.color.red);
-        weekend = resources.getColor(R.color.red);  // BrickRed
+        weekend = resources.getColor(R.color.red); // BrickRed
     }
-    
-    private void refreshEvents()
-    {
+
+    private void refreshEvents() {
         DateInfo startOfYearGrid, endOfYearGrid;
 
-        startOfYearGrid = new DateInfo();
-        startOfYearGrid.getCalendar().set(
-                selected.getCalendar().get(Calendar.YEAR), 
-                Calendar.JANUARY, 1);
+        startOfYearGrid = DateInfo.fromDate(1, Calendar.JANUARY, selected.getYear());
 
-        endOfYearGrid = new DateInfo();
-        endOfYearGrid.getCalendar().set(
-                selected.getCalendar().get(Calendar.YEAR), 
-                Calendar.DECEMBER, 31);
+        endOfYearGrid = DateInfo.fromDate(31, Calendar.DECEMBER, selected.getYear());
         endOfYearGrid.setToMidnight();
-        
+
         eventList = AgendaData.getInst().getEvents(0, startOfYearGrid, endOfYearGrid);
     }
-    
-    private int getbackgroundColour(List<Incident> eventList, DateInfo selected)
-    {
+
+    private int getbackgroundColour(List<Incident> eventList, DateInfo selected) {
         int backColour = cellBackground;
-        switch(Incident.extractForDate(eventList, selected).size())
-        {
-        case 0 : 
-            backColour = cellBackground;
-            break;
+        switch (Incident.extractForDate(eventList, selected).size()) {
+            case 0:
+                backColour = cellBackground;
+                break;
 
-        case 1 : 
-            backColour = singleEvent;
-            break;
+            case 1:
+                backColour = singleEvent;
+                break;
 
-        case 2 : 
-            backColour = doubleEvent;
-            break;
-        
-        default:
-            backColour = moreEvents;
-            break;
+            case 2:
+                backColour = doubleEvent;
+                break;
+
+            default:
+                backColour = moreEvents;
+                break;
         }
-        
+
         return backColour;
     }
-    
+
     @Override
-    public void onDraw(Canvas canvas)
-    {
+    public void onDraw(Canvas canvas) {
         canvas.drawColor(cellBackground);
         refreshEvents();
         int top = 0;
@@ -146,49 +124,47 @@ public class YearView extends View
         top = drawHeader(canvas, top);
         top = drawMonthGrid(canvas, top);
     }
-    
-    private int drawHeader(Canvas canvas, int Y)
-    {
+
+    private int drawHeader(Canvas canvas, int Y) {
         GradientDrawable mDrawable;
         int headerHeight = 0;
-        Rect mRect; 
+        Rect mRect;
         int width = canvas.getWidth();
-        
+
         Paint paint = new Paint();
         paint.setAntiAlias(true);
 
         // First calculate how high the header should be
         paint.setTextSize(TITLE_SIZE);
         headerHeight = Math.round(Math.abs(paint.ascent()) + paint.descent());
-        
+
         // Get the colours for the graduated header box
         int[] colourRange = AgendaStaticData.getStaticData().monthColourRange(selected);
-        
+
         // and draw it out
         mDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colourRange);
         mDrawable.setShape(GradientDrawable.RECTANGLE);
-        mDrawable.setGradientRadius((float)(Math.sqrt(2) * 60));
-  
+        mDrawable.setGradientRadius((float) (Math.sqrt(2) * 60));
+
         mRect = new Rect(0, Y, width, Y + headerHeight);
 
         mDrawable.setBounds(mRect);
         mDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
         mDrawable.draw(canvas);
-        
+
         String dateString = FormattedInfo.getYearString(selected);
-        
+
         return Y + FormattedInfo.drawTextInBox(dateString, mRect, TITLE_SIZE, config.getHeaderOrientation(), paint, canvas);
     }
-    
-    private int drawMonthGrid(Canvas canvas, int Y)
-    {
+
+    private int drawMonthGrid(Canvas canvas, int Y) {
         int top = Y;
 
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(0);
         paint.setAntiAlias(true);
-        
+
         float cellWidth = getWidth() / 3;
         float cellHeight = (getHeight() - Y) / 4;
 
@@ -196,108 +172,96 @@ public class YearView extends View
         canvas.drawLine(0, top, 0, top + cellHeight * 4, paint);
         canvas.drawLine(0, top, cellWidth * 3, top, paint);
 
-        DateInfo month = new DateInfo(selected.getDate());
+        DateInfo month = DateInfo.fromDateInfo(selected);
         month.setMonth(Calendar.JANUARY);
-        
-        for(int i = 0; i < 4; i++)
-        {
-            int shiftY = (int)(top + (cellHeight * i));
+
+        for (int i = 0; i < 4; i++) {
+            int shiftY = (int) (top + (cellHeight * i));
             canvas.drawLine(0, shiftY, cellWidth * 3, shiftY, paint);
 
-            for(int j = 0; j < 3; j++)
-            {
-                int shiftX = (int)(j * cellWidth);
+            for (int j = 0; j < 3; j++) {
+                int shiftX = (int) (j * cellWidth);
                 canvas.drawLine(shiftX, top, shiftX, top + (cellHeight * 4), paint);
-                
+
                 drawMonth(canvas, month, shiftX, shiftY, cellWidth, cellHeight);
-                
+
                 month.rollMonthForward();
             }
         }
-        
+
         return top;
     }
-    
-    public int getScreenOrientation()
-    {
+
+    public int getScreenOrientation() {
         return getResources().getConfiguration().orientation;
     }
-    
-    private void drawMonth(Canvas canvas, DateInfo month, int x, int y, float width, float height)
-    {
+
+    private void drawMonth(Canvas canvas, DateInfo month, int x, int y, float width, float height) {
         Rect mRect, bounds;
         int shift = y;
-        String monthName;        
-        
+        String monthName;
+
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setTextSize(MONTHNAME_SIZE);
         paint.setFakeBoldText(true);
 
-        float cellWidth = width / 7;    // seven segments for the days of the week
-        
-        monthName = monthNames[month.getCalendar().get(Calendar.MONTH)];
+        float cellWidth = width / 7; // seven segments for the days of the week
+
+        monthName = monthNames[month.getMonth()];
 
         mRect = new Rect();
         paint.getTextBounds(monthName, 0, monthName.length(), mRect);
-        int step = Math.round(Math.abs(paint.ascent()) + paint.descent()); 
-        bounds = new Rect(x, y, x + (int)width, y + step);
+        int step = Math.round(Math.abs(paint.ascent()) + paint.descent());
+        bounds = new Rect(x, y, x + (int) width, y + step);
         shift += FormattedInfo.drawTextInBox(monthName, bounds, MONTHNAME_SIZE, LabelOrientation.centre, paint, canvas);
 
-        int weekstart = config.getWeekStart();      // Actual start day of the week, i.e. Sunday, Monday, Tue... etc.
-        int firstDay = month.getFirstDayOfMonth(); 
-        int lastDay = month.getDaysInMonth(); 
+        int weekstart = config.getWeekStart(); // Actual start day of the week, i.e. Sunday, Monday, Tue... etc.
+        int firstDay = month.getFirstDayOfMonth();
+        int lastDay = month.getDaysInMonth();
         boolean beforeStart = true;
         boolean afterEnd = false;
-        
+
         paint.setFakeBoldText(false);
         paint.setTypeface(Typeface.MONOSPACE);
 
-        float cellHeight = (height - step)/ 6;  // Six weeks will cover any month
-        
-        switch(getScreenOrientation())
-        {
+        float cellHeight = (height - step) / 6; // Six weeks will cover any month
+
+        switch (getScreenOrientation()) {
             case Configuration.ORIENTATION_PORTRAIT:
-                paint.setTextSize((float)(cellHeight * 0.7));      // 75% of height of cell   
+                paint.setTextSize((float) (cellHeight * 0.7)); // 75% of height of cell
                 break;
             case Configuration.ORIENTATION_LANDSCAPE:
-                paint.setTextSize(cellHeight);      // 100% of height of cell   
+                paint.setTextSize(cellHeight); // 100% of height of cell
                 break;
         }
-        
+
         int dayofMonth = 0;
         // Six weeks will cover any month
-        for(int weeks = 0; weeks < 6; weeks++)
-        {
-            for(int daysOfWeek = 0; daysOfWeek < 7; daysOfWeek++, weekstart++)
-            {
-                if(weekstart == 8)
+        for (int weeks = 0; weeks < 6; weeks++) {
+            for (int daysOfWeek = 0; daysOfWeek < 7; daysOfWeek++, weekstart++) {
+                if (weekstart == 8)
                     weekstart = 1;
-                
-                Rect cellRect = new Rect(x + (int)(daysOfWeek * cellWidth) + 2, 
-                                shift + (int)(cellHeight * weeks) + 2, 
-                                x + (int)((daysOfWeek * cellWidth) + cellWidth) - 2, 
-                                shift + (int)(cellHeight) + (int)(cellHeight * weeks) - 2);
 
-                if(beforeStart && (firstDay == weekstart))
+                Rect cellRect = new Rect(x + (int) (daysOfWeek * cellWidth) + 2,
+                        shift + (int) (cellHeight * weeks) + 2,
+                        x + (int) ((daysOfWeek * cellWidth) + cellWidth) - 2,
+                        shift + (int) (cellHeight) + (int) (cellHeight * weeks) - 2);
+
+                if (beforeStart && (firstDay == weekstart))
                     beforeStart = false;
-                
-                if(!afterEnd && (dayofMonth >= lastDay))
+
+                if (!afterEnd && (dayofMonth >= lastDay))
                     afterEnd = true;
 
-                if(beforeStart || afterEnd)
-                {
+                if (beforeStart || afterEnd) {
                     paint.setColor(cellBackground);
                     canvas.drawRect(cellRect, paint);
-                }
-                else
-                {
+                } else {
                     dayofMonth++;
-                    Calendar info = month.getCalendar();
-                    
-                    DateInfo di = new DateInfo(new GregorianCalendar(info.get(Calendar.YEAR), 
-                            info.get(Calendar.MONTH), dayofMonth, 0, 0, 0).getTime());
+
+                    DateInfo di = DateInfo.fromDate(dayofMonth, month.getMonth(), month.getYear());
 
                     String date = String.valueOf(dayofMonth);
                     mRect = new Rect(0, 0, 0, 0);
@@ -306,22 +270,19 @@ public class YearView extends View
                     paint.setColor(getbackgroundColour(eventList, di));
                     canvas.drawRect(cellRect, paint);
 
-                    if(paint.getColor() != cellBackground)
-                    {
+                    if (paint.getColor() != cellBackground) {
                         paint.setColor(Color.WHITE);
-                    }
-                    else
-                    {
-                        if((weekstart == Calendar.SUNDAY) ||(weekstart == Calendar.SATURDAY))
+                    } else {
+                        if ((weekstart == Calendar.SUNDAY) || (weekstart == Calendar.SATURDAY))
                             paint.setColor(weekend);
                         else
                             paint.setColor(Color.BLACK);
                     }
-                    
-                    canvas.drawText(date, (cellRect.left + cellRect.width()) -  mRect.width() - 6, cellRect.top + mRect.height() + 5, paint);
 
-                    if(di.isToday())
-                    {
+                    canvas.drawText(date, (cellRect.left + cellRect.width()) - mRect.width() - 6, cellRect.top + mRect.height()
+                            + 5, paint);
+
+                    if (di.isToday()) {
                         paint.setStyle(Paint.Style.STROKE);
                         paint.setStrokeWidth(4);
                         RectF selectedMarker = new RectF(cellRect);
@@ -330,7 +291,7 @@ public class YearView extends View
                         canvas.drawRoundRect(selectedMarker, 5, 5, paint);
                         paint.setColor(Color.BLACK);
                         paint.setStrokeWidth(1);
-                        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                        paint.setStyle(Paint.Style.FILL);
                     }
                 }
             }

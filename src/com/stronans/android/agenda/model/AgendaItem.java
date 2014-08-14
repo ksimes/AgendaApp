@@ -2,37 +2,33 @@ package com.stronans.android.agenda.model;
 
 import java.util.List;
 
-import com.stronans.android.agenda.support.DateInfo;
 
 /**
- * Immutable pojo object set only by the constructor
- * @author SimonKing
+ * Immutable object set only by the constructor
  *
+ * @author SimonKing
  */
-public class AgendaItem
-{
-    List<Incident> eventsOnThisDay;
-    DateInfo dateToday;
-    
-    public AgendaItem(DateInfo dateToday, List<Incident> eventsOnThisDay)
-    {
+public final class AgendaItem {
+    private final List<Incident> eventsOnThisDay;
+    private final DateInfo dateToday;
+
+    public AgendaItem(final DateInfo dateToday, final List<Incident> eventsOnThisDay) {
         super();
         this.eventsOnThisDay = eventsOnThisDay;
         this.dateToday = dateToday;
     }
-    
+
     /**
      * @return the eventsOnThisDay
      */
-    public List<Incident> eventsOnThisDay()
-    {
+    public List<Incident> eventsOnThisDay() {
         return eventsOnThisDay;
     }
+
     /**
      * @return the dateToday
      */
-    public DateInfo date()
-    {
+    public DateInfo date() {
         return dateToday;
     }
 }

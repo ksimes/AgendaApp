@@ -8,18 +8,17 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import com.stronans.android.agenda.activities.DateHeaderDisplay;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
+import com.stronans.android.agenda.enums.FormatStyle;
 import com.stronans.android.agenda.interfaces.Refresher;
-import com.stronans.android.agenda.support.DateInfo;
+import com.stronans.android.agenda.model.AgendaConfiguration;
+import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.support.DrawableGradient;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.ResourceInfo;
-import com.stronans.android.controllers.AgendaConfiguration;
 
-public class DateHeaderView extends View implements OnClickListener
-{
+public class DateHeaderView extends View implements OnClickListener {
     AgendaConfiguration config;
     DateInfo selectedDate;
     Paint paint;
@@ -29,8 +28,7 @@ public class DateHeaderView extends View implements OnClickListener
     Context context;
 
     // Used when inflated from a layout
-    public DateHeaderView(Context context, AttributeSet attrs)
-    {
+    public DateHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         this.config = AgendaStaticData.getStaticData().getConfig();
@@ -44,38 +42,34 @@ public class DateHeaderView extends View implements OnClickListener
         // Get the colours for the graduated header box
         int[] colourRange = AgendaStaticData.getStaticData().monthColourRange(selectedDate);
         gradient = new DrawableGradient(colourRange);
-        
+
         setOnClickListener(this);
     }
 
     // Only used when called from another activity
-    public DateHeaderView(Context context)
-    {
+    public DateHeaderView(Context context) {
         this(context, null);
     }
 
-
     /**
-     * Displays a subsidiary dialog which shows details associated with this date.   
+     * Displays a subsidiary dialog which shows details associated with this date.
      */
     @Override
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), DateHeaderDisplay.class);
-        
-        intent.putExtra("DateInfo", selectedDate.getDate().getTime());
-        
-        context.startActivity(intent);      
+
+        intent.putExtra("DateInfo", selectedDate.getMilliseconds());
+
+        context.startActivity(intent);
     }
-    
+
     /**
      * Sets the selected date to display in this header label
-     * 
-     * @param text The text to display. This will be drawn as one line.
+     *
+     * @param newdate
      */
-    public void setNewDate(DateInfo newdate)
-    {
-        selectedDate = new DateInfo(newdate);
+    public void setNewDate(DateInfo newdate) {
+        selectedDate = DateInfo.fromDateInfo(newdate);
         // Get the colours for the graduated header box
         int[] colourRange = AgendaStaticData.getStaticData().monthColourRange(selectedDate);
         gradient = new DrawableGradient(colourRange);
@@ -85,8 +79,7 @@ public class DateHeaderView extends View implements OnClickListener
     }
 
     @Override
-    public void onDraw(Canvas canvas)
-    {
+    public void onDraw(Canvas canvas) {
         int shift = 0;
         int width = getWidth();
         float height = getHeight();
@@ -99,7 +92,7 @@ public class DateHeaderView extends View implements OnClickListener
         gradient.draw(canvas);
 
         // Get and draw out the interval text (left justified)
-        String intervalString = ResourceInfo.getIntervalString(selectedDate, getResources());
+        String intervalString = ResourceInfo.getIntervalString(selectedDate, getResources(), FormatStyle.longStyle);
 
         paint.setTextSize(intervalSize);
         shift += Math.round(Math.abs(paint.ascent()));
@@ -111,17 +104,16 @@ public class DateHeaderView extends View implements OnClickListener
         String dateString = FormattedInfo.getDateString(selectedDate);
         paint.getTextBounds(dateString, 0, dateString.length(), mRect);
         int x = 0;
-        switch (config.getHeaderOrientation())
-        {
-        case left:
-            x = getPaddingLeft();
-            break;
-        case right:
-            x = width - mRect.right - getPaddingRight();
-            break;
-        case centre:
-            x = (width / 2) - (mRect.right / 2);
-            break;
+        switch (config.getHeaderOrientation()) {
+            case left:
+                x = getPaddingLeft();
+                break;
+            case right:
+                x = width - mRect.right - getPaddingRight();
+                break;
+            case centre:
+                x = (width / 2) - (mRect.right / 2);
+                break;
         }
         shift += Math.round(Math.abs(paint.ascent()));
         canvas.drawText(dateString, x, shift, paint);

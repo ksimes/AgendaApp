@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
-	android:paddingLeft="5dp"
-   	android:paddingRight="5dp"
-   	android:paddingTop="5dp"
-   	android:paddingBottom="5dp"
-    android:layout_height="match_parent" >
-    
+              android:layout_width="match_parent"
+              android:orientation="horizontal"
+              android:padding="1dp"
+              android:layout_height="match_parent"
+              android:descendantFocusability="blocksDescendants">
+
     <TextView
-        android:id="@+id/taskTitle"
-	    android:textSize="20sp"
-	    android:textColor="@color/Black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    
+            android:id="@+id/taskTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/Black"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <ImageButton
+            android:id="@+id/taskChildren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:contentDescription="@string/emptyText"
+            android:visibility="gone"
+            android:src="@drawable/ic_menu_moreoverflow"/>
+
 </LinearLayout>

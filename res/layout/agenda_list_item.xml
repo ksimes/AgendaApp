@@ -4,28 +4,29 @@
  list shown on the agenda tab in Horologicon.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
-	android:paddingLeft="5dp"
-   	android:paddingRight="5dp"
-   	android:paddingBottom="3dp"
-    android:background="@color/StandardBlue" >
-    
+              android:layout_height="match_parent"
+              android:layout_width="match_parent"
+              android:orientation="horizontal"
+              android:paddingLeft="5dp"
+              android:paddingRight="5dp"
+              android:paddingBottom="3dp"
+              android:background="@color/StandardBlue">
+
     <TextView
-        android:id="@+id/DateInfo"
-	    android:textSize="20sp"
-		android:paddingLeft="25dp"
-    	android:layout_marginRight="10dp"
-	    android:textColor="@color/White"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    
+            android:id="@+id/IntervalInfo"
+            android:textSize="20sp"
+            android:paddingLeft="25dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     <TextView
-        android:id="@+id/IntervalInfo"
-	    android:textSize="12sp"
-	    android:textColor="@color/White"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:id="@+id/DateInfo"
+            android:textSize="16sp"
+            android:textColor="@color/White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 </LinearLayout>
 	

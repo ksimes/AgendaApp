@@ -1,9 +1,10 @@
 package com.stronans.android.agenda.model;
 
-import com.stronans.android.agenda.support.DateInfo;
+import com.stronans.android.agenda.BuildConfig;
 
-public class Task
-{
+public final class Task {
+    public static final String Id = "id";
+    public static final String Parent = "parent";
     public static final String Title = "title";
     public static final String Description = "description";
     public static final String Notes = "notes";
@@ -12,33 +13,33 @@ public class Task
     public static final String Percentage = "percentage";
     public static final String Target = "actual";
     public static final String Updated = "lastupdated";
-    
-    long id;
-    String title;
-    String description;
-    String notes;
-    DateInfo plannedStart;
-    DateInfo started;
-    int percentageComplete;
-    DateInfo TargetDate;
-    DateInfo lastUpdated;
-    long parent;
-    
-    public Task()
-    {
-        super();
-        this.plannedStart = new DateInfo(0L);
-        this.started = new DateInfo(0L);
-        this.percentageComplete = 0;
-        TargetDate = new DateInfo(0L);
-        this.lastUpdated = new DateInfo(0L);
-        this.parent = 0;
-    }
 
-    public Task(long id, String title, String description, String notes, DateInfo plannedStart, DateInfo started,
-            int percentageComplete, DateInfo targetDate, DateInfo lastUpdated, long parent)
-    {
-        this();
+    private final long id;
+    private final String title;
+    private final String description;
+    private final String notes;
+    private final DateInfo plannedStart;
+    private final DateInfo started;
+    private final int percentageComplete;
+    private final DateInfo TargetDate;
+    private final DateInfo lastUpdated;
+    private final long parent;
+    private final boolean hasChildren;
+
+    public Task(final long id, final String title, final String description, final String notes, final DateInfo plannedStart,
+                final DateInfo started,
+                final int percentageComplete, final DateInfo targetDate, final DateInfo lastUpdated, final long parent,
+                final boolean hasChildren) {
+        super();
+
+        if (BuildConfig.DEBUG) {
+//            if(id == 0) throw new IllegalArgumentException();
+            if (plannedStart == null) throw new IllegalArgumentException();
+            if (started == null) throw new IllegalArgumentException();
+            if (targetDate == null) throw new IllegalArgumentException();
+            if (lastUpdated == null) throw new IllegalArgumentException();
+        }
+
         this.id = id;
         this.title = title;
         this.description = description;
@@ -49,146 +50,83 @@ public class Task
         TargetDate = targetDate;
         this.lastUpdated = lastUpdated;
         this.parent = parent;
+        this.hasChildren = hasChildren;
     }
 
     /**
      * @return the id
      */
-    public long getId()
-    {
+    public long id() {
         return id;
     }
-    /**
-     * @param id the id to set
-     */
-    public void setId(long id)
-    {
-        this.id = id;
-    }
+
     /**
      * @return the parent
      */
-    public long getParent()
-    {
+    public long parent() {
         return parent;
     }
-    /**
-     * @param parent the parent to set
-     */
-    public void setParent(long parent)
-    {
-        this.parent = parent;
-    }
+
     /**
      * @return the title
      */
-    public String getTitle()
-    {
+    public String title() {
         return title;
     }
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
+
     /**
      * @return the description
      */
-    public String getDescription()
-    {
+    public String description() {
         return description;
     }
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+
     /**
      * @return the notes
      */
-    public String getNotes()
-    {
+    public String notes() {
         return notes;
     }
-    /**
-     * @param notes the notes to set
-     */
-    public void setNotes(String notes)
-    {
-        this.notes = notes;
-    }
+
     /**
      * @return the plannedStart
      */
-    public DateInfo getPlannedStart()
-    {
+    public DateInfo plannedStart() {
         return plannedStart;
     }
-    /**
-     * @param plannedStart the plannedStart to set
-     */
-    public void setPlannedStart(DateInfo plannedStart)
-    {
-        this.plannedStart = plannedStart;
-    }
+
     /**
      * @return the started
      */
-    public DateInfo getStarted()
-    {
+    public DateInfo started() {
         return started;
     }
-    /**
-     * @param started the started to set
-     */
-    public void setStarted(DateInfo started)
-    {
-        this.started = started;
-    }
+
     /**
      * @return the percentageComplete
      */
-    public int getPercentageComplete()
-    {
+    public int percentageComplete() {
         return percentageComplete;
     }
-    /**
-     * @param percentageComplete the percentageComplete to set
-     */
-    public void setPercentageComplete(int percentageComplete)
-    {
-        this.percentageComplete = percentageComplete;
-    }
+
     /**
      * @return the targetDate
      */
-    public DateInfo getTargetDate()
-    {
+    public DateInfo targetDate() {
         return TargetDate;
     }
-    /**
-     * @param targetDate the targetDate to set
-     */
-    public void setTargetDate(DateInfo targetDate)
-    {
-        TargetDate = targetDate;
-    }
+
     /**
      * @return the lastUpdated
      */
-    public DateInfo getLastUpdated()
-    {
+    public DateInfo lastUpdated() {
         return lastUpdated;
     }
+
     /**
-     * @param lastUpdated the lastUpdated to set
+     * @return true if the task has children, otherwise false
      */
-    public void setLastUpdated(DateInfo lastUpdated)
-    {
-        this.lastUpdated = lastUpdated;
+    public boolean hasChildren() {
+        return hasChildren;
     }
 }

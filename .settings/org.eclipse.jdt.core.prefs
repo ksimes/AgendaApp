@@ -1,4 +1,4 @@
-#Sun Oct 27 19:29:55 GMT 2013
+#Sat Nov 02 10:35:40 GMT 2013
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.6
@@ -6,7 +6,7 @@ org.eclipse.jdt.core.compiler.compliance=1.6
 org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
 org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
 org.eclipse.jdt.core.compiler.source=1.6
-org.eclipse.jdt.core.formatter.align_type_members_on_columns=false
+org.eclipse.jdt.core.formatter.align_type_members_on_columns=true
 org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression=16
 org.eclipse.jdt.core.formatter.alignment_for_arguments_in_annotation=0
 org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant=16
@@ -82,14 +82,14 @@ org.eclipse.jdt.core.formatter.indent_empty_lines=false
 org.eclipse.jdt.core.formatter.indent_statements_compare_to_block=true
 org.eclipse.jdt.core.formatter.indent_statements_compare_to_body=true
 org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_cases=true
-org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch=false
+org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch=true
 org.eclipse.jdt.core.formatter.indentation.size=4
 org.eclipse.jdt.core.formatter.insert_new_line_after_annotation_on_local_variable=insert
 org.eclipse.jdt.core.formatter.insert_new_line_after_annotation_on_member=insert
 org.eclipse.jdt.core.formatter.insert_new_line_after_annotation_on_parameter=do not insert
-org.eclipse.jdt.core.formatter.insert_new_line_after_label=do not insert
+org.eclipse.jdt.core.formatter.insert_new_line_after_label=insert
 org.eclipse.jdt.core.formatter.insert_new_line_after_opening_brace_in_array_initializer=do not insert
-org.eclipse.jdt.core.formatter.insert_new_line_at_end_of_file_if_missing=insert
+org.eclipse.jdt.core.formatter.insert_new_line_at_end_of_file_if_missing=do not insert
 org.eclipse.jdt.core.formatter.insert_new_line_before_catch_in_try_statement=insert
 org.eclipse.jdt.core.formatter.insert_new_line_before_closing_brace_in_array_initializer=do not insert
 org.eclipse.jdt.core.formatter.insert_new_line_before_else_in_if_statement=insert
@@ -217,7 +217,7 @@ org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_annotation_t
 org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_anonymous_type_declaration=insert
 org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_array_initializer=insert
 org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_block=insert
-org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_constructor_declaration=insert
+org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_constructor_declaration=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_enum_constant=insert
 org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_enum_declaration=insert
 org.eclipse.jdt.core.formatter.insert_space_before_opening_brace_in_method_declaration=insert
@@ -257,7 +257,7 @@ org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_enum_constan
 org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_method_declaration=do not insert
 org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_method_invocation=do not insert
 org.eclipse.jdt.core.formatter.join_lines_in_comments=true
-org.eclipse.jdt.core.formatter.join_wrapped_lines=true
+org.eclipse.jdt.core.formatter.join_wrapped_lines=false
 org.eclipse.jdt.core.formatter.keep_else_statement_on_same_line=false
 org.eclipse.jdt.core.formatter.keep_empty_array_initializer_on_one_line=false
 org.eclipse.jdt.core.formatter.keep_imple_if_on_one_line=false

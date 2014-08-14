@@ -24,21 +24,26 @@
      own application, the package name must be changed from "com.example.*"
      to come from a domain that you own or have control over. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.stronans.android.agenda" android:versionCode="1" android:versionName="1.0">
+          package="com.stronans.android.agenda"
+          android:versionCode="1"
+          android:versionName="1.0">
 
     <!-- This package contains an application...  The 'label' is the name
          to display to the user for the overall application, and provides
          a default label for all following components.  The syntax here is a
          reference to one of our string resources.-->
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
-         
+    <uses-sdk
+            android:minSdkVersion="14"
+            android:targetSdkVersion="17"/>
+
     <uses-permission android:name="android.permission.READ_CALENDAR"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"></uses-permission>
 
     <!-- android:theme="@android:style/Theme.NoTitleBar" -->
-	<application android:label="@string/agenda_app" 
-        android:icon="@drawable/swisswatch"
-        android:allowBackup="true" >
+    <application
+            android:label="@string/agenda_app"
+            android:icon="@drawable/swisswatch"
+            android:allowBackup="true">
 
         <!-- An Activity in the application - this is something the user
              can launch and interact with.  The "name" attribute is the
@@ -49,30 +54,37 @@
             <intent-filter>
                 <!-- The MAIN action describes a main entry point into an
                      activity, without any associated data. -->
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
                 <!-- This places this activity into the main app list. -->
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-		</activity>
-		
-		<activity android:name=".fragments.DayFragment" ></activity>
-        <activity android:name=".fragments.MonthFragment" ></activity>
-        <activity android:name=".fragments.YearFragment" ></activity>
-        <activity android:name=".fragments.AgendaFragment" ></activity>
-        <activity android:name=".fragments.TasksFragment" ></activity>
-        <activity android:name=".fragments.WeekFragment" ></activity>
+        </activity>
 
-        <activity android:name=".activities.AddTask" ></activity>
-        
-        <activity android:name=".activities.About" 
-            android:theme="@style/Theme.AboutDialog"></activity>
-        <activity android:name=".activities.AgendaItemDisplay" 
-            android:theme="@style/Theme.AboutDialog"></activity>
-        <activity android:name=".activities.DateHeaderDisplay" 
-            android:theme="@style/Theme.AboutDialog" ></activity>
-        <activity android:name=".activities.TaskItemDisplay" 
-            android:theme="@style/Theme.AboutDialog" ></activity>
+        <activity android:name=".fragments.DayFragment"></activity>
+        <activity android:name=".fragments.MonthFragment"></activity>
+        <activity android:name=".fragments.YearFragment"></activity>
+        <activity android:name=".fragments.AgendaFragment"></activity>
+        <activity android:name=".fragments.TasksFragment"></activity>
+        <activity android:name=".fragments.WeekFragment"></activity>
+
+        <activity android:name=".activities.AddTask"></activity>
+
+        <activity
+                android:name=".activities.About"
+                android:theme="@style/Theme.AboutDialog"></activity>
+        <activity
+                android:name=".activities.AgendaItemDisplay"
+                android:theme="@style/Theme.AboutDialog"></activity>
+        <activity
+                android:name=".activities.DateHeaderDisplay"
+                android:theme="@style/Theme.AboutDialog"></activity>
+        <activity
+                android:name=".activities.TaskItemDisplay"
+                android:theme="@style/Theme.AboutDialog"></activity>
+        <activity
+                android:name=".activities.TaskManagementDisplay"
+                android:theme="@style/Theme.AboutDialog"></activity>
     </application>
 
 </manifest>
