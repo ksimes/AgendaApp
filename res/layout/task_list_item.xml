@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:orientation="horizontal"
-              android:padding="1dp"
               android:layout_height="match_parent"
               android:descendantFocusability="blocksDescendants">
 
@@ -14,8 +13,10 @@
             android:textColor="@color/Black"
             android:layout_weight="1"
             android:ellipsize="end"
+            android:paddingTop="6dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
+            android:paddingBottom="6dp"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 

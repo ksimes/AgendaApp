@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="0dp"
+            android:background="@color/StandardBlue"
             android:descendantFocusability="blocksDescendants">
 
         <TextView
@@ -18,13 +18,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="end"
+                android:paddingTop="8dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
+                android:paddingBottom="9dp"
                 android:singleLine="true"
-                android:background="@color/StandardBlue"
-                android:paddingBottom="5dp"
                 android:textColor="@color/White"
-                android:textSize="22sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/task_title"/>
 
         <ImageButton
