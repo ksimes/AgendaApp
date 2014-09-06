@@ -21,6 +21,7 @@ import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.interfaces.Refresher;
 import com.stronans.android.agenda.interfaces.SetParent;
 import com.stronans.android.agenda.model.AgendaConfiguration;
+import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Task;
 import com.stronans.android.agenda.support.FormattedInfo;
 
@@ -49,11 +50,8 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         refreshDisplay();
     }
 
-    private void displayTaskItem(View view, int position) {
-        Task task = taskItems.get(position);
-
-        Intent intent = new Intent(view.getContext(), TaskItemDisplay.class);
-
+    private void populateIntent(Intent intent, Task task)
+    {
         intent.putExtra(Task.Id, task.id());
         intent.putExtra(Task.Parent, task.parent());
         intent.putExtra(Task.Title, task.title());
@@ -61,13 +59,13 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         intent.putExtra(Task.Notes, task.notes());
 
         if (task.plannedStart().isDefined()) {
-            intent.putExtra(Task.Planned, FormattedInfo.getDateTimeString(task.plannedStart()));
+            intent.putExtra(Task.Planned, DateInfo.getDateTimeString(task.plannedStart()));
         } else {
             intent.putExtra(Task.Planned, getString(R.string.dateNotSet));
         }
 
         if (task.started().isDefined()) {
-            intent.putExtra(Task.Actual, FormattedInfo.getDateTimeString(task.started()));
+            intent.putExtra(Task.Actual, DateInfo.getDateTimeString(task.started()));
         } else {
             intent.putExtra(Task.Actual, getString(R.string.dateNotSet));
         }
@@ -78,17 +76,23 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
             intent.putExtra(Task.Percentage, getString(R.string.notYetStarted));
 
         if (task.targetDate().isDefined()) {
-            intent.putExtra(Task.Target, FormattedInfo.getDateTimeString(task.targetDate()));
+            intent.putExtra(Task.Target, DateInfo.getDateTimeString(task.targetDate()));
         } else {
             intent.putExtra(Task.Target, getString(R.string.dateNotSet));
         }
 
         if (task.lastUpdated().isDefined()) {
-            intent.putExtra(Task.Updated, FormattedInfo.getDateTimeString(task.lastUpdated()));
+            intent.putExtra(Task.Updated, DateInfo.getDateTimeString(task.lastUpdated()));
         } else {
             intent.putExtra(Task.Updated, getString(R.string.dateNotSet));
         }
+    }
 
+    private void displayTaskItem(View view, int position) {
+        Task task = taskItems.get(position);
+
+        Intent intent = new Intent(view.getContext(), TaskItemDisplay.class);
+        populateIntent(intent, task);
         startActivity(intent);
     }
 
@@ -98,7 +102,6 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
 
         Intent intent = new Intent(view.getContext(), TaskManagementDisplay.class);
         intent.putExtra(Task.Id, task.id());
-
         startActivity(intent);
 
         return result;
@@ -232,8 +235,7 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
 
             case R.id.menu_addtask:
                 Intent intent = new Intent(AgendaData.getInst().getContext(), AddTask.class);
-
-                intent.putExtra("Parent", parentPosition);
+                intent.putExtra(Task.Parent, parentPosition);
 
                 startActivityForResult(intent, 0);
                 return true;

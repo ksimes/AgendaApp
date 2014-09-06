@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.model.AgendaConfiguration;
+import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.Utilities;
@@ -62,7 +63,7 @@ public class IncidentListAdapter extends BaseAdapter {
 
         if (!item.isAllDay()) {
             sb.append(MessageFormat.format(resources.getString(R.string.time_period),
-                    new Object[]{FormattedInfo.getTimeString(item.startAt()), FormattedInfo.getTimeString(item.endsAt())}));
+                    new Object[]{DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt())}));
         } else
             sb.append(resources.getString(R.string.all_day_event));
 

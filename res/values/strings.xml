@@ -32,6 +32,7 @@
     <string name="percentagetext">Percentage Complete</string>
     <string name="targetdatetext">Target date</string>
     <string name="lastUpdated">Last Updated</string>
+
     <string name="notYetStarted">Not started</string>
     <string name="dateNotSet">Date not set</string>
 

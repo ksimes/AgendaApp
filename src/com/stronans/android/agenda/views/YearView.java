@@ -152,7 +152,7 @@ public class YearView extends View {
         mDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
         mDrawable.draw(canvas);
 
-        String dateString = FormattedInfo.getYearString(selected);
+        String dateString = DateInfo.getYearString(selected);
 
         return Y + FormattedInfo.drawTextInBox(dateString, mRect, TITLE_SIZE, config.getHeaderOrientation(), paint, canvas);
     }

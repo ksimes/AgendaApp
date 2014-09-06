@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.model.AgendaConfiguration;
+import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.Utilities;
@@ -67,7 +68,7 @@ public class DayListAdapter extends BaseAdapter {
         String periodTxt = new String();
         if (!item.isAllDay()) {
             periodTxt = MessageFormat.format(resources.getString(R.string.time_period),
-                    new Object[]{FormattedInfo.getTimeString(item.startAt()), FormattedInfo.getTimeString(item.endsAt())});
+                    new Object[]{DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt())});
         } else
             periodTxt = resources.getString(R.string.all_day_event);
 

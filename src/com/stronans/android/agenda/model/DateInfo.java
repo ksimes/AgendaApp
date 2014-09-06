@@ -1,6 +1,7 @@
 package com.stronans.android.agenda.model;
 
 import android.text.format.Time;
+import com.stronans.android.agenda.enums.DateInfoContent;
 import hirondelle.date4j.DateTime;
 
 import java.util.Calendar;
@@ -16,10 +17,13 @@ public class DateInfo {
 
     private Calendar calendar = null;
     private boolean notDefined = false;
+    private DateInfoContent content = DateInfoContent.DATE_AND_TIME;
 
     private DateInfo() {
         // Calendar object always defaults to today/Now
         this.calendar = Calendar.getInstance();
+        notDefined = false;
+        content = DateInfoContent.DATE_AND_TIME;
     }
 
     /**
@@ -50,6 +54,7 @@ public class DateInfo {
             dateInfo.notDefined = true;
         } else {
             dateInfo.calendar.setTime(new Date(newDateInMilli));
+            dateInfo.content = DateInfoContent.DATE_AND_TIME;
         }
         return dateInfo;
     }
@@ -61,9 +66,17 @@ public class DateInfo {
         if (newDate.notDefined) {
             dateInfo.notDefined = true;
         } else {
-            if (newDate != null)
+            if (newDate != null) {
                 dateInfo.calendar.setTimeInMillis(newDate.getMilliseconds());
+                dateInfo.content = DateInfoContent.DATE_AND_TIME;
+            }
         }
+        return dateInfo;
+    }
+
+    public static DateInfo fromDateOnly(int day, int month, int year) {
+        DateInfo dateInfo = fromDate(day, month, year);
+        dateInfo.content = DateInfoContent.DATE_ONLY;
         return dateInfo;
     }
 
@@ -74,7 +87,14 @@ public class DateInfo {
         dateInfo.calendar.set(Calendar.DATE, day);
 
         dateInfo.setToJustPastMidnight();
+        dateInfo.content = DateInfoContent.DATE_AND_TIME;
 
+        return dateInfo;
+    }
+
+    public static DateInfo fromTimeOnly(int hours, int minutes, int seconds) {
+        DateInfo dateInfo = fromDateTime(0, 0, 0, hours, minutes, seconds);
+        dateInfo.content = DateInfoContent.TIME_ONLY;
         return dateInfo;
     }
 
@@ -87,6 +107,8 @@ public class DateInfo {
         dateInfo.calendar.set(Calendar.HOUR, hours);
         dateInfo.calendar.set(Calendar.MINUTE, minutes);
         dateInfo.calendar.set(Calendar.SECOND, seconds);
+
+        dateInfo.content = DateInfoContent.DATE_AND_TIME;
 
         return dateInfo;
     }
@@ -226,15 +248,6 @@ public class DateInfo {
     }
 
     /**
-     *
-     * @return The current selected date value (note ignore time value)
-     */
-    // public Date getDate()
-    // {
-    // return calendar.getTime();
-    // }
-
-    /**
      * @return The current selected date value (note ignore time value)
      */
     public void setMonth(int month) {
@@ -255,19 +268,34 @@ public class DateInfo {
         calendar.roll(Calendar.MONTH, true);
     }
 
-    /**
-     * @param selected Date to be set
-     */
-    public void setSelected(Date selected) {
-        this.calendar.setTime(selected);
+    static public String getUniversalString(DateInfo timeInfo) {
+        return timeInfo.format("YYYYMMDDhhmmss");
     }
 
-    /**
-     * @param selected Date to be set
-     */
-    public void setSelected(DateInfo selected) {
-        this.calendar.setTime(selected.calendar.getTime());
+    static public String getTimeString(DateInfo timeInfo) {
+        return timeInfo.format("hh:mm");
     }
+
+    static public String getDateString(DateInfo timeInfo) {
+        return timeInfo.format("WWWW, MMMM D, YYYY");
+    }
+
+    static public String getDateTimeString(DateInfo timeInfo) {
+        return timeInfo.format("hh:mm:ss DD/MM/YYYY");
+    }
+
+    static public String getYearString(DateInfo timeInfo) {
+        return timeInfo.format("YYYY");
+    }
+
+    static public String getMonthString(DateInfo timeInfo) {
+        return timeInfo.format("MMMM");
+    }
+
+    static public String getShortWeekdayString(DateInfo timeInfo) {
+        return timeInfo.format("WWW");
+    }
+
 
     static public int getDayOfYear(DateInfo timeInfo) {
         Time selected = new Time();

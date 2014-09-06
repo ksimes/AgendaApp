@@ -11,40 +11,6 @@ public class FormattedInfo {
     public static final int DEFAULT_LEFT_MARGIN = 5;
     public static final int DEFAULT_RIGHT_MARGIN = 5;
 
-//    static private String formatInfo(DateInfo timeInfo, String format)
-//    {
-//        SimpleDateFormat output = new SimpleDateFormat(format, Locale.getDefault());
-//        return output.format(timeInfo.getMilliseconds());
-//    }
-
-    static public String getUniversalString(DateInfo timeInfo) {
-        return timeInfo.format("YYYYMMDDhhmmss");
-    }
-
-    static public String getTimeString(DateInfo timeInfo) {
-        return timeInfo.format("hh:mm");
-    }
-
-    static public String getDateString(DateInfo timeInfo) {
-        return timeInfo.format("WWWW, MMMM D, YYYY");
-    }
-
-    static public String getDateTimeString(DateInfo timeInfo) {
-        return timeInfo.format("hh:mm:ss DD/MM/YYYY");
-    }
-
-    static public String getYearString(DateInfo timeInfo) {
-        return timeInfo.format("YYYY");
-    }
-
-    static public String getMonthString(DateInfo timeInfo) {
-        return timeInfo.format("MMMM");
-    }
-
-    static public String getShortWeekdayString(DateInfo timeInfo) {
-        return timeInfo.format("WWW");
-    }
-
     /*
      * Given the day of the month add a suffix to give date strings
      */
@@ -84,9 +50,9 @@ public class FormattedInfo {
 
         if (!event.isAllDay()) {
             sb.append("  [");
-            sb.append(FormattedInfo.getTimeString(event.startAt()));
+            sb.append(DateInfo.getTimeString(event.startAt()));
             sb.append(" - ");
-            sb.append(FormattedInfo.getTimeString(event.endsAt()));
+            sb.append(DateInfo.getTimeString(event.endsAt()));
             sb.append("]");
         } else
             sb.append("  (All day)");

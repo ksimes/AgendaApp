@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaData;
-import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Task;
 
 import java.text.MessageFormat;
@@ -31,7 +30,7 @@ public class TaskManagementDisplay extends Activity {
         super.onCreate(savedInstanceState);
 
         // Inflate our UI from its XML layout description.
-        setContentView(R.layout.task_modify);
+        setContentView(R.layout.task_menu);
 
         // Incident details are passed as strings from the calling Activity.
         Bundle parameters = getIntent().getExtras();
@@ -44,13 +43,10 @@ public class TaskManagementDisplay extends Activity {
             @Override
             public void onClick(View v) {
                 // Using id of current task.
-                // Intent intent = new Intent(AgendaData.getInst().getContext(), AddTask.class);
-                // intent.putExtra("Parent", taskId);
-                // startActivityForResult(intent, 0);
-
-
-                Toast.makeText(AgendaData.getInst().getContext(),
-                        MessageFormat.format("Task Edit for id {0} is Selected", taskId), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AgendaData.getInst().getContext(), AddTask.class);
+                intent.putExtra(Task.Id, taskId);
+                intent.putExtra("Edit", true);
+                startActivity(intent);
                 finish();
             }
         });
@@ -61,8 +57,8 @@ public class TaskManagementDisplay extends Activity {
             public void onClick(View v) {
                 // Using id of current task.
                 Intent intent = new Intent(AgendaData.getInst().getContext(), AddTask.class);
-                intent.putExtra("Parent", taskId);
-                startActivityForResult(intent, 0);
+                intent.putExtra(Task.Parent, taskId);
+                startActivity(intent);
                 finish();
             }
         });

@@ -37,7 +37,7 @@ public class DateHeaderDisplay extends Activity {
         if (parameters != null) {
             selectedDate = DateInfo.fromLong(parameters.getLong("DateInfo"));
 
-            String viewString = FormattedInfo.getDateString(selectedDate);
+            String viewString = DateInfo.getDateString(selectedDate);
             TextView field = (TextView) findViewById(R.id.HeaderDate);
             field.setText(viewString);
 
@@ -54,7 +54,7 @@ public class DateHeaderDisplay extends Activity {
             viewString = MessageFormat.format(getResources().getString(R.string.WeekOfYear),
                     new Object[]{DateInfo.getWeekOfYear(selectedDate)});
             field = (TextView) findViewById(R.id.WeekOfYearView);
-            field.setText(viewString + " " + FormattedInfo.getYearString(selectedDate));
+            field.setText(viewString + " " + DateInfo.getYearString(selectedDate));
         }
     }
 

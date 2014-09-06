@@ -93,7 +93,7 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
         String intervalTxt = ResourceInfo.getIntervalString(item.date(), resources, FormatStyle.shortStyle);
 
         if (item.date().getYear() != DateInfo.getNow().getYear()) {
-            dateInfoTxt += " " + FormattedInfo.getYearString(item.date());
+            dateInfoTxt += " " + DateInfo.getYearString(item.date());
         }
 
         Utilities.setTextView(view, R.id.IntervalInfo, intervalTxt);
@@ -121,7 +121,7 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
 
         if (!item.isAllDay()) {
             sb.append(MessageFormat.format(resources.getString(R.string.time_period),
-                    new Object[]{FormattedInfo.getTimeString(item.startAt()), FormattedInfo.getTimeString(item.endsAt())}));
+                    new Object[]{DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt())}));
         } else
             sb.append(resources.getString(R.string.all_day_event));
 

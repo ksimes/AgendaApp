@@ -50,8 +50,8 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
                 if (!item.isAllDay()) {
                     period = MessageFormat.format(
                             getString(R.string.time_period),
-                            FormattedInfo.getTimeString(item.startAt()),
-                            FormattedInfo.getTimeString(item.endsAt()));
+                            DateInfo.getTimeString(item.startAt()),
+                            DateInfo.getTimeString(item.endsAt()));
                 } else
                     period = getString(R.string.all_day_event);
 

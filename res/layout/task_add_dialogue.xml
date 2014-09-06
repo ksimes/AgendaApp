@@ -4,6 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <!-- Initial Title of Task (must fill) -->
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,6 +19,7 @@
         <requestFocus/>
     </EditText>
 
+    <!-- Description of Task -->
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,6 +31,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
 
+    <!-- Notes for Task (Multiline) -->
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,6 +43,91 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
 
+    <!-- Button planned start date/time for Task (sub-dialog) -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:text="@string/plannedstarttext"/>
+
+        <Button
+                android:id="@+id/inputplannedstart"
+                android:layout_width="0dp"
+                android:layout_weight="60"
+                android:layout_height="wrap_content"
+                android:text=""/>
+    </LinearLayout>
+
+    <!-- Button actual start date/time for Task (sub-dialog) -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:text="@string/startdatetext"/>
+
+        <Button
+                android:id="@+id/inputstarted"
+                android:layout_width="0dp"
+                android:layout_weight="60"
+                android:layout_height="wrap_content"
+                android:text=""/>
+    </LinearLayout>
+
+    <!-- Percentage complete for Task -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:text="@string/percentagetext"/>
+
+        <EditText
+                android:id="@+id/inputpercentage"
+                android:inputType="text"
+                android:layout_width="0dip"
+                android:layout_weight="40"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- Button target date/time for Task (sub-dialog) -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:text="@string/targetdatetext"/>
+
+        <Button
+                android:id="@+id/inputtargetdate"
+                android:layout_width="0dp"
+                android:layout_weight="60"
+                android:layout_height="wrap_content"
+                android:text=""/>
+    </LinearLayout>
+
+    <!-- Buttons for submission or cancel -->
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +144,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cancelButton"/>
-
 
     </LinearLayout>
 </LinearLayout>

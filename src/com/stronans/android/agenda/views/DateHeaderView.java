@@ -101,7 +101,7 @@ public class DateHeaderView extends View implements OnClickListener {
 
         // Then the date selected in the format selected in the orientation selected.
         paint.setTextSize(titleSize);
-        String dateString = FormattedInfo.getDateString(selectedDate);
+        String dateString = DateInfo.getDateString(selectedDate);
         paint.getTextBounds(dateString, 0, dateString.length(), mRect);
         int x = 0;
         switch (config.getHeaderOrientation()) {

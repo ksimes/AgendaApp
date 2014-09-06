@@ -107,7 +107,7 @@ public class DayView extends View {
 
                 if (!event.isAllDay()) {
                     sb.append(MessageFormat.format(resources.getString(R.string.time_period),
-                            new Object[]{FormattedInfo.getTimeString(event.startAt()), FormattedInfo.getTimeString(event.endsAt())}));
+                            new Object[]{DateInfo.getTimeString(event.startAt()), DateInfo.getTimeString(event.endsAt())}));
                 } else
                     sb.append(resources.getString(R.string.all_day_event));
 
