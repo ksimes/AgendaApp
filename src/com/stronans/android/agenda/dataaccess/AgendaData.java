@@ -14,25 +14,25 @@ import java.util.*;
 
 /**
  * Gets data from persistent storage
- * 
- * @author Simon King
  *
+ * @author Simon King
+ *         <p/>
  *         content://calendar/instances/when/#/# content://calendar/instances/whenbyday/#/# content://calendar/events
  *         content://calendar/events/# content://calendar/calendars content://calendar/calendars/#
  *         content://calendar/deleted_events content://calendar/attendees content://calendar/attendees/#
  *         content://calendar/reminders content://calendar/reminders/# content://calendar/extendedproperties
  *         content://calendar/extendedproperties/# content://calendar/calendar_alerts content://calendar/calendar_alerts/#
  *         content://calendar/calendar_alerts/by_instance content://calendar/busybits/when/#/#
- * 
  */
 public class AgendaData {
+    static final int DEFAULT_ICON = 8;
+
     static AgendaData agendaData;
     static Context applicationContext;
     static TaskListTable taskListData;
     Random randomGenerator;
 
-    private AgendaData()
-    {
+    private AgendaData() {
         randomGenerator = new Random();
 
         // Initial core data (load or setup)
@@ -40,29 +40,24 @@ public class AgendaData {
     }
 
     // Singleton pattern
-    static public AgendaData getInst()
-    {
-        if (agendaData == null)
-        {
+    static public AgendaData getInst() {
+        if (agendaData == null) {
             agendaData = new AgendaData();
         }
 
         return agendaData;
     }
 
-    public Context getContext()
-    {
+    public Context getContext() {
         return applicationContext;
     }
 
-    public void setContext(Context context)
-    {
+    public void setContext(Context context) {
         applicationContext = context;
         setupTaskDB();
     }
 
-    private List<Incident> getEventsEmulator(int selectedCalendarId, DateInfo startDate, DateInfo endDate)
-    {
+    private List<Incident> getEventsEmulator(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         Date currentTime = new Date();
         List<Incident> result = new ArrayList<Incident>();
 
@@ -76,7 +71,7 @@ public class AgendaData {
 
         Incident event = new Incident("Fake title which is quite long", null, null,
                 DateInfo.fromLong(x.getTimeInMillis()), DateInfo.fromLong(y.getTimeInMillis()), false, -1,
-                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.BLUE);
+                new EventCategory(1, "", randomGenerator.nextInt(32)), Color.BLUE, 1);
         result.add(event);
 
         x.add(Calendar.DAY_OF_MONTH, 1);
@@ -87,7 +82,7 @@ public class AgendaData {
                 "Large birthday celebrations which will include the ritual counting of snails in the back garden and other things",
                 null,
                 DateInfo.fromLong(x.getTimeInMillis()), DateInfo.fromLong(y.getTimeInMillis()), true, -1,
-                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.YELLOW);
+                new EventCategory(1, "", randomGenerator.nextInt(32)), Color.YELLOW, 1);
         result.add(event);
 
         x.add(Calendar.HOUR, 2);
@@ -96,7 +91,7 @@ public class AgendaData {
         event = new Incident("Job Interview",
                 "Remember to review CV and read up on Java services", null,
                 DateInfo.fromLong(x.getTimeInMillis()), DateInfo.fromLong(y.getTimeInMillis()), true, -1,
-                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.GREEN);
+                new EventCategory(1, "", randomGenerator.nextInt(32)), Color.GREEN, 1);
         result.add(event);
 
         x.add(Calendar.HOUR, 2);
@@ -105,7 +100,7 @@ public class AgendaData {
         event = new Incident("Meet for coffee",
                 "look out copy of Lost Horizon for Steve", null,
                 DateInfo.fromLong(x.getTimeInMillis()), DateInfo.fromLong(y.getTimeInMillis()), true, -1,
-                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.BLUE);
+                new EventCategory(1, "", randomGenerator.nextInt(32)), Color.BLUE, 1);
         result.add(event);
 
         x.add(Calendar.HOUR, 1);
@@ -114,7 +109,7 @@ public class AgendaData {
         event = new Incident("Go To pub",
                 "Meet up with John to give back DVD", null,
                 DateInfo.fromLong(x.getTimeInMillis()), DateInfo.fromLong(y.getTimeInMillis()), true, -1,
-                new EventCategory(1, "", randomGenerator.nextInt(32)), 1, Color.MAGENTA);
+                new EventCategory(1, "", randomGenerator.nextInt(32)), Color.MAGENTA, 1);
         result.add(event);
 
         // event = new Incident();
@@ -159,8 +154,7 @@ public class AgendaData {
         return result;
     }
 
-    private List<Incident> getEventsAndroid2_2(int selectedCalendarId, DateInfo startDate, DateInfo endDate)
-    {
+    private List<Incident> getEventsAndroid2_2(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         final String ORDER_BY = "begin ASC, end ASC";
 
         List<Incident> result = new ArrayList<Incident>();
@@ -170,7 +164,7 @@ public class AgendaData {
         ContentUris.appendId(builder, endDate.getMilliseconds());
 
         String[] projection = new String[]{Events2_2.CALENDAR_ID, Events2_2.TITLE, Events2_2.DESCRIPTION,
-                Account2_2.COLOR, Instances.BEGIN, Instances.END, Events2_2.ALL_DAY };
+                Account2_2.COLOR, Instances.BEGIN, Instances.END, Events2_2.ALL_DAY};
 
         Cursor cursor = null;
         if (selectedCalendarId == 0)
@@ -178,15 +172,13 @@ public class AgendaData {
                     "selected=1", null, ORDER_BY);
         else
             cursor = applicationContext.getContentResolver().query(builder.build(), projection,
-                    "calendar_id=?", new String[] { Integer.toString(selectedCalendarId) },
+                    "calendar_id=?", new String[]{Integer.toString(selectedCalendarId)},
                     ORDER_BY);
 
-        if (cursor != null)
-        {
+        if (cursor != null) {
             cursor.moveToFirst();
             int count = cursor.getCount();
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 String title = cursor.getString(cursor.getColumnIndex(Events2_2.TITLE));
                 String description = cursor.getString(cursor.getColumnIndex(Events2_2.DESCRIPTION));
                 String location = "";
@@ -207,8 +199,7 @@ public class AgendaData {
         return result;
     }
 
-    private List<Incident> getEventsAndroid4Above(int selectedCalendarId, DateInfo startDate, DateInfo endDate)
-    {
+    private List<Incident> getEventsAndroid4Above(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         // final String ORDER_BY = "begin ASC, end ASC";
         final String ORDER_BY = Instances.BEGIN + " ASC, " + Instances.END + " ASC";
 
@@ -221,7 +212,7 @@ public class AgendaData {
 
         String[] projection = new String[]{Events.CALENDAR_ID, Events.TITLE, Events.DESCRIPTION,
                 Calendars.CALENDAR_COLOR, Events.EVENT_LOCATION,
-                Instances.BEGIN, Instances.END, Events.ALL_DAY };
+                Instances.BEGIN, Instances.END, Events.ALL_DAY};
 
         Cursor cursor = null;
         if (selectedCalendarId == 0)
@@ -229,15 +220,13 @@ public class AgendaData {
                     "visible=1", null, ORDER_BY);
         else
             cursor = applicationContext.getContentResolver().query(builder.build(), projection,
-                    "calendar_id=?", new String[] { Integer.toString(selectedCalendarId) },
+                    "calendar_id=?", new String[]{Integer.toString(selectedCalendarId)},
                     ORDER_BY);
 
-        if (cursor != null)
-        {
+        if (cursor != null) {
             cursor.moveToFirst();
             int count = cursor.getCount();
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 String title = cursor.getString(cursor.getColumnIndex(Events.TITLE));
                 String description = cursor.getString(cursor.getColumnIndex(Events.DESCRIPTION));
                 String location = cursor.getString(cursor.getColumnIndex(Events.EVENT_LOCATION));
@@ -257,18 +246,14 @@ public class AgendaData {
         return result;
     }
 
-    public List<Incident> getEvents(int selectedCalendarId, DateInfo startDate, DateInfo endDate)
-    {
+    public List<Incident> getEvents(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         String build = android.os.Build.MODEL;
         int version = android.os.Build.VERSION.SDK_INT;
 
-        if (build.contains("x86"))
-        {
+        if (build.contains("x86")) {
             return getEventsEmulator(selectedCalendarId, startDate, endDate);
-        }
-        else
-            switch (version)
-            {
+        } else
+            switch (version) {
                 case android.os.Build.VERSION_CODES.FROYO:
                     return getEventsAndroid2_2(selectedCalendarId, startDate, endDate);
 
@@ -279,8 +264,7 @@ public class AgendaData {
             }
     }
 
-    private boolean getBoolean(int value)
-    {
+    private boolean getBoolean(int value) {
         Boolean result = false;
 
         if (value == 1)
@@ -289,11 +273,10 @@ public class AgendaData {
         return result;
     }
 
-    public List<Account2_2> getCalendarAccounts()
-    {
+    public List<Account2_2> getCalendarAccounts() {
         List<Account2_2> result = new ArrayList<Account2_2>();
 
-        String[] projection = new String[] { Account2_2.ID, Account2_2.COLOR,
+        String[] projection = new String[]{Account2_2.ID, Account2_2.COLOR,
                 Account2_2.DISPLAY_NAME, Account2_2.NAME, Account2_2.SELECTED};
 
         Uri calendars = Uri.parse("content://com.android.calendar/calendars");
@@ -301,13 +284,11 @@ public class AgendaData {
         Cursor cursor = applicationContext.getContentResolver().query(
                 calendars, projection, "selected=1", null, null); // active calendars
 
-        if (cursor != null)
-        {
+        if (cursor != null) {
             // fetching all active calendar accounts
             cursor.moveToFirst();
             int count = cursor.getCount();
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 Account2_2 cal = new Account2_2();
                 cal.setId(cursor.getInt(cursor.getColumnIndex(Account2_2.ID)));
                 cal.setCalendarColour(cursor.getInt(cursor.getColumnIndex(Account2_2.COLOR)));
@@ -345,14 +326,12 @@ public class AgendaData {
         taskListData.open();
     }
 
-    public long addNewTask(Task newTask)
-    {
+    public long addNewTask(Task newTask) {
         Task result = taskListData.insertTask(newTask);
         return result.id();
     }
 
-    public boolean updateTask(Task newTask)
-    {
+    public boolean updateTask(Task newTask) {
         // TODO : Body of this method.
         return false;
     }
@@ -361,8 +340,7 @@ public class AgendaData {
         return taskListData.deleteTask(id);
     }
 
-    public List<Task> getTasks(long parent)
-    {
+    public List<Task> getTasks(long parent) {
         return taskListData.getTasksWithParent(parent);
     }
 

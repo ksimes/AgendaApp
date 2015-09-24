@@ -80,24 +80,32 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
         final String dateFormat = "WWWW, MMMM D|{0}|";
         View view = convertView;
 
-        if (view == null) {
-            LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.agenda_list_item, null);
-        }
-
         AgendaItem item = agendaItems.get(groupPosition);
 
-        String newDateFormat = MessageFormat.format(dateFormat,
-                new Object[]{FormattedInfo.suffix(item.date().getDateInMonth())});
-        String dateInfoTxt = item.date().format(newDateFormat);
-        String intervalTxt = ResourceInfo.getIntervalString(item.date(), resources, FormatStyle.shortStyle);
-
-        if (item.date().getYear() != DateInfo.getNow().getYear()) {
-            dateInfoTxt += " " + DateInfo.getYearString(item.date());
+        if (view == null) {
+            LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (item.isMessageOnly()) {
+                view = vi.inflate(R.layout.agenda_message_item, null);
+            } else {
+                view = vi.inflate(R.layout.agenda_list_item, null);
+            }
         }
 
-        Utilities.setTextView(view, R.id.IntervalInfo, intervalTxt);
-        Utilities.setTextView(view, R.id.DateInfo, "(" + dateInfoTxt + ")");
+        if (item.isMessageOnly()) {
+            Utilities.setTextView(view, R.id.MessageInfo, resources.getString(R.string.agendaMessage));
+        } else {
+            String newDateFormat = MessageFormat.format(dateFormat, FormattedInfo.suffix(item.date().getDateInMonth()));
+            String dateInfoTxt = item.date().format(newDateFormat);
+            String intervalTxt = ResourceInfo.getIntervalString(item.date(), resources, FormatStyle.shortStyle);
+
+            if (item.date().getYear() != DateInfo.getNow().getYear()) {
+                dateInfoTxt += " " + DateInfo.getYearString(item.date());
+            }
+
+            Utilities.setTextView(view, R.id.IntervalInfo, intervalTxt);
+            Utilities.setTextView(view, R.id.DateInfo, "(" + dateInfoTxt + ")");
+        }
+
         return view;
     }
 
@@ -113,33 +121,39 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
             view = vi.inflate(R.layout.incident_list_item, null);
         }
 
-        Incident item = agendaItems.get(groupPosition).eventsOnThisDay().get(childPosition);
+        AgendaItem agendaItem = agendaItems.get(groupPosition);
+
+        Incident item = agendaItem.eventsOnThisDay().get(childPosition);
 
         Utilities.setTextView(view, R.id.incidenttitle, item.title());
 
-        StringBuffer sb = new StringBuffer(30);
-
-        if (!item.isAllDay()) {
-            sb.append(MessageFormat.format(resources.getString(R.string.time_period),
-                    new Object[]{DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt())}));
-        } else
-            sb.append(resources.getString(R.string.all_day_event));
-
-        Utilities.setTextView(view, R.id.incidentperiod, sb.toString());
-
-        String location = "";
-        if (Utilities.hasContent(item.eventLocation())) {
-            location = resources.getString(R.string.location) + item.eventLocation();
-        }
-
-        Utilities.setTextView(view, R.id.incidentlocation, location);
-
-        int dayOfWeek = agendaItems.get(groupPosition).date().getCurrentDayOfMonth();
-
-        if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-            view.setBackgroundColor(resources.getColor(R.color.Chalk));
-        } else {
+        if (agendaItem.isMessageOnly()) {
             view.setBackgroundColor(resources.getColor(R.color.Ivory));
+        } else {
+            StringBuilder sb = new StringBuilder(30);
+
+            if (!item.isAllDay()) {
+                sb.append(MessageFormat.format(resources.getString(R.string.time_period),
+                        DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt())));
+            } else
+                sb.append(resources.getString(R.string.all_day_event));
+
+            Utilities.setTextView(view, R.id.incidentperiod, sb.toString());
+
+            String location = "";
+            if (Utilities.hasContent(item.eventLocation())) {
+                location = resources.getString(R.string.location) + item.eventLocation();
+            }
+
+            Utilities.setTextView(view, R.id.incidentlocation, location);
+
+            int dayOfWeek = agendaItems.get(groupPosition).date().getCurrentDayOfMonth();
+
+            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+                view.setBackgroundColor(resources.getColor(R.color.Chalk));
+            } else {
+                view.setBackgroundColor(resources.getColor(R.color.Ivory));
+            }
         }
 
         return view;

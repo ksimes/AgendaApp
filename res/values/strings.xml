@@ -53,9 +53,11 @@
     <string name="WeekOfYear">Occurring in the {0,number,integer} week of the year</string>
 
     <string name="no_activities">No activities planned for today</string>
+    <string name="nothing_happening">No activities planned for next {0} days</string>
     <string name="time_period">Starts {0} till {1}</string>
     <string name="all_day_event"> (All day event)</string>
     <string name="location">Location :</string>
+    <string name="agendaMessage">Message</string>
 
     <!-- Tabs descriptor strings. -->
     <string name="agenda">Agenda</string>

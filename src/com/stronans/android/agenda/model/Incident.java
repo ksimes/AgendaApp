@@ -1,5 +1,6 @@
 package com.stronans.android.agenda.model;
 
+import android.graphics.Color;
 import com.stronans.android.agenda.BuildConfig;
 
 import java.util.ArrayList;
@@ -27,6 +28,13 @@ public final class Incident {
     private final int calendarColour;
     private final int calendarId;                 // calendar_id
     private final EventCategory category;
+
+    // Although this creats an incident this should be treated like a message.
+    public Incident(final String title) {
+        this(title, null, null,
+                DateInfo.getUndefined(), DateInfo.getUndefined(), true, -1, null,
+                Color.BLACK, 1);
+    }
 
     public Incident(final String title, final String description, final String location, final DateInfo start,
                     final DateInfo end, final boolean allDay,

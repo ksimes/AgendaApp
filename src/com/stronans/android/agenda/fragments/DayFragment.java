@@ -2,6 +2,7 @@ package com.stronans.android.agenda.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.*;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -99,7 +100,7 @@ public class DayFragment extends Fragment implements Refresher, DateChangeListen
         menu.clear();
         inflater.inflate(R.menu.mainmenu, menu);
         inflater.inflate(R.menu.daymenu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+//        super.onCreateOptionsMenu(menu, inflater);
     }
 
     /**

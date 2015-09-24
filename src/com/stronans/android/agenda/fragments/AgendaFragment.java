@@ -18,7 +18,6 @@ import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.AgendaItem;
 import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Incident;
-import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.controllers.DateChangeListener;
 
 import java.text.MessageFormat;
@@ -105,7 +104,17 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
     }
 
     private void checkForEventsToday(List<AgendaItem> allAgendaItems) {
-        if (allAgendaItems.size() > 0) {
+
+        if (allAgendaItems.size() == 0) {
+            String titleString = MessageFormat.format(getString(R.string.nothing_happening), agendaRange);
+
+            Incident newIncident = new Incident(titleString);
+            List<Incident> newEventsForDate = new ArrayList<Incident>();
+            newEventsForDate.add(newIncident);
+            AgendaItem newItem = new AgendaItem(DateInfo.getNow(), newEventsForDate, true);
+            // add this to the list of Agenda entries.
+            allAgendaItems.add(newItem);
+        } else {
             AgendaItem item = allAgendaItems.get(0);
             // If the first item is not for today then we have no events for today.
             if (!item.date().isToday()) {
