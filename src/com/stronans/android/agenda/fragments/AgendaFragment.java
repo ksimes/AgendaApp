@@ -36,6 +36,7 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
         super();
         config = AgendaStaticData.getStaticData().getConfig();
         config.addDateListener(this);
+        setHasOptionsMenu(true);
 
         onChildClickListener = new OnChildClickListener() {
             @Override
@@ -45,7 +46,7 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
                 Intent intent = new Intent(v.getContext(), AgendaItemDisplay.class);
 
                 intent.putExtra(Incident.Title, item.title());
-                String period = "";
+                String period;
                 if (!item.isAllDay()) {
                     period = MessageFormat.format(
                             getString(R.string.time_period),
@@ -83,7 +84,7 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
 
         List<Incident> agendaEvents = AgendaData.getInst().getEvents(0, start, end);
 
-        List<AgendaItem> allAgendaItems = new ArrayList<AgendaItem>();
+        List<AgendaItem> allAgendaItems = new ArrayList<>();
         DateInfo startAgenda = DateInfo.fromDateInfo(start);
         boolean finished = false;
         while (!finished) {
@@ -109,7 +110,7 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
             String titleString = MessageFormat.format(getString(R.string.nothing_happening), agendaRange);
 
             Incident newIncident = new Incident(titleString);
-            List<Incident> newEventsForDate = new ArrayList<Incident>();
+            List<Incident> newEventsForDate = new ArrayList<>();
             newEventsForDate.add(newIncident);
             AgendaItem newItem = new AgendaItem(DateInfo.getNow(), newEventsForDate, true);
             // add this to the list of Agenda entries.
@@ -118,10 +119,13 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
             AgendaItem item = allAgendaItems.get(0);
             // If the first item is not for today then we have no events for today.
             if (!item.date().isToday()) {
+                Incident newIncident = new Incident(getString(R.string.no_activities));
+                /**
                 Incident newIncident = new Incident(getString(R.string.no_activities), null, null,
                         DateInfo.getUndefined(), DateInfo.getUndefined(), true, -1, null,
                         Color.BLACK, 1);
-                List<Incident> newEventsForDate = new ArrayList<Incident>();
+                 **/
+                List<Incident> newEventsForDate = new ArrayList<>();
                 newEventsForDate.add(newIncident);
                 AgendaItem newItem = new AgendaItem(DateInfo.getNow(), newEventsForDate);
                 // add this into the beginning of the list

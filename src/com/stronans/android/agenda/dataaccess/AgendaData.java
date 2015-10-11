@@ -25,7 +25,7 @@ import java.util.*;
  *         content://calendar/calendar_alerts/by_instance content://calendar/busybits/when/#/#
  */
 public class AgendaData {
-    static final int DEFAULT_ICON = 8;
+    static final int DEFAULT_ICON = 1;
 
     static AgendaData agendaData;
     static Context applicationContext;
@@ -203,41 +203,56 @@ public class AgendaData {
         // final String ORDER_BY = "begin ASC, end ASC";
         final String ORDER_BY = Instances.BEGIN + " ASC, " + Instances.END + " ASC";
 
-        List<Incident> result = new ArrayList<Incident>();
-
         // Construct the query with the desired date range.
         Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
         ContentUris.appendId(builder, startDate.getMilliseconds());
         ContentUris.appendId(builder, endDate.getMilliseconds());
 
+        // Get the columns that you are interested in.
         String[] projection = new String[]{Events.CALENDAR_ID, Events.TITLE, Events.DESCRIPTION,
                 Calendars.CALENDAR_COLOR, Events.EVENT_LOCATION,
                 Instances.BEGIN, Instances.END, Events.ALL_DAY};
 
         Cursor cursor = null;
+        // if we have not selected a Calendar ID the we want all of the Incidents which fall between these periods for all calendars and are visible.
         if (selectedCalendarId == 0)
             cursor = applicationContext.getContentResolver().query(builder.build(), projection,
                     "visible=1", null, ORDER_BY);
         else
+            // just select the Incidents which fall between these periods for the specific calendar.
             cursor = applicationContext.getContentResolver().query(builder.build(), projection,
                     "calendar_id=?", new String[]{Integer.toString(selectedCalendarId)},
                     ORDER_BY);
 
+        List<Incident> result = new ArrayList<>();
+
         if (cursor != null) {
             cursor.moveToFirst();
+            // extract these functions into static variables to give us a little extra speed when extracting from the tables.
             int count = cursor.getCount();
+
+            int titleCol = cursor.getColumnIndex(Events.TITLE);
+            int descriptionCol = cursor.getColumnIndex(Events.DESCRIPTION);
+            int eventCol = cursor.getColumnIndex(Events.EVENT_LOCATION);
+            int beginCol = cursor.getColumnIndex(Instances.BEGIN);
+            int endCol = cursor.getColumnIndex(Instances.END);
+            int allDatCol = cursor.getColumnIndex(Events.ALL_DAY);
+            int calCol = cursor.getColumnIndex(Calendars.CALENDAR_COLOR);
+            int calIdCol = cursor.getColumnIndex(Events.CALENDAR_ID);
+
             for (int i = 0; i < count; i++) {
-                String title = cursor.getString(cursor.getColumnIndex(Events.TITLE));
-                String description = cursor.getString(cursor.getColumnIndex(Events.DESCRIPTION));
-                String location = cursor.getString(cursor.getColumnIndex(Events.EVENT_LOCATION));
-                DateInfo start = DateInfo.fromLong(cursor.getLong(cursor.getColumnIndex(Instances.BEGIN)));
-                DateInfo end = DateInfo.fromLong(cursor.getLong(cursor.getColumnIndex(Instances.END)));
-                boolean allDay = getBoolean(cursor.getInt(cursor.getColumnIndex(Events.ALL_DAY)));
-                int calendarColour = cursor.getInt(cursor.getColumnIndex(Calendars.CALENDAR_COLOR));
-                int calendarId = cursor.getInt(cursor.getColumnIndex(Events.CALENDAR_ID));
+                String title = cursor.getString(titleCol);
+                String description = cursor.getString(descriptionCol);
+                String location = cursor.getString(eventCol);
+                DateInfo start = DateInfo.fromLong(cursor.getLong(beginCol));
+                DateInfo end = DateInfo.fromLong(cursor.getLong(endCol));
+                boolean allDay = getBoolean(cursor.getInt(allDatCol));
+                int calendarColour = cursor.getInt(calCol);
+                int calendarId = cursor.getInt(calIdCol);
 
                 result.add(new Incident(title, description, location, start, end, allDay, -1,
-                        new EventCategory(1, "", calendarId), calendarColour, calendarId));
+                        new EventCategory(1, "", DEFAULT_ICON), calendarColour, calendarId));
+
                 cursor.moveToNext();
             }
             cursor.close();
@@ -344,7 +359,31 @@ public class AgendaData {
         return taskListData.getTasksWithParent(parent);
     }
 
+    public List<Task> getAllTasks() {
+        return taskListData.getAllTasks();
+    }
+
     public Task getTask(long parent) {
         return taskListData.getTask(parent);
     }
+
+    public void purgeAllTasks() {
+        taskListData.purgeTasks();
+    }
+
+    // Recursive task to descend and delete all the child tasks which may be associated with the task being deleted.
+    public void deleteTaskAndChildren(long taskId) {
+        List<Task> childTasks = AgendaData.getInst().getTasks(taskId);
+
+        if (!childTasks.isEmpty()) {
+            // Delete all of the child tasks
+            for (Task task : childTasks) {
+                deleteTaskAndChildren(task.id());
+            }
+        }
+
+        // Using id of current task delete this task.
+        deleteTask(taskId);
+    }
+
 }

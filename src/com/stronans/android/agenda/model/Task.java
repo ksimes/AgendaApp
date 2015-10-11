@@ -3,16 +3,16 @@ package com.stronans.android.agenda.model;
 import com.stronans.android.agenda.BuildConfig;
 
 public final class Task {
-    public static final String Id = "id";
-    public static final String Parent = "parent";
-    public static final String Title = "title";
-    public static final String Description = "description";
-    public static final String Notes = "notes";
-    public static final String Planned = "planned";
-    public static final String Actual = "actual";
-    public static final String Percentage = "percentage";
-    public static final String Target = "actual";
-    public static final String Updated = "lastupdated";
+    public static final String IdKey = "id";
+    public static final String ParentKey = "parent";
+    public static final String TitleKey = "title";
+    public static final String DescriptionKey = "description";
+    public static final String NotesKey = "notes";
+    public static final String PlannedKey = "planned";
+    public static final String ActualKey = "actual";
+    public static final String PercentageKey = "percentage";
+    public static final String TargetKey = "actual";
+    public static final String UpdatedKey = "lastupdated";
 
     private final long id;
     private final String title;

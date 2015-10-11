@@ -8,7 +8,7 @@ public class TaskListDb extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Tasks";
-    
+
     public TaskListDb(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

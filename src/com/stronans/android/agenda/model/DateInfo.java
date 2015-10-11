@@ -15,6 +15,8 @@ import java.util.TimeZone;
 public class DateInfo {
     static final long DAYLENGTH = 86400000; // days (1000*60*60*24) mill * secs * mins * hours
 
+    private static final String UNIVERSAL_FORMAT = "YYYYMMDDhhmmssffff";
+
     private Calendar calendar = null;
     private boolean notDefined = false;
     private DateInfoContent content = DateInfoContent.DATE_AND_TIME;
@@ -268,9 +270,23 @@ public class DateInfo {
         calendar.roll(Calendar.MONTH, true);
     }
 
-    static public String getUniversalString(DateInfo timeInfo) {
-        return timeInfo.format("YYYYMMDDhhmmss");
+    static public String toUniversalString(DateInfo timeInfo) {
+        return timeInfo.format(UNIVERSAL_FORMAT);
     }
+
+    static public DateInfo fromUniversalString(String dateTimeInfo) {
+        DateInfo result = new DateInfo();
+
+        if(DateTime.isParseable(dateTimeInfo))
+        {
+            DateTime newTime = new DateTime(dateTimeInfo);
+
+            return DateInfo.fromLong(newTime.getMilliseconds(TimeZone.getDefault()));
+        }
+
+        return result;
+    }
+
 
     static public String getTimeString(DateInfo timeInfo) {
         return timeInfo.format("hh:mm");

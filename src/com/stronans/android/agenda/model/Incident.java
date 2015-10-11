@@ -18,23 +18,16 @@ public final class Incident {
     public static final String Location = "location";
     public static final String Period = "period";
 
-    private final String title;                      // title of an event
-    private final String description;                // description
-    private final String location;                   // eventLocation
-    private final DateInfo start;
-    private final DateInfo end;
-    private final boolean allDay;
-    private final int eventStatus;                // eventStatus
+    private final String title;                      // Short title of an event
+    private final String description;                // Detailed description
+    private final String location;                   // Location (or alternate notes)
+    private final DateInfo start;                    // Start date and time
+    private final DateInfo end;                      // End date and time
+    private final boolean allDay;                    // Flag to indicate an all day event
+    private final int eventStatus;                   // eventStatus
     private final int calendarColour;
     private final int calendarId;                 // calendar_id
     private final EventCategory category;
-
-    // Although this creats an incident this should be treated like a message.
-    public Incident(final String title) {
-        this(title, null, null,
-                DateInfo.getUndefined(), DateInfo.getUndefined(), true, -1, null,
-                Color.BLACK, 1);
-    }
 
     public Incident(final String title, final String description, final String location, final DateInfo start,
                     final DateInfo end, final boolean allDay,
@@ -56,6 +49,13 @@ public final class Incident {
         this.calendarColour = calendarColour;
         this.calendarId = calendarId;
         this.category = category;
+    }
+
+    // Although this constructor creates an incident this item should be treated like a message which will appear on the display.
+    public Incident(final String title) {
+        this(title, null, null,
+                DateInfo.getUndefined(), DateInfo.getUndefined(), true, -1, null,
+                Color.BLACK, 1);
     }
 
     /**

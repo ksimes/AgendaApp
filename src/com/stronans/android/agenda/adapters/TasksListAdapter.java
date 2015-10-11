@@ -14,19 +14,17 @@ import com.stronans.android.agenda.support.Utilities;
 
 import java.util.List;
 
-public class TaskListAdapter extends BaseAdapter
+public class TasksListAdapter extends BaseAdapter
 {
     List<Task> items;
     Context context;
     AgendaConfiguration config;
-    TasksFragment parent;
 
-    public TaskListAdapter(Context context, List<Task> items, TasksFragment parent)
+    public TasksListAdapter(Context context, List<Task> items)
     {
         super();
         this.context = context;
         this.items = items;
-        this.parent = parent;
         config = AgendaStaticData.getStaticData().getConfig();
     }
 
@@ -55,41 +53,13 @@ public class TaskListAdapter extends BaseAdapter
 
         if (view == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.task_list_item, null);
-
-            view.findViewById(R.id.taskChildren).setOnClickListener(taskChildrenClickListener);
+            view = vi.inflate(R.layout.tasks_list_item, null);
         }
 
         Task item = items.get(position);
 
         Utilities.setTextView(view, R.id.taskTitle, item.title());
 
-        View v = view.findViewById(R.id.taskChildren);
-        if (v != null && item.hasChildren()) {
-            v.setTag(item);
-            v.setVisibility(View.VISIBLE);
-        }
-
         return view;
-    }
-
-    private View.OnClickListener taskChildrenClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Task item = (Task) v.getTag();
-            long id = 1;
-
-            if (item != null) {
-                id = item.id();
-            }
-
-            parent.setParentPosition(id);
-//            updateList();
-        }
-    };
-
-    public void updateList()
-    {
-        notifyDataSetChanged();
     }
 }

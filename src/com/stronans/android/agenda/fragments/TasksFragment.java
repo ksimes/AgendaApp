@@ -15,6 +15,7 @@ import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.activities.AddTask;
 import com.stronans.android.agenda.activities.TaskItemDisplay;
 import com.stronans.android.agenda.activities.TaskManagementDisplay;
+import com.stronans.android.agenda.activities.TasksDisplay;
 import com.stronans.android.agenda.adapters.TaskListAdapter;
 import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
@@ -23,7 +24,6 @@ import com.stronans.android.agenda.interfaces.SetParent;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Task;
-import com.stronans.android.agenda.support.FormattedInfo;
 
 import java.util.List;
 
@@ -50,41 +50,40 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         refreshDisplay();
     }
 
-    private void populateIntent(Intent intent, Task task)
-    {
-        intent.putExtra(Task.Id, task.id());
-        intent.putExtra(Task.Parent, task.parent());
-        intent.putExtra(Task.Title, task.title());
-        intent.putExtra(Task.Description, task.description());
-        intent.putExtra(Task.Notes, task.notes());
+    private void populateIntent(Intent intent, Task task) {
+        intent.putExtra(Task.IdKey, task.id());
+        intent.putExtra(Task.ParentKey, task.parent());
+        intent.putExtra(Task.TitleKey, task.title());
+        intent.putExtra(Task.DescriptionKey, task.description());
+        intent.putExtra(Task.NotesKey, task.notes());
 
         if (task.plannedStart().isDefined()) {
-            intent.putExtra(Task.Planned, DateInfo.getDateTimeString(task.plannedStart()));
+            intent.putExtra(Task.PlannedKey, DateInfo.getDateTimeString(task.plannedStart()));
         } else {
-            intent.putExtra(Task.Planned, getString(R.string.dateNotSet));
+            intent.putExtra(Task.PlannedKey, getString(R.string.dateNotSet));
         }
 
         if (task.started().isDefined()) {
-            intent.putExtra(Task.Actual, DateInfo.getDateTimeString(task.started()));
+            intent.putExtra(Task.ActualKey, DateInfo.getDateTimeString(task.started()));
         } else {
-            intent.putExtra(Task.Actual, getString(R.string.dateNotSet));
+            intent.putExtra(Task.ActualKey, getString(R.string.dateNotSet));
         }
 
         if (task.percentageComplete() > 0) {
-            intent.putExtra(Task.Percentage, "" + task.plannedStart() + "%");
+            intent.putExtra(Task.PercentageKey, "" + task.plannedStart() + "%");
         } else
-            intent.putExtra(Task.Percentage, getString(R.string.notYetStarted));
+            intent.putExtra(Task.PercentageKey, getString(R.string.notYetStarted));
 
         if (task.targetDate().isDefined()) {
-            intent.putExtra(Task.Target, DateInfo.getDateTimeString(task.targetDate()));
+            intent.putExtra(Task.TargetKey, DateInfo.getDateTimeString(task.targetDate()));
         } else {
-            intent.putExtra(Task.Target, getString(R.string.dateNotSet));
+            intent.putExtra(Task.TargetKey, getString(R.string.dateNotSet));
         }
 
         if (task.lastUpdated().isDefined()) {
-            intent.putExtra(Task.Updated, DateInfo.getDateTimeString(task.lastUpdated()));
+            intent.putExtra(Task.UpdatedKey, DateInfo.getDateTimeString(task.lastUpdated()));
         } else {
-            intent.putExtra(Task.Updated, getString(R.string.dateNotSet));
+            intent.putExtra(Task.UpdatedKey, getString(R.string.dateNotSet));
         }
     }
 
@@ -101,7 +100,7 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         Task task = taskItems.get(position);
 
         Intent intent = new Intent(view.getContext(), TaskManagementDisplay.class);
-        intent.putExtra(Task.Id, task.id());
+        intent.putExtra(Task.IdKey, task.id());
         startActivity(intent);
 
         return result;
@@ -235,10 +234,21 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
 
             case R.id.menu_addtask:
                 Intent intent = new Intent(AgendaData.getInst().getContext(), AddTask.class);
-                intent.putExtra(Task.Parent, parentPosition);
+                intent.putExtra(Task.ParentKey, parentPosition);
 
                 startActivityForResult(intent, 0);
                 return true;
+
+            case R.id.menu_task_display:
+                Intent intent2 = new Intent(AgendaData.getInst().getContext(), TasksDisplay.class);
+                startActivity(intent2);
+                return true;
+/**
+ case R.id.menu_task_purge:
+ makeText(AgendaData.getInst().getContext(), "purge DB is Selected", LENGTH_SHORT).show();
+ AgendaData.getInst().purgeAllTasks();
+ return true;
+ **/
         }
 
         return super.onOptionsItemSelected(item);

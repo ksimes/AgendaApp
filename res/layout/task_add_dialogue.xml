@@ -4,11 +4,31 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <!-- Buttons for submission or cancel -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submitButton"/>
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancelButton"/>
+
+    </LinearLayout>
+
     <!-- Initial Title of Task (must fill) -->
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/titletext"/>
+            android:text="@string/titletext" />
 
     <EditText
             android:id="@+id/inputtitle"
@@ -62,6 +82,7 @@
                 android:layout_weight="60"
                 android:layout_height="wrap_content"
                 android:text=""/>
+
     </LinearLayout>
 
     <!-- Button actual start date/time for Task (sub-dialog) -->
@@ -127,23 +148,4 @@
                 android:text=""/>
     </LinearLayout>
 
-    <!-- Buttons for submission or cancel -->
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <Button
-                android:id="@+id/submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/submitButton"/>
-
-        <Button
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancelButton"/>
-
-    </LinearLayout>
 </LinearLayout>

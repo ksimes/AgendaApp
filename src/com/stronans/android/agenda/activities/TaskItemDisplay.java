@@ -36,16 +36,16 @@ public class TaskItemDisplay extends Activity {
         // Incident details are passed as strings from the calling Activity.
         Bundle parameters = getIntent().getExtras();
         if (parameters != null) {
-            taskId = parameters.getLong(Task.Id);
+            taskId = parameters.getLong(Task.IdKey);
 
-            populateView(parameters, R.id.title, Task.Title);
-            populateView(parameters, R.id.description, Task.Description);
-//            populateView(parameters, R.id.notes, Task.Notes);
-            populateView(parameters, R.id.plannedstart, Task.Planned);
-            populateView(parameters, R.id.actualstart, Task.Actual);
-            populateView(parameters, R.id.percentcomplete, Task.Percentage);
-            populateView(parameters, R.id.targetdate, Task.Target);
-            populateView(parameters, R.id.lastupdated, Task.Updated);
+            populateView(parameters, R.id.title, Task.TitleKey);
+            populateView(parameters, R.id.description, Task.DescriptionKey);
+//            populateView(parameters, R.id.notes, Task.NotesKey);
+            populateView(parameters, R.id.plannedstart, Task.PlannedKey);
+            populateView(parameters, R.id.actualstart, Task.ActualKey);
+            populateView(parameters, R.id.percentcomplete, Task.PercentageKey);
+            populateView(parameters, R.id.targetdate, Task.TargetKey);
+            populateView(parameters, R.id.lastupdated, Task.UpdatedKey);
         }
     }
 }

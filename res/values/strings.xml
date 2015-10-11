@@ -24,7 +24,7 @@
     <string name="system_details">System details</string>
 
     <string name="task_title">ToDo/Task List</string>
-    <string name="titletext">Title</string>
+    <string name="titletext">Task Title</string>
     <string name="descriptiontext">Description</string>
     <string name="notestext">Notes</string>
     <string name="plannedstarttext">Planned Start</string>

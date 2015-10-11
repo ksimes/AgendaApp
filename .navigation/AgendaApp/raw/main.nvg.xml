@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.activities.DateHeaderDisplay"/>
+      <point      
+        x = "500"      
+        y = "100"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.activities.About"/>
+      <point      
+        x = "550"      
+        y = "150"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.activities.TasksDisplay"/>
+      <point      
+        x = "600"      
+        y = "200"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.activities.TaskManagementDisplay"/>
+      <point      
+        x = "650"      
+        y = "250"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.TabHandler"/>
+      <point      
+        x = "700"      
+        y = "300"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.fragments.DayFragment"/>
+      <point      
+        x = "748"      
+        y = "348"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.fragments.AgendaFragment"/>
+      <point      
+        x = "800"      
+        y = "400"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.activities.TaskItemDisplay"/>
+      <point      
+        x = "848"      
+        y = "448"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.fragments.WeekFragment"/>
+      <point      
+        x = "900"      
+        y = "500"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.fragments.MonthFragment"/>
+      <point      
+        x = "948"      
+        y = "548"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.activities.AddTask"/>
+      <point      
+        x = "1000"      
+        y = "600"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.activities.AgendaItemDisplay"/>
+      <point      
+        x = "1048"      
+        y = "648"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.fragments.TasksFragment"/>
+      <point      
+        x = "1100"      
+        y = "700"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.stronans.android.agenda.fragments.YearFragment"/>
+      <point      
+        x = "1152"      
+        y = "744"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

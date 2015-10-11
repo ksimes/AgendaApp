@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
-import android.widget.Toast;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.model.Task;
 
-import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * @author SimonKing
@@ -35,7 +33,7 @@ public class TaskManagementDisplay extends Activity {
         // Incident details are passed as strings from the calling Activity.
         Bundle parameters = getIntent().getExtras();
         if (parameters != null) {
-            taskId = parameters.getLong(Task.Id);
+            taskId = parameters.getLong(Task.IdKey);
         }
 
         Button button = (Button) findViewById(R.id.editTaskButton);
@@ -44,7 +42,7 @@ public class TaskManagementDisplay extends Activity {
             public void onClick(View v) {
                 // Using id of current task.
                 Intent intent = new Intent(AgendaData.getInst().getContext(), AddTask.class);
-                intent.putExtra(Task.Id, taskId);
+                intent.putExtra(Task.IdKey, taskId);
                 intent.putExtra("Edit", true);
                 startActivity(intent);
                 finish();
@@ -57,7 +55,7 @@ public class TaskManagementDisplay extends Activity {
             public void onClick(View v) {
                 // Using id of current task.
                 Intent intent = new Intent(AgendaData.getInst().getContext(), AddTask.class);
-                intent.putExtra(Task.Parent, taskId);
+                intent.putExtra(Task.ParentKey, taskId);
                 startActivity(intent);
                 finish();
             }
@@ -68,8 +66,7 @@ public class TaskManagementDisplay extends Activity {
             @Override
             public void onClick(View v) {
                 // TODO : Add a confirmation dialog
-                // Using id of current task.
-                AgendaData.getInst().deleteTask(taskId);
+                AgendaData.getInst().deleteTaskAndChildren(taskId);
                 finish();
             }
         });
@@ -82,4 +79,5 @@ public class TaskManagementDisplay extends Activity {
             }
         });
     }
+
 }

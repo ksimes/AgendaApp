@@ -10,6 +10,11 @@ public final class EventCategory {
     private final String description; // Description of Category
     private final int marker;     // id for an icon.
 
+    /**
+     * @param id
+     * @param description
+     * @param marker icon index to be used for this event
+     */
     public EventCategory(final long id, final String description, final int marker) {
         super();
 

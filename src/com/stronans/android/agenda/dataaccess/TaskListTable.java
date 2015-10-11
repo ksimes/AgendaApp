@@ -62,11 +62,15 @@ public class TaskListTable implements BaseColumns
             + " VALUES ( 'TODO/TASK LIST', '', '', 0, 0, 0, 0, "
             + new Date().getTime() + ", 0)";
 
+    private static final String TASKLIST_TABLE_DELETE = "DROP TABLE " + TASKLIST_TABLE_NAME + ";";
+
     private String[] allColumns = {TaskListTable._ID, TaskListTable.TITLE, TaskListTable.DESCRIPTION,
             TaskListTable.NOTES,
             TaskListTable.PLANNED_START, TaskListTable.STARTED,
             TaskListTable.PERCENT_COMPLETE, TaskListTable.TARGET_DATE,
             TaskListTable.LAST_UPDATED, TaskListTable.PARENT_TASK};
+
+    private String[] IDAndTitleColumns = {TaskListTable._ID, TaskListTable.TITLE};
 
     public static void onCreate(SQLiteDatabase db)
     {
@@ -100,9 +104,37 @@ public class TaskListTable implements BaseColumns
         taskListdb.close();
     }
 
+    public void purgeTasks()
+    {
+        // Drop the the table, recreate and add the base record.
+//        database.execSQL(TASKLIST_TABLE_DELETE);
+//        database.execSQL(TASKLIST_TABLE_CREATE);
+//        database.execSQL(TASKLIST_ADD_ROOT_RECORD);
+
+//        applicationContext.deleteDatabase(TaskListDb.DATABASE_NAME);
+
+    }
+
+    public long getTaskCount()
+    {
+        Cursor cursor = database.query(TASKLIST_TABLE_NAME, IDAndTitleColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        long count = 0;
+        while (!cursor.isAfterLast())
+        {
+            count += 1;
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+
+        return count;
+    }
+
     public List<Task> getAllTasks()
     {
-        List<Task> tasks = new ArrayList<Task>();
+        List<Task> tasks = new ArrayList<>();
 
         Cursor cursor = database.query(TASKLIST_TABLE_NAME, allColumns, null, null, null, null, null);
 
@@ -152,7 +184,7 @@ public class TaskListTable implements BaseColumns
 
     public List<Task> getTasksWithParent(long id)
     {
-        List<Task> tasks = new ArrayList<Task>();
+        List<Task> tasks = new ArrayList<>();
         Cursor cursor = database.query(TASKLIST_TABLE_NAME, allColumns, TaskListTable.PARENT_TASK + " = " + id, null, null,
                 null, null);
 

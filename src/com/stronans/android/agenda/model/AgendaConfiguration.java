@@ -16,7 +16,7 @@ import com.stronans.android.controllers.DateChangeListener;
 public class AgendaConfiguration
 {
     DateInfo                 date              = DateInfo.getNow();
-    List<DateChangeListener> dateListeners     = new ArrayList<DateChangeListener>();
+    List<DateChangeListener> dateListeners     = new ArrayList<>();
     /**
      * It will be possible to customise the day the week starts on
      */
@@ -38,10 +38,10 @@ public class AgendaConfiguration
     public void setResources(Resources resources)
     {
         String temp = resources.getText(R.string.shortweekdays).toString();
-        weekDaysShort = new String(temp).split(",");
+        weekDaysShort = temp.split(",");
 
         temp = resources.getText(R.string.longmonthnames).toString();
-        monthNamesLong = new String(temp).split(",");
+        monthNamesLong = temp.split(",");
 
         tokens = BitmapFactory.decodeResource(resources, R.drawable.agenda);
         window = BitmapFactory.decodeResource(resources, R.drawable.ic_menu_info_details); // windows
