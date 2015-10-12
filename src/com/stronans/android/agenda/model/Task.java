@@ -11,7 +11,7 @@ public final class Task {
     public static final String PlannedKey = "planned";
     public static final String ActualKey = "actual";
     public static final String PercentageKey = "percentage";
-    public static final String TargetKey = "actual";
+    public static final String TargetKey = "target";
     public static final String UpdatedKey = "lastupdated";
 
     private final long id;

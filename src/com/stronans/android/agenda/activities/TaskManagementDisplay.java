@@ -1,8 +1,8 @@
 package com.stronans.android.agenda.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -10,12 +10,10 @@ import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.model.Task;
 
-import java.util.List;
-
 /**
  * @author SimonKing
  */
-public class TaskManagementDisplay extends Activity {
+public class TaskManagementDisplay extends FragmentActivity {
     long taskId = 1;
 
     /*

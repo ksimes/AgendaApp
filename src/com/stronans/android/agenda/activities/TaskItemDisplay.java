@@ -1,24 +1,22 @@
 package com.stronans.android.agenda.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 import com.stronans.android.agenda.R;
+import com.stronans.android.agenda.dataaccess.AgendaData;
+import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Task;
 
 /**
  * @author SimonKing
  */
-public class TaskItemDisplay extends Activity {
+public class TaskItemDisplay extends FragmentActivity {
     long taskId = 1;
 
-    private void populateView(Bundle parameters, int resourceID, String parameterID) {
+    private void populateView(int resourceID, String parameter) {
         TextView field = (TextView) findViewById(resourceID);
-        String string = parameters.getString(parameterID);
-
-        if (string != null) {
-            field.setText(string);
-        }
+        field.setText(parameter);
     }
 
     /*
@@ -38,14 +36,46 @@ public class TaskItemDisplay extends Activity {
         if (parameters != null) {
             taskId = parameters.getLong(Task.IdKey);
 
-            populateView(parameters, R.id.title, Task.TitleKey);
-            populateView(parameters, R.id.description, Task.DescriptionKey);
-//            populateView(parameters, R.id.notes, Task.NotesKey);
-            populateView(parameters, R.id.plannedstart, Task.PlannedKey);
-            populateView(parameters, R.id.actualstart, Task.ActualKey);
-            populateView(parameters, R.id.percentcomplete, Task.PercentageKey);
-            populateView(parameters, R.id.targetdate, Task.TargetKey);
-            populateView(parameters, R.id.lastupdated, Task.UpdatedKey);
+            if(taskId > 0) {
+                Task task = AgendaData.getInst().getTask(taskId);
+
+                populateView(R.id.title, task.title());
+                populateView(R.id.description, task.description());
+
+//              populateView(parameters, R.id.notes, task.notes());
+
+                String notSet = getString(R.string.dateNotSet);
+
+                if (task.plannedStart().isDefined()) {
+                    populateView(R.id.plannedstart, DateInfo.getDateTimeString(task.plannedStart()));
+                } else {
+                    populateView(R.id.plannedstart, notSet);
+                }
+
+                if (task.started().isDefined()) {
+                    populateView(R.id.actualstart, DateInfo.getDateTimeString(task.started()));
+                } else {
+                    populateView(R.id.actualstart, notSet);
+                }
+
+                if (task.percentageComplete() > 0) {
+                    populateView(R.id.percentcomplete, "" + task.plannedStart() + "%");
+                } else {
+                    populateView(R.id.percentcomplete, getString(R.string.notYetStarted));
+                }
+
+                if (task.targetDate().isDefined()) {
+                    populateView(R.id.targetdate, DateInfo.getDateTimeString(task.targetDate()));
+                } else {
+                    populateView(R.id.targetdate, notSet);
+                }
+
+                if (task.lastUpdated().isDefined()) {
+                    populateView(R.id.lastupdated, DateInfo.getDateTimeString(task.lastUpdated()));
+                } else {
+                    populateView(R.id.lastupdated, notSet);
+                }
+            }
         }
     }
 }

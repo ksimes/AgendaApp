@@ -11,16 +11,21 @@ import com.stronans.android.agenda.model.DateInfo;
  *
  * Created by S.King on 10/10/2015.
  */
-public class DateSelection extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class DateSelectionDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private DateInfo dateInfo;
     private String selectionId = "";
+
+    public interface DialogListener {
+
+        void onFinishDateSelection(DateInfo dateInfo, String id);
+    }
 
     /**
      * Create a new instance of DateSelection, providing a DateInfo
      * as an argument along with a id for distingishing between different dialogs.
      */
-    static public DateSelection newInstance(DateInfo dateInfo, String id) {
-        DateSelection f = new DateSelection();
+    static public DateSelectionDialog newInstance(DateInfo dateInfo, String id) {
+        DateSelectionDialog f = new DateSelectionDialog();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
@@ -55,8 +60,7 @@ public class DateSelection extends DialogFragment implements DatePickerDialog.On
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
 
-        DateSelectionDialogListener activity = (DateSelectionDialogListener) getActivity();
+        DialogListener activity = (DialogListener) getActivity();
         activity.onFinishDateSelection(DateInfo.fromDate(day, month, year), selectionId);
-//        this.dismiss();
     }
 }

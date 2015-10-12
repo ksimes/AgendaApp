@@ -33,11 +33,11 @@
          a default label for all following components.  The syntax here is a
          reference to one of our string resources.-->
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="17"/>
+        android:minSdkVersion="17"
+        android:targetSdkVersion="23"/>
 
-    <uses-permission android:name="android.permission.READ_CALENDAR"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"></uses-permission>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
 
     <!-- android:theme="@android:style/Theme.NoTitleBar" -->
     <application
@@ -61,33 +61,33 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".fragments.DayFragment"></activity>
-        <activity android:name=".fragments.MonthFragment"></activity>
-        <activity android:name=".fragments.YearFragment"></activity>
-        <activity android:name=".fragments.AgendaFragment"></activity>
-        <activity android:name=".fragments.TasksFragment"></activity>
-        <activity android:name=".fragments.WeekFragment"></activity>
+        <activity android:name=".fragments.DayFragment"/>
+        <activity android:name=".fragments.MonthFragment"/>
+        <activity android:name=".fragments.YearFragment"/>
+        <activity android:name=".fragments.AgendaFragment"/>
+        <activity android:name=".fragments.TasksFragment"/>
+        <activity android:name=".fragments.WeekFragment"/>
 
-        <activity android:name=".activities.AddTask"></activity>
+        <activity android:name=".activities.AddTask"/>
 
         <activity
             android:name=".activities.About"
-            android:theme="@style/Theme.AboutDialog"></activity>
+            android:theme="@style/Theme.AboutDialog"/>
         <activity
             android:name=".activities.AgendaItemDisplay"
-            android:theme="@style/Theme.AboutDialog"></activity>
+            android:theme="@style/Theme.AboutDialog"/>
         <activity
             android:name=".activities.DateHeaderDisplay"
-            android:theme="@style/Theme.AboutDialog"></activity>
+            android:theme="@style/Theme.AboutDialog"/>
         <activity
             android:name=".activities.TaskItemDisplay"
-            android:theme="@style/Theme.AboutDialog"></activity>
+            android:theme="@style/Theme.AboutDialog"/>
         <activity
             android:name=".activities.TaskManagementDisplay"
-            android:theme="@style/Theme.AboutDialog"></activity>
+            android:theme="@style/Theme.AboutDialog"/>
         <activity
             android:name=".activities.TasksDisplay"
-            android:theme="@style/Theme.AboutDialog"></activity>
+            android:theme="@style/Theme.AboutDialog"/>
     </application>
 
 </manifest>

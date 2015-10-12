@@ -1,13 +1,11 @@
 package com.stronans.android.agenda.fragments;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ExpandableListFragment;
 import android.view.*;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.TextView;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.activities.AgendaItemDisplay;
 import com.stronans.android.agenda.adapters.AgendaListAdapter;
@@ -18,6 +16,7 @@ import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.AgendaItem;
 import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Incident;
+import com.stronans.android.agenda.support.Utilities;
 import com.stronans.android.controllers.DateChangeListener;
 
 import java.text.MessageFormat;
@@ -121,9 +120,9 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
             if (!item.date().isToday()) {
                 Incident newIncident = new Incident(getString(R.string.no_activities));
                 /**
-                Incident newIncident = new Incident(getString(R.string.no_activities), null, null,
-                        DateInfo.getUndefined(), DateInfo.getUndefined(), true, -1, null,
-                        Color.BLACK, 1);
+                 Incident newIncident = new Incident(getString(R.string.no_activities), null, null,
+                 DateInfo.getUndefined(), DateInfo.getUndefined(), true, -1, null,
+                 Color.BLACK, 1);
                  **/
                 List<Incident> newEventsForDate = new ArrayList<>();
                 newEventsForDate.add(newIncident);
@@ -177,18 +176,11 @@ public class AgendaFragment extends ExpandableListFragment implements Refresher,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.agendalayout, container, false);
-
         String intervalString = MessageFormat.format(getString(R.string.agendaHeaderText),
                 agendaRange);
-
-        TextView txtHeader = (TextView) view.findViewById(R.id.txtHeader);
-
-        txtHeader.setText(intervalString);
-
+        Utilities.setTextView(view, R.id.txtHeader, intervalString);
         listView = (ExpandableListView) view.findViewById(android.R.id.list);
-
         listView.setOnChildClickListener(onChildClickListener);
-
         return view;
     }
 

@@ -1,14 +1,9 @@
 package com.stronans.android.agenda.activities;
 
-import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.TypedValue;
+import android.support.v4.app.FragmentActivity;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.stronans.android.agenda.R;
-import com.stronans.android.agenda.adapters.AboutListAdapter;
-import com.stronans.android.agenda.adapters.TaskListAdapter;
 import com.stronans.android.agenda.adapters.TasksListAdapter;
 import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.model.Task;
@@ -18,7 +13,7 @@ import java.util.List;
 /**
  * @author SimonKing
  */
-public class TasksDisplay extends Activity {
+public class TasksDisplay extends FragmentActivity {
     /*
      * (non-Javadoc)
      * 

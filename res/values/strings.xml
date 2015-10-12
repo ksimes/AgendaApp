@@ -79,9 +79,12 @@
     <string name="deleteButton">Delete</string>
     <string name="cancelButton">Cancel</string>
     <string name="emptyText"></string>
-
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_cancel">Cancel</string>
 
     <!-- Task strings  -->
     <string name="addSubTask">Add sub-Task</string>
+    <string name="taskTitleError">Title Missing</string>
+    <string name="taskTitleErrorMsg">You cannot create a task which has a blank title</string>
 </resources>
 

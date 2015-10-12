@@ -1,6 +1,5 @@
 package com.stronans.android.agenda.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +21,6 @@ import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.interfaces.Refresher;
 import com.stronans.android.agenda.interfaces.SetParent;
 import com.stronans.android.agenda.model.AgendaConfiguration;
-import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Task;
 
 import java.util.List;
@@ -50,60 +48,20 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         refreshDisplay();
     }
 
-    private void populateIntent(Intent intent, Task task) {
-        intent.putExtra(Task.IdKey, task.id());
-        intent.putExtra(Task.ParentKey, task.parent());
-        intent.putExtra(Task.TitleKey, task.title());
-        intent.putExtra(Task.DescriptionKey, task.description());
-        intent.putExtra(Task.NotesKey, task.notes());
-
-        if (task.plannedStart().isDefined()) {
-            intent.putExtra(Task.PlannedKey, DateInfo.getDateTimeString(task.plannedStart()));
-        } else {
-            intent.putExtra(Task.PlannedKey, getString(R.string.dateNotSet));
-        }
-
-        if (task.started().isDefined()) {
-            intent.putExtra(Task.ActualKey, DateInfo.getDateTimeString(task.started()));
-        } else {
-            intent.putExtra(Task.ActualKey, getString(R.string.dateNotSet));
-        }
-
-        if (task.percentageComplete() > 0) {
-            intent.putExtra(Task.PercentageKey, "" + task.plannedStart() + "%");
-        } else
-            intent.putExtra(Task.PercentageKey, getString(R.string.notYetStarted));
-
-        if (task.targetDate().isDefined()) {
-            intent.putExtra(Task.TargetKey, DateInfo.getDateTimeString(task.targetDate()));
-        } else {
-            intent.putExtra(Task.TargetKey, getString(R.string.dateNotSet));
-        }
-
-        if (task.lastUpdated().isDefined()) {
-            intent.putExtra(Task.UpdatedKey, DateInfo.getDateTimeString(task.lastUpdated()));
-        } else {
-            intent.putExtra(Task.UpdatedKey, getString(R.string.dateNotSet));
-        }
-    }
-
     private void displayTaskItem(View view, int position) {
         Task task = taskItems.get(position);
 
         Intent intent = new Intent(view.getContext(), TaskItemDisplay.class);
-        populateIntent(intent, task);
+        intent.putExtra(Task.IdKey, task.id());
         startActivity(intent);
     }
 
-    private boolean displayTaskManagement(View view, int position) {
-        boolean result = true;
+    private void displayTaskManagement(View view, int position) {
         Task task = taskItems.get(position);
 
         Intent intent = new Intent(view.getContext(), TaskManagementDisplay.class);
         intent.putExtra(Task.IdKey, task.id());
         startActivity(intent);
-
-        return result;
     }
 
     @Override
@@ -122,7 +80,8 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         onLongClickListener = new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return displayTaskManagement(view, position);
+                displayTaskManagement(view, position);
+                return true;
             }
         };
     }
@@ -196,17 +155,6 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
 
         taskItemsAdapter = new TaskListAdapter(AgendaData.getInst().getContext(), taskItems, this);
         listView.setAdapter(taskItemsAdapter);
-//        invalidate();
-    }
-
-
-    private void invalidate() {
-        listView.post(new Runnable() {
-            @Override
-            public void run() {
-                listView.invalidateViews();
-            }
-        });
     }
 
     /*
@@ -252,17 +200,5 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see android.support.v4.app.Fragment#onActivityResult(int, int, android.content.Intent)
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        refreshDisplay();
-        if (resultCode == Activity.RESULT_OK) {
-        }
     }
 }

@@ -297,6 +297,10 @@ public class DateInfo {
     }
 
     static public String getDateTimeString(DateInfo timeInfo) {
+        return timeInfo.format("DD/MM/YYYY hh:mm:ss");
+    }
+
+    static public String getTimeDateString(DateInfo timeInfo) {
         return timeInfo.format("hh:mm:ss DD/MM/YYYY");
     }
 
