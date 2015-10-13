@@ -346,9 +346,8 @@ public class AgendaData {
         return result.id();
     }
 
-    public boolean updateTask(Task newTask) {
-        // TODO : Body of this method.
-        return false;
+    public boolean updateTask(Long id, Task newTask) {
+        return taskListData.updateTask(id, newTask);
     }
 
     public boolean deleteTask(Long id) {
@@ -385,5 +384,4 @@ public class AgendaData {
         // Using id of current task delete this task.
         deleteTask(taskId);
     }
-
 }

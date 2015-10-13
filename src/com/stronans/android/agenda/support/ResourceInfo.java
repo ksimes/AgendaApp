@@ -31,18 +31,15 @@ public class ResourceInfo {
             default:
                 if (interval > 0)
                     if (style == FormatStyle.shortStyle)
-                        intervalString = MessageFormat.format(
-                                resources.getString(R.string.inPastShort), new Object[]{interval});
+                        intervalString = MessageFormat.format(resources.getString(R.string.inPastShort), interval);
 
                     else
-                        intervalString = MessageFormat.format(resources.getString(R.string.inPast), new Object[]{interval});
+                        intervalString = MessageFormat.format(resources.getString(R.string.inPast), interval);
                 else if (style == FormatStyle.shortStyle)
                     intervalString = MessageFormat.format(
-                            resources.getString(R.string.inFutureShort),
-                            new Object[]{Math.abs(interval)});
+                            resources.getString(R.string.inFutureShort), Math.abs(interval));
                 else
-                    intervalString = MessageFormat.format(resources.getString(R.string.inFuture),
-                            new Object[]{Math.abs(interval)});
+                    intervalString = MessageFormat.format(resources.getString(R.string.inFuture), Math.abs(interval));
                 break;
         }
 

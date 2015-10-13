@@ -20,9 +20,9 @@ import com.stronans.android.agenda.support.AlertDialog;
  * @author SimonKing
  */
 public class AddTask extends Activity implements DateSelectionDialog.DialogListener, AlertDialog.DialogListener {
-    private long parentPosition = 1;
+    private Task editTask;
     private Boolean editState = false;
-    DateInfo plannedStart = DateInfo.getNow(),
+    private DateInfo plannedStart = DateInfo.getNow(),
             actualStart = DateInfo.getNow(),
             targetDate = DateInfo.getNow();
 
@@ -42,10 +42,10 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
         Bundle parameters = getIntent().getExtras();
 
         if (parameters != null) {
-            parentPosition = parameters.getLong(Task.ParentKey);
+            long parentPosition = parameters.getLong(Task.ParentKey);
 
             // Make sure we have a valid task if this is a create
-            Task editTask = new Task(0, "", "", "", DateInfo.getUndefined(),
+            editTask = new Task(0, "", "", "", DateInfo.getUndefined(),
                     DateInfo.getUndefined(), 0, DateInfo.getUndefined(),
                     DateInfo.getNow(), parentPosition, false);
 
@@ -70,11 +70,11 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
                 public void onClick(View v) {
 
                     if(hasTitle()) {
-                        Task task = getTaskFromDisplay();
+                        Task task = getTaskFromDisplay(editTask);
 
                         // if we are editing then update the existing record.
                         if (editState) {
-                            AgendaData.getInst().updateTask(task);
+                            AgendaData.getInst().updateTask(editTask.id(), task);
                         } else {
                             AgendaData.getInst().addNewTask(task);
                         }
@@ -185,7 +185,7 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
         return !field.getText().toString().isEmpty();
     }
 
-    private Task getTaskFromDisplay() {
+    private Task getTaskFromDisplay(final Task editTask) {
         EditText field = (EditText) findViewById(R.id.inputtitle);
         String title = field.getText().toString();
 
@@ -197,9 +197,9 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
 
         // TODO: Still need to process the percentage complete field here.
 
-        return new Task(0, title, description, notes, plannedStart,
+        return new Task(editTask.id(), title, description, notes, plannedStart,
                 actualStart, 0, targetDate,
-                DateInfo.getNow(), parentPosition, false);
+                DateInfo.getNow(), editTask.parent(), false);
     }
 
     @Override

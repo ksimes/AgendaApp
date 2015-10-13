@@ -115,6 +115,7 @@ public class TaskListTable implements BaseColumns
 
     }
 
+    // Get the number of tasks in the database table.
     public long getTaskCount()
     {
         Cursor cursor = database.query(TASKLIST_TABLE_NAME, IDAndTitleColumns, null, null, null, null, null);
@@ -251,14 +252,27 @@ public class TaskListTable implements BaseColumns
      */
     public boolean deleteTask(long id)
     {
-        System.out.println("Record deleted with id: " + id);
+//        System.out.println("Record deleted with id: " + id);
         database.delete(TASKLIST_TABLE_NAME, TaskListTable._ID + " = " + id, null);
 
         return true;
     }
 
-    public boolean updateTask(int id, Task updatedTask)
+    public boolean updateTask(Long id, Task updatedTask)
     {
-        return false;
+        ContentValues values = new ContentValues();
+        values.put(TITLE, updatedTask.title());
+        values.put(DESCRIPTION, updatedTask.description());
+        values.put(NOTES, updatedTask.notes());
+        values.put(STARTED, updatedTask.started().getMilliseconds());
+        values.put(PLANNED_START, updatedTask.plannedStart().getMilliseconds());
+        values.put(PERCENT_COMPLETE, updatedTask.percentageComplete());
+        values.put(TARGET_DATE, updatedTask.targetDate().getMilliseconds());
+        values.put(LAST_UPDATED, new Date().getTime());
+        values.put(PARENT_TASK, updatedTask.parent());
+
+        database.update(TASKLIST_TABLE_NAME, values, TaskListTable._ID + " = ?",new String[] {String.valueOf(id)});
+
+        return true;
     }
 }
