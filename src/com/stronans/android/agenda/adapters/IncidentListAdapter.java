@@ -57,7 +57,7 @@ public class IncidentListAdapter extends BaseAdapter {
 
         Incident item = items.get(position);
 
-        Utilities.setTextView(view, R.id.incidenttitle, item.title());
+        Utilities.setTextView(view, R.id.incidentTitle, item.title());
 
         StringBuffer sb = new StringBuffer(30);
 

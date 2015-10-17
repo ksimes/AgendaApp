@@ -125,7 +125,7 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
 
         Incident item = agendaItem.eventsOnThisDay().get(childPosition);
 
-        Utilities.setTextView(view, R.id.incidenttitle, item.title());
+        Utilities.setTextView(view, R.id.incidentTitle, item.title());
 
         if (agendaItem.isMessageOnly()) {
             view.setBackgroundColor(resources.getColor(R.color.Ivory));

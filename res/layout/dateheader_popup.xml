@@ -11,27 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 	    android:textColor="@color/Black"
-        android:textSize="24sp" />
+        android:textSize="@dimen/titleSize" />
     
     <TextView
-        android:id="@+id/Pivot"
+        android:id="@+id/dateData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 	    android:textColor="@color/Black"
-        android:textSize="16sp" />
-    
-    <TextView
-        android:id="@+id/DayOfYearView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-	    android:textColor="@color/Black"
-        android:textSize="16sp" />
-    
-    <TextView
-        android:id="@+id/WeekOfYearView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-	    android:textColor="@color/Black"
-        android:textSize="16sp" />
+        android:maxLines="3"
+        android:textSize="@dimen/textSize" />
     
 </LinearLayout>

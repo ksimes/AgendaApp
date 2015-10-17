@@ -42,19 +42,16 @@ public class DateHeaderDisplay extends Activity {
             field.setText(viewString);
 
             viewString = ResourceInfo.getIntervalString(selectedDate, getResources(), FormatStyle.longStyle);
-            field = (TextView) findViewById(R.id.Pivot);
-            field.setText(viewString);
 
             int dayOfYear = DateInfo.getDayOfYear(selectedDate);
-            viewString = MessageFormat.format(getResources().getString(R.string.DayOfYear),
-                    new Object[]{dayOfYear, FormattedInfo.suffix(dayOfYear)});
-            field = (TextView) findViewById(R.id.DayOfYearView);
-            field.setText(viewString);
+            String part2 = MessageFormat.format(getResources().getString(R.string.DayOfYear), dayOfYear,
+                    FormattedInfo.suffix(dayOfYear));
 
-            viewString = MessageFormat.format(getResources().getString(R.string.WeekOfYear),
-                    new Object[]{DateInfo.getWeekOfYear(selectedDate)});
-            field = (TextView) findViewById(R.id.WeekOfYearView);
-            field.setText(viewString + " " + DateInfo.getYearString(selectedDate));
+            String part3 = MessageFormat.format(getResources().getString(R.string.WeekOfYear),
+                    DateInfo.getWeekOfYear(selectedDate));
+
+            field = (TextView) findViewById(R.id.dateData);
+            field.setText(viewString + ". " + part2 + " " + part3);
         }
     }
 

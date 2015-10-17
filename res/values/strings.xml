@@ -24,12 +24,12 @@
     <string name="system_details">System details</string>
 
     <string name="task_title">ToDo/Task List</string>
-    <string name="titletext">Task Title</string>
+    <string name="titleText">Title</string>
     <string name="descriptiontext">Description</string>
     <string name="notestext">Notes</string>
     <string name="plannedstarttext">Planned Start</string>
     <string name="startdatetext">Actual Start date</string>
-    <string name="percentagetext">Percentage Complete</string>
+    <string name="percentagetext">% Completed</string>
     <string name="targetdatetext">Target date</string>
     <string name="lastUpdated">Last Updated</string>
 
@@ -49,8 +49,8 @@
     <string name="inFutureShort">In {0,number,integer} days</string>
     <string name="inFuture">{0,number,integer} days in the future</string>
     <string name="agendaHeaderText">Agenda for next {0,number,integer} days</string>
-    <string name="DayOfYear">The {0,number,integer}{1} day</string>
-    <string name="WeekOfYear">Occurring in the {0,number,integer} week of the year</string>
+    <string name="DayOfYear">The {0,number,integer}{1} day of the year,</string>
+    <string name="WeekOfYear">occurring in the {0,number,integer} week.</string>
 
     <string name="no_activities">No activities planned for today</string>
     <string name="nothing_happening">No activities planned for next {0} days</string>
@@ -86,5 +86,9 @@
     <string name="addSubTask">Add sub-Task</string>
     <string name="taskTitleError">Title Missing</string>
     <string name="taskTitleErrorMsg">You cannot create a task which has a blank title</string>
+    <string name="taskDeleteChildren">Deleting task with Children</string>
+    <string name="taskDeleteChildrenConfirm">Are you sure that you want to delete all child tasks associated with this task?</string>
+    <string name="firstSection">35</string>
+    <string name="secondSection">65</string>
 </resources>
 

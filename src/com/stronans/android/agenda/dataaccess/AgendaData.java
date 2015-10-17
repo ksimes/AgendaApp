@@ -366,6 +366,10 @@ public class AgendaData {
         return taskListData.getTask(parent);
     }
 
+    public Boolean hasTaskChildren(long parent) {
+        return taskListData.hasChildTasks(parent);
+    }
+
     public void purgeAllTasks() {
         taskListData.purgeTasks();
     }

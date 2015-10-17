@@ -1,5 +1,6 @@
 package com.stronans.android.agenda.views;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -24,7 +25,6 @@ public class DateHeaderView extends View implements OnClickListener {
     Paint paint;
     DrawableGradient gradient;
     Rect mRect;
-    Refresher refresher;
     Context context;
 
     // Used when inflated from a layout
@@ -57,9 +57,7 @@ public class DateHeaderView extends View implements OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), DateHeaderDisplay.class);
-
         intent.putExtra("DateInfo", selectedDate.getMilliseconds());
-
         context.startActivity(intent);
     }
 

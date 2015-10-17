@@ -46,11 +46,12 @@ public class WeekFragment extends Fragment implements WeekViewParent, Refresher,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate our UI from its XML layout description.
         fragmentView = inflater.inflate(R.layout.weeklayout, container, false);
-
-        selected = config.getDateInfo();
-
         dateHeaderview = (DateHeaderView) fragmentView.findViewById(R.id.dateHeader);
+        refreshDisplay();
+        return fragmentView;
+    }
 
+    private void processDisplay(DateInfo selected) {
         int weekstart = config.getWeekStart(); // User defined start day of the week, i.e. Sunday, Saturday, Monday, etc.
         int weekBegins = ((selected.getCurrentDayOfMonth() + 7 - weekstart) % 7);
 
@@ -76,8 +77,6 @@ public class WeekFragment extends Fragment implements WeekViewParent, Refresher,
 
             weekDay.addToDate(1);
         }
-
-        return fragmentView;
     }
 
     @Override
@@ -97,7 +96,9 @@ public class WeekFragment extends Fragment implements WeekViewParent, Refresher,
      */
     @Override
     public void refreshDisplay() {
-        dateHeaderview.setNewDate(config.getDateInfo());
+        selected = config.getDateInfo();
+        dateHeaderview.setNewDate(selected);
+        processDisplay(selected);
     }
 
     /*

@@ -63,7 +63,7 @@ public class DayListAdapter extends BaseAdapter {
 
         Incident item = items.get(position);
 
-        Utilities.setTextView(view, R.id.incidenttitle, item.title());
+        Utilities.setTextView(view, R.id.incidentTitle, item.title());
 
         String periodTxt = new String();
         if (!item.isAllDay()) {

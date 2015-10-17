@@ -5,12 +5,12 @@
     android:orientation="vertical" >
     
     <TextView
-        android:id="@+id/incidenttitle"
+        android:id="@+id/incidentTitle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
 	    android:textColor="@color/Black"
-        android:textSize="16sp" />
+        android:textSize="@dimen/titleSize" />
 	
     <TextView
         android:id="@+id/incidentperiod"
@@ -18,7 +18,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
 	    android:textColor="@color/Black"
-        android:textSize="12sp" />
+        android:textSize="@dimen/textSize" />
 	
     <TextView
         android:id="@+id/incidentlocation"
@@ -26,7 +26,7 @@
         android:layout_height="0dp"
 		android:layout_weight="0"
 	    android:textColor="@color/Black"
-        android:textSize="12sp" />
+        android:textSize="@dimen/textSize" />
 	
     <TextView
         android:id="@+id/incidentdescription"
@@ -34,6 +34,5 @@
         android:layout_height="0dp"
         android:layout_weight="1"
 	    android:textColor="@color/Black"
-        android:textSize="12sp" />
-    
+        android:textSize="@dimen/textSize" />
 </LinearLayout>

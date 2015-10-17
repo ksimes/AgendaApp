@@ -13,16 +13,17 @@ import com.stronans.android.agenda.interfaces.Refresher;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Incident;
+import com.stronans.android.agenda.views.DateHeaderView;
 import com.stronans.android.controllers.DateChangeListener;
 
 import java.util.Date;
 import java.util.List;
 
-public class DayFragment extends Fragment implements Refresher, DateChangeListener {
-    AgendaConfiguration config;
-    DayListAdapter dayItemsAdapter;
-    ListView incidentsToday;
-    TextView dayListEmpty;
+public final class DayFragment extends Fragment implements Refresher, DateChangeListener {
+    private AgendaConfiguration config;
+    private ListView incidentsToday;
+    private TextView dayListEmpty;
+    private DateHeaderView dateHeaderview;
 
     public DayFragment() {
         super();
@@ -56,7 +57,7 @@ public class DayFragment extends Fragment implements Refresher, DateChangeListen
 
 //            if (dayItemsAdapter == null)
 //            {
-            dayItemsAdapter = new DayListAdapter(AgendaData.getInst().getContext(), todaysEvents);
+            DayListAdapter dayItemsAdapter = new DayListAdapter(AgendaData.getInst().getContext(), todaysEvents);
             incidentsToday.setAdapter(dayItemsAdapter);
 //            }
 //            else
@@ -80,6 +81,8 @@ public class DayFragment extends Fragment implements Refresher, DateChangeListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.daylayout, container, false);
+
+        dateHeaderview = (DateHeaderView) fragmentView.findViewById(R.id.dateHeader);
 
         incidentsToday = (ListView) fragmentView.findViewById(R.id.DayList);
         dayListEmpty = (TextView) fragmentView.findViewById(R.id.DayListEmpty);
@@ -126,6 +129,7 @@ public class DayFragment extends Fragment implements Refresher, DateChangeListen
      */
     @Override
     public void dateChanged(long newDate) {
+        dateHeaderview.setNewDate(config.getDateInfo());
         refreshDisplay();
     }
 }

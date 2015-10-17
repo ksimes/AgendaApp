@@ -42,7 +42,7 @@ public class TaskItemDisplay extends FragmentActivity {
                 populateView(R.id.title, task.title());
                 populateView(R.id.description, task.description());
 
-//              populateView(parameters, R.id.notes, task.notes());
+                populateView(R.id.notes, task.notes());
 
                 String notSet = getString(R.string.dateNotSet);
 

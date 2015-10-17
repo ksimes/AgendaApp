@@ -9,11 +9,12 @@ import android.widget.Button;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.model.Task;
+import com.stronans.android.agenda.support.AgendaAlertDialog;
 
 /**
  * @author SimonKing
  */
-public class TaskManagementDisplay extends FragmentActivity {
+public class TaskManagementDisplay extends FragmentActivity implements AgendaAlertDialog.DialogListener {
     long taskId = 1;
 
     /*
@@ -63,9 +64,16 @@ public class TaskManagementDisplay extends FragmentActivity {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO : Add a confirmation dialog
-                AgendaData.getInst().deleteTaskAndChildren(taskId);
-                finish();
+
+                if (AgendaData.getInst().hasTaskChildren(taskId)) {
+                    AgendaAlertDialog alertFragment = AgendaAlertDialog.newInstance(getResources().getString(R.string.taskDeleteChildren),
+                            getResources().getString(R.string.taskDeleteChildrenConfirm), true, true);
+                    // Create the fragment and show it as a dialog.
+                    alertFragment.show(getFragmentManager(), "AlertChoice");
+                } else {
+                    AgendaData.getInst().deleteTask(taskId);
+                    finish();
+                }
             }
         });
 
@@ -78,4 +86,14 @@ public class TaskManagementDisplay extends FragmentActivity {
         });
     }
 
+    @Override
+    public void doPositiveClick() {
+        AgendaData.getInst().deleteTaskAndChildren(taskId);
+        finish();
+    }
+
+    @Override
+    public void doNegativeClick() {
+        finish();
+    }
 }

@@ -5,5 +5,9 @@
     <dimen name="tab_space">0dp</dimen>
     <dimen name="tab_space_plus1">3dp</dimen>
     <dimen name="tab_space_bottom_line">36sp</dimen>
-    <dimen name="tab_space_unselected_top">6sp</dimen> 
-</resources>  
+    <dimen name="tab_space_unselected_top">6sp</dimen>
+
+    <!-- task dimensions -->
+    <dimen name="titleSize">20sp</dimen>
+    <dimen name="textSize">16sp</dimen>
+</resources>

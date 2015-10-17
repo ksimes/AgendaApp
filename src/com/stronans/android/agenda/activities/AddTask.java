@@ -14,12 +14,12 @@ import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.fragments.dialogfragments.DateSelectionDialog;
 import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Task;
-import com.stronans.android.agenda.support.AlertDialog;
+import com.stronans.android.agenda.support.AgendaAlertDialog;
 
 /**
  * @author SimonKing
  */
-public class AddTask extends Activity implements DateSelectionDialog.DialogListener, AlertDialog.DialogListener {
+public class AddTask extends Activity implements DateSelectionDialog.DialogListener, AgendaAlertDialog.DialogListener {
     private Task editTask;
     private Boolean editState = false;
     private DateInfo plannedStart = DateInfo.getNow(),
@@ -82,8 +82,8 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
                     }
                     else
                     {
-                        AlertDialog alertFragment = AlertDialog.newInstance(getResources().getString(R.string.taskTitleError),
-                                getResources().getString(R.string.taskTitleErrorMsg));
+                        AgendaAlertDialog alertFragment = AgendaAlertDialog.newInstance(getResources().getString(R.string.taskTitleError),
+                                getResources().getString(R.string.taskTitleErrorMsg), true, false);
                         // Create the fragment and show it as a dialog.
                         alertFragment.show(getFragmentManager(), "AlertNoTitle");
                     }

@@ -41,7 +41,7 @@ public class AgendaItemDisplay extends Activity
         Bundle parameters = getIntent().getExtras();
         if (parameters != null)
         {
-            populateView(parameters, R.id.incidenttitle, Incident.Title);
+            populateView(parameters, R.id.incidentTitle, Incident.Title);
             populateView(parameters, R.id.incidentperiod, Incident.Period);
             populateView(parameters, R.id.incidentlocation, Incident.Location);
             populateView(parameters, R.id.incidentdescription, Incident.Description);
