@@ -21,11 +21,13 @@ import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.support.v4.content.ContextCompat.getColor;
+
 public class AgendaListAdapter extends BaseExpandableListAdapter {
-    List<AgendaItem> agendaItems;
-    Context context;
-    AgendaConfiguration config;
-    Resources resources;
+    private List<AgendaItem> agendaItems;
+    private Context context;
+    private AgendaConfiguration config;
+    private Resources resources;
 
     public AgendaListAdapter(Context context, List<AgendaItem> agendaItems) {
         super();
@@ -128,7 +130,7 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
         Utilities.setTextView(view, R.id.incidentTitle, item.title());
 
         if (agendaItem.isMessageOnly()) {
-            view.setBackgroundColor(resources.getColor(R.color.Ivory));
+            view.setBackgroundColor(getColor(context, R.color.Ivory));
         } else {
             StringBuilder sb = new StringBuilder(30);
 
@@ -150,9 +152,9 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
             int dayOfWeek = agendaItems.get(groupPosition).date().getCurrentDayOfMonth();
 
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                view.setBackgroundColor(resources.getColor(R.color.Chalk));
+                view.setBackgroundColor(getColor(context, R.color.Chalk));
             } else {
-                view.setBackgroundColor(resources.getColor(R.color.Ivory));
+                view.setBackgroundColor(getColor(context, R.color.Ivory));
             }
         }
 

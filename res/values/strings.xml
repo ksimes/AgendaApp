@@ -34,6 +34,7 @@
     <string name="lastUpdated">Last Updated</string>
 
     <string name="notYetStarted">Not started</string>
+    <string name="taskComplete">Task complete</string>
     <string name="dateNotSet">Date not set</string>
 
     <!-- View descriptor strings. -->
@@ -86,6 +87,8 @@
     <string name="addSubTask">Add sub-Task</string>
     <string name="taskTitleError">Title Missing</string>
     <string name="taskTitleErrorMsg">You cannot create a task which has a blank title</string>
+    <string name="taskPercentError">Percentage out of range</string>
+    <string name="taskPercentErrorMsg">Percentage must be between 0 and 100</string>
     <string name="taskDeleteChildren">Deleting task with Children</string>
     <string name="taskDeleteChildrenConfirm">Are you sure that you want to delete all child tasks associated with this task?</string>
     <string name="firstSection">35</string>

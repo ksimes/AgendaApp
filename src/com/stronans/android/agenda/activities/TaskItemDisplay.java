@@ -58,10 +58,20 @@ public class TaskItemDisplay extends FragmentActivity {
                     populateView(R.id.actualstart, notSet);
                 }
 
-                if (task.percentageComplete() > 0) {
-                    populateView(R.id.percentcomplete, "" + task.plannedStart() + "%");
-                } else {
-                    populateView(R.id.percentcomplete, getString(R.string.notYetStarted));
+                switch(task.percentageComplete())
+                {
+                    case 0 :
+                        populateView(R.id.percentcomplete, getString(R.string.notYetStarted));
+                        break;
+
+                    case 100 :
+                        populateView(R.id.percentcomplete, getString(R.string.taskComplete));
+                        break;
+
+                    default :
+                        populateView(R.id.percentcomplete, "" + task.percentageComplete() + "%");
+                        break;
+
                 }
 
                 if (task.targetDate().isDefined()) {

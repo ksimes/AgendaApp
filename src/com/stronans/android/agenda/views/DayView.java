@@ -19,34 +19,38 @@ import com.stronans.android.controllers.AgendaController;
 import java.text.MessageFormat;
 import java.util.List;
 
+import static android.support.v4.content.ContextCompat.getColor;
+
 public class DayView extends View {
     // Local references to global structures and variables to cut down on accesses.
-    AgendaController controller;
-    AgendaConfiguration config;
-    Resources resources;
-    DateInfo selected;
-    int titleSize;
-    int infoSize;
-    Paint paint;
+    private AgendaController controller;
+    private AgendaConfiguration config;
+    private Resources resources;
+    private DateInfo selected;
+    private int titleSize;
+    private int infoSize;
+    private Paint paint;
+    private Context context;
 
     // Used when inflated from a layout
     public DayView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setFocusable(true);
         resources = context.getResources();
-        init();
+        init(context);
     }
 
     // Only used when called from another activity
     public DayView(Context context) {
         super(context);
         setFocusable(true);
-        init();
+        init(context);
     }
 
-    private void init() {
+    private void init(Context context) {
         config = AgendaStaticData.getStaticData().getConfig();
         controller = AgendaController.getInst();
+        this.context = context;
         paint = new Paint();
 
 //        setOnTouchListener(new touchOnScreen());
@@ -69,7 +73,7 @@ public class DayView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         selected = config.getDateInfo();
-        canvas.drawColor(resources.getColor(R.color.Ivory));
+        canvas.drawColor(getColor(context, R.color.Ivory));
 
         int top = 0;
 
@@ -81,10 +85,10 @@ public class DayView extends View {
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
 
-        paint.setColor(resources.getColor(R.color.DarkGrey));
+        paint.setColor(getColor(context, R.color.DarkGrey));
         canvas.drawLine(0, top, getWidth(), top, paint);
 
-        paint.setColor(resources.getColor(R.color.Black));
+        paint.setColor(getColor(context, R.color.Black));
         DateInfo start = DateInfo.fromDateInfo(selected);
         start.setToJustPastMidnight();
         DateInfo end = DateInfo.fromDateInfo(selected);
@@ -103,7 +107,7 @@ public class DayView extends View {
                 top += FormattedInfo.drawTextWrapped(event.title(), 10, top, getWidth() - 20, paint, canvas);
 
                 paint.setTextSize(infoSize);
-                StringBuffer sb = new StringBuffer(30);
+                StringBuilder sb = new StringBuilder(30);
 
                 if (!event.isAllDay()) {
                     sb.append(MessageFormat.format(resources.getString(R.string.time_period),

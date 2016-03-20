@@ -1,14 +1,14 @@
 package com.stronans.android.agenda.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 import com.stronans.android.agenda.R;
-import com.stronans.android.agenda.dataaccess.AgendaStaticData;
-import com.stronans.android.agenda.fragments.TasksFragment;
-import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.Task;
 import com.stronans.android.agenda.support.Utilities;
 
@@ -16,16 +16,14 @@ import java.util.List;
 
 public class TasksListAdapter extends BaseAdapter
 {
-    List<Task> items;
-    Context context;
-    AgendaConfiguration config;
+    private List<Task> items;
+    private Context context;
 
     public TasksListAdapter(Context context, List<Task> items)
     {
         super();
         this.context = context;
         this.items = items;
-        config = AgendaStaticData.getStaticData().getConfig();
     }
 
     @Override

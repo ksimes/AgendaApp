@@ -23,16 +23,19 @@ import com.stronans.android.controllers.AgendaController;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.support.v4.content.ContextCompat.getColor;
+
 public class WeekDayView extends View {
-    AgendaConfiguration config;
-    Resources resources;
-    AgendaController controller;
-    DateInfo weekDay;
-    Paint paint;
-    String[] weekNames;
-    List<Incident> todaysEvents;
-    int dayMarker;
-    WeekFragment weekFragment;
+    private AgendaConfiguration config;
+    private Resources resources;
+    private AgendaController controller;
+    private DateInfo weekDay;
+    private Paint paint;
+    private String[] weekNames;
+    private List<Incident> todaysEvents;
+    private int dayMarker;
+    private WeekFragment weekFragment;
+    private Context context;
 
     // Used when inflated from a layout
     public WeekDayView(Context context, AttributeSet attrs) {
@@ -40,6 +43,8 @@ public class WeekDayView extends View {
         this.config = AgendaStaticData.getStaticData().getConfig();
         this.resources = context.getResources();
         this.controller = AgendaController.getInst();
+        this.context = context;
+
         weekDay = config.getDateInfo();
 
         paint = new Paint();
@@ -124,14 +129,14 @@ public class WeekDayView extends View {
         int dayNameColour;
 
         Rect DayRect = new Rect(0, 0, getWidth(), getHeight());
-        canvas.drawColor(resources.getColor(R.color.Ivory));
+        canvas.drawColor(getColor(context, R.color.Ivory));
 
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         /*
          * Mark the weekend days in a different colour.
          */
         if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-            paint.setColor(resources.getColor(R.color.Chalk));
+            paint.setColor(getColor(context, R.color.Chalk));
             canvas.drawRect(DayRect, paint);
         }
 
@@ -142,10 +147,10 @@ public class WeekDayView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(6);
         if (weekDay.isToday()) {
-            paint.setColor(resources.getColor(R.color.SkyBlue));
+            paint.setColor(getColor(context, R.color.SkyBlue));
             canvas.drawRoundRect(selectedMarker, 10, 10, paint);
         } else if (weekDay.equals(config.getDateInfo())) {
-            paint.setColor(resources.getColor(R.color.MossGreen));
+            paint.setColor(getColor(context, R.color.MossGreen));
             canvas.drawRoundRect(selectedMarker, 10, 10, paint);
         }
         // Reset the stroke width
@@ -162,7 +167,7 @@ public class WeekDayView extends View {
 
         paint.setStyle(Paint.Style.STROKE);
         dayNameColour = R.color.MediumGrey;
-        paint.setColor(resources.getColor(dayNameColour));
+        paint.setColor(getColor(context, dayNameColour));
         canvas.drawText(day, x, dayNameSize - (dayNameSize / 10), paint);
 
         /*
@@ -177,7 +182,7 @@ public class WeekDayView extends View {
         float displayWidth = getWidth() - textWidth;
 
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(resources.getColor(R.color.Black));
+        paint.setColor(getColor(context, R.color.Black));
 
         canvas.drawText(dateString, x, dateSize, paint);
 
@@ -189,12 +194,12 @@ public class WeekDayView extends View {
             paint.setColor(event.calendarColour());
             canvas.drawRect(markerRect, paint);
 
-            paint.setColor(resources.getColor(R.color.Black));
+            paint.setColor(getColor(context, R.color.Black));
             shift += FormattedInfo.drawTextWrapped(FormattedInfo.getShortEventString(event),
                     getPaddingLeft() + infoSize + getPaddingLeft(), shift, displayWidth - 10, paint, canvas);
         }
 
-        paint.setColor(resources.getColor(R.color.DarkGrey));
+        paint.setColor(getColor(context, R.color.DarkGrey));
         canvas.drawLine(0, 0, getWidth(), 0, paint);
     }
 

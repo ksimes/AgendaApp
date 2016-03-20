@@ -69,7 +69,7 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
                 @Override
                 public void onClick(View v) {
 
-                    if(hasTitle()) {
+                    if (validTask()) {
                         Task task = getTaskFromDisplay(editTask);
 
                         // if we are editing then update the existing record.
@@ -79,13 +79,18 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
                             AgendaData.getInst().addNewTask(task);
                         }
                         finish();
-                    }
-                    else
-                    {
-                        AgendaAlertDialog alertFragment = AgendaAlertDialog.newInstance(getResources().getString(R.string.taskTitleError),
-                                getResources().getString(R.string.taskTitleErrorMsg), true, false);
-                        // Create the fragment and show it as a dialog.
-                        alertFragment.show(getFragmentManager(), "AlertNoTitle");
+                    } else {
+                        if (!hasTitle()) {
+                            AgendaAlertDialog alertFragment = AgendaAlertDialog.newInstance(getResources().getString(R.string.taskTitleError),
+                                    getResources().getString(R.string.taskTitleErrorMsg), true, false);
+                            // Create the fragment and show it as a dialog.
+                            alertFragment.show(getFragmentManager(), "AlertNoTitle");
+                        } else {
+                            AgendaAlertDialog alertFragment = AgendaAlertDialog.newInstance(getResources().getString(R.string.taskPercentError),
+                                    getResources().getString(R.string.taskPercentErrorMsg), true, false);
+                            // Create the fragment and show it as a dialog.
+                            alertFragment.show(getFragmentManager(), "AlertNoTitle");
+                        }
                     }
                 }
             });
@@ -178,11 +183,23 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
         field.setText(String.valueOf(task.percentageComplete()));
     }
 
-    private Boolean hasTitle()
-    {
+    private Boolean hasTitle() {
         EditText field = (EditText) findViewById(R.id.inputtitle);
 
         return !field.getText().toString().isEmpty();
+    }
+
+    private Boolean percentInRange() {
+        EditText field = (EditText) findViewById(R.id.inputpercentage);
+        String percentString = field.getText().toString();
+
+        int percent = percentString.isEmpty() ? 0 : Integer.parseInt(percentString);
+
+        return (percent > -1) && (percent < 101);
+    }
+
+    private Boolean validTask() {
+        return hasTitle() && percentInRange();
     }
 
     private Task getTaskFromDisplay(final Task editTask) {
@@ -195,10 +212,13 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
         field = (EditText) findViewById(R.id.inputnotes);
         String notes = field.getText().toString();
 
-        // TODO: Still need to process the percentage complete field here.
+        field = (EditText) findViewById(R.id.inputpercentage);
+        String percentString = field.getText().toString();
+
+        int percent = percentString.isEmpty() ? 0 : Integer.parseInt(percentString);
 
         return new Task(editTask.id(), title, description, notes, plannedStart,
-                actualStart, 0, targetDate,
+                actualStart, percent, targetDate,
                 DateInfo.getNow(), editTask.parent(), false);
     }
 

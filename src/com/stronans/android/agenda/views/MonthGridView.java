@@ -24,18 +24,18 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MonthGridView extends View implements RefreshNotifier {
-    static final int INFO_SIZE = 25;
+    private static final int INFO_SIZE = 25;
 
-    AgendaController controller;
-    AgendaConfiguration config;
-    Resources resources;
-    DateInfo selected;
-    GridSelection gridData;
-    List<Incident> eventList = null; // List of all events which occur in this grid (may include extra days before
+    private AgendaController controller;
+    private AgendaConfiguration config;
+    private Resources resources;
+    private DateInfo selected;
+    private GridSelection gridData;
+    private List<Incident> eventList = null; // List of all events which occur in this grid (may include extra days before
     // beginning and after end of month).
-    int monthTextSize;
-    int weekTextSize;
-    Refresher refresher;
+    private int monthTextSize;
+    private int weekTextSize;
+    private Refresher refresher;
 
     // Used when being inflated from a layout
     public MonthGridView(Context context, AttributeSet attrs) {

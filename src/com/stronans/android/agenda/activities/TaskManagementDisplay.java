@@ -15,7 +15,7 @@ import com.stronans.android.agenda.support.AgendaAlertDialog;
  * @author SimonKing
  */
 public class TaskManagementDisplay extends FragmentActivity implements AgendaAlertDialog.DialogListener {
-    long taskId = 1;
+    private long taskId = 1;
 
     /*
      * (non-Javadoc)

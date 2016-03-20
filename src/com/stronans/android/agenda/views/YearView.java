@@ -2,7 +2,6 @@ package com.stronans.android.agenda.views;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
@@ -21,37 +20,39 @@ import com.stronans.android.controllers.AgendaController;
 import java.util.Calendar;
 import java.util.List;
 
-public class YearView extends View {
-    static final int MONTHNAME_SIZE = 30;
-    static final int TITLE_SIZE = 40;  // 25;
+import static android.support.v4.content.ContextCompat.getColor;
 
-    AgendaConfiguration config;
-    Resources resources;
-    DateInfo selected;
-    String[] monthNames;
-    AgendaController controller;
-    List<Incident> eventList = null; // List of all events which occur in this grid (may include extra days before
+public class YearView extends View {
+    private static final int MONTHNAME_SIZE = 30;
+    private static final int TITLE_SIZE = 40;  // 25;
+
+    private AgendaConfiguration config;
+    private DateInfo selected;
+    private String[] monthNames;
+    private AgendaController controller;
+    private List<Incident> eventList = null; // List of all events which occur in this grid (may include extra days before
     // beginning and after end of month).
-    int cellBackground, singleEvent, doubleEvent, moreEvents, weekend;
+    private int cellBackground, singleEvent, doubleEvent, moreEvents, weekend;
+    private Context context;
 
     // Used when inflated from a layout
     public YearView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setFocusable(true);
-        resources = context.getResources();
-        init();
+        init(context);
     }
 
     // Only used when called from another activity
     public YearView(Context context) {
         super(context);
         setFocusable(true);
-        init();
+        init(context);
     }
 
-    private void init() {
+    private void init(Context context) {
         config = AgendaStaticData.getStaticData().getConfig();
         controller = AgendaController.getInst();
+        this.context = context;
 
         selected = config.getDateInfo();
         monthNames = config.getLongMonthNames();
@@ -74,11 +75,11 @@ public class YearView extends View {
     }
 
     private void setColours() {
-        cellBackground = resources.getColor(R.color.Ivory);
-        singleEvent = resources.getColor(R.color.ForestGreen);
-        doubleEvent = resources.getColor(R.color.Amber);
-        moreEvents = resources.getColor(R.color.red);
-        weekend = resources.getColor(R.color.red); // BrickRed
+        cellBackground = getColor(context, R.color.Ivory);
+        singleEvent = getColor(context, R.color.ForestGreen);
+        doubleEvent = getColor(context, R.color.Amber);
+        moreEvents = getColor(context, R.color.red);
+        weekend = getColor(context, R.color.red); // BrickRed
     }
 
     private void refreshEvents() {
@@ -127,7 +128,7 @@ public class YearView extends View {
 
     private int drawHeader(Canvas canvas, int Y) {
         GradientDrawable mDrawable;
-        int headerHeight = 0;
+        int headerHeight;
         Rect mRect;
         int width = canvas.getWidth();
 

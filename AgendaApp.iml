@@ -2,7 +2,7 @@
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager" forced_jdk="true">
     <libelement value="jar://$MODULE_DIR$/libs/android-support-v4.jar!/" />
-    <libelement value="file://D:/Programming/Projects/Android/AgendaApp/libs/date4j.jar" />
+    <libelement value="file://$MODULE_DIR$/libs/date4j.jar" />
     <conelement value="com.android.ide.eclipse.adt.DEPENDENCIES" />
     <src_description expected_position="3">
       <src_folder value="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK" expected_position="0" />
@@ -25,7 +25,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" generated="true" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="module-library">
       <library name="android-support-v4.jar">
         <CLASSES>
@@ -39,4 +39,3 @@
     <orderEntry type="library" name="date4j" level="project" />
   </component>
 </module>
-

@@ -1,10 +1,13 @@
 package com.stronans.android.agenda.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.fragments.TasksFragment;
@@ -16,10 +19,10 @@ import java.util.List;
 
 public class TaskListAdapter extends BaseAdapter
 {
-    List<Task> items;
-    Context context;
-    AgendaConfiguration config;
-    TasksFragment parent;
+    private List<Task> items;
+    private Context context;
+    private AgendaConfiguration config;
+    private TasksFragment parent;
 
     public TaskListAdapter(Context context, List<Task> items, TasksFragment parent)
     {
@@ -63,6 +66,18 @@ public class TaskListAdapter extends BaseAdapter
         Task item = items.get(position);
 
         Utilities.setTextView(view, R.id.taskTitle, item.title());
+        TextView field = (TextView) view.findViewById(R.id.taskTitle);
+
+        switch(item.percentageComplete())
+        {
+            case 0 :
+                field.setTextColor(Color.BLUE);
+                break;
+
+            case 100:
+                field.setPaintFlags(field.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                break;
+        }
 
         View v = view.findViewById(R.id.taskChildren);
         if (v != null && item.hasChildren()) {
