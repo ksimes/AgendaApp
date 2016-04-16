@@ -9,56 +9,52 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.stronans.android.agenda.R;
-import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.fragments.TasksFragment;
-import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.Task;
 import com.stronans.android.agenda.support.Utilities;
 
+import java.text.MessageFormat;
 import java.util.List;
 
-public class TaskListAdapter extends BaseAdapter
-{
+/**
+ * Lists an individual task in a list showing only those tasks at the same level (i.e. Children of an individual parent).
+ */
+public class TaskListAdapter extends BaseAdapter {
     private List<Task> items;
     private Context context;
-    private AgendaConfiguration config;
+    //    private AgendaConfiguration config;
     private TasksFragment parent;
 
-    public TaskListAdapter(Context context, List<Task> items, TasksFragment parent)
-    {
+    public TaskListAdapter(Context context, List<Task> items, TasksFragment parent) {
         super();
         this.context = context;
         this.items = items;
         this.parent = parent;
-        config = AgendaStaticData.getStaticData().getConfig();
+//        config = AgendaStaticData.getStaticData().getConfig();
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return items.size();
     }
 
     @Override
-    public Object getItem(int location)
-    {
+    public Object getItem(int location) {
         return items.get(location);
     }
 
     @Override
-    public long getItemId(int position)
-    {
+    public long getItemId(int position) {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
         if (view == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.task_list_item, null);
+            view = vi.inflate(R.layout.task_list_item, parent, false);
 
             view.findViewById(R.id.taskChildren).setOnClickListener(taskChildrenClickListener);
         }
@@ -68,9 +64,9 @@ public class TaskListAdapter extends BaseAdapter
         Utilities.setTextView(view, R.id.taskTitle, item.title());
         TextView field = (TextView) view.findViewById(R.id.taskTitle);
 
-        switch(item.percentageComplete())
-        {
-            case 0 :
+        field.setTextColor(Color.BLACK);
+        switch (item.percentageComplete()) {
+            case 0:
                 field.setTextColor(Color.BLUE);
                 break;
 
@@ -83,6 +79,11 @@ public class TaskListAdapter extends BaseAdapter
         if (v != null && item.hasChildren()) {
             v.setTag(item);
             v.setVisibility(View.VISIBLE);
+
+            String children = MessageFormat.format(context.getResources().getString(R.string.numberOftasks), item.children().size());
+            Utilities.setTextView(view, R.id.childTasksMsg, children, true);
+        } else {
+            Utilities.textViewVisibility(view, R.id.childTasksMsg, false);
         }
 
         return view;
@@ -103,8 +104,7 @@ public class TaskListAdapter extends BaseAdapter
         }
     };
 
-    public void updateList()
-    {
+    public void updateList() {
         notifyDataSetChanged();
     }
 }

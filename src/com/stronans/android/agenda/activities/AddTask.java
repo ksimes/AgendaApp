@@ -16,6 +16,8 @@ import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Task;
 import com.stronans.android.agenda.support.AgendaAlertDialog;
 
+import java.util.ArrayList;
+
 /**
  * @author SimonKing
  */
@@ -47,14 +49,14 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
             // Make sure we have a valid task if this is a create
             editTask = new Task(0, "", "", "", DateInfo.getUndefined(),
                     DateInfo.getUndefined(), 0, DateInfo.getUndefined(),
-                    DateInfo.getNow(), parentPosition, false);
+                    DateInfo.getNow(), parentPosition, false, new ArrayList<Task>());
 
             editState = parameters.getBoolean("Edit");
             if (editState) {
                 if (parameters.containsKey(Task.IdKey)) {
                     // Get the task to edit
                     long id = parameters.getLong(Task.IdKey);
-                    editTask = AgendaData.getInst().getTask(id);
+                    editTask = AgendaData.getInst().getTask(id, false);
                 } else {
                     editState = false;
                 }
@@ -219,7 +221,7 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
 
         return new Task(editTask.id(), title, description, notes, plannedStart,
                 actualStart, percent, targetDate,
-                DateInfo.getNow(), editTask.parent(), false);
+                DateInfo.getNow(), editTask.parent(), false, new ArrayList<Task>());
     }
 
     @Override

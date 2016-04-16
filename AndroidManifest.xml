@@ -43,6 +43,7 @@
     <application
         android:label="@string/agenda_app"
         android:icon="@drawable/swisswatch"
+        android:debuggable="true"
         android:allowBackup="true">
 
         <!-- An Activity in the application - this is something the user

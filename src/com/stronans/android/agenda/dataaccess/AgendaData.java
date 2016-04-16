@@ -25,12 +25,12 @@ import java.util.*;
  *         content://calendar/calendar_alerts/by_instance content://calendar/busybits/when/#/#
  */
 public class AgendaData {
-    static final int DEFAULT_ICON = 1;
+    private static final int DEFAULT_ICON = 1;
 
-    static AgendaData agendaData;
-    static Context applicationContext;
-    static TaskListTable taskListData;
-    Random randomGenerator;
+    private static AgendaData agendaData;
+    private static Context applicationContext;
+    private static TaskListTable taskListData;
+    private Random randomGenerator;
 
     private AgendaData() {
         randomGenerator = new Random();
@@ -59,7 +59,7 @@ public class AgendaData {
 
     private List<Incident> getEventsEmulator(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         Date currentTime = new Date();
-        List<Incident> result = new ArrayList<Incident>();
+        List<Incident> result = new ArrayList<>();
 
         Calendar x = Calendar.getInstance();
         x.setTime(currentTime);
@@ -157,7 +157,7 @@ public class AgendaData {
     private List<Incident> getEventsAndroid2_2(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         final String ORDER_BY = "begin ASC, end ASC";
 
-        List<Incident> result = new ArrayList<Incident>();
+        List<Incident> result = new ArrayList<>();
 
         Uri.Builder builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
         ContentUris.appendId(builder, startDate.getMilliseconds());
@@ -166,7 +166,7 @@ public class AgendaData {
         String[] projection = new String[]{Events2_2.CALENDAR_ID, Events2_2.TITLE, Events2_2.DESCRIPTION,
                 Account2_2.COLOR, Instances.BEGIN, Instances.END, Events2_2.ALL_DAY};
 
-        Cursor cursor = null;
+        Cursor cursor;
         if (selectedCalendarId == 0)
             cursor = applicationContext.getContentResolver().query(builder.build(), projection,
                     "selected=1", null, ORDER_BY);
@@ -213,7 +213,7 @@ public class AgendaData {
                 Calendars.CALENDAR_COLOR, Events.EVENT_LOCATION,
                 Instances.BEGIN, Instances.END, Events.ALL_DAY};
 
-        Cursor cursor = null;
+        Cursor cursor;
         // if we have not selected a Calendar ID the we want all of the Incidents which fall between these periods for all calendars and are visible.
         if (selectedCalendarId == 0)
             cursor = applicationContext.getContentResolver().query(builder.build(), projection,
@@ -355,24 +355,24 @@ public class AgendaData {
     }
 
     public List<Task> getTasks(long parent) {
-        return taskListData.getTasksWithParent(parent);
+        return taskListData.getTasksWithParent(parent, true);
     }
 
     public List<Task> getAllTasks() {
         return taskListData.getAllTasks();
     }
 
-    public Task getTask(long parent) {
-        return taskListData.getTask(parent);
+    public Task getTask(long parent, boolean getChildren) {
+        return taskListData.getTask(parent, getChildren);
     }
 
     public Boolean hasTaskChildren(long parent) {
         return taskListData.hasChildTasks(parent);
     }
 
-    public void purgeAllTasks() {
-        taskListData.purgeTasks();
-    }
+//    public void purgeAllTasks() {
+//        taskListData.purgeTasks();
+//    }
 
     // Recursive task to descend and delete all the child tasks which may be associated with the task being deleted.
     public void deleteTaskAndChildren(long taskId) {

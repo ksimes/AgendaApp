@@ -11,17 +11,16 @@ import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Incident;
-import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.Utilities;
 
 import java.text.MessageFormat;
 import java.util.List;
 
 public class IncidentListAdapter extends BaseAdapter {
-    List<Incident> items;
-    Context context;
-    AgendaConfiguration config;
-    Resources resources;
+    private List<Incident> items;
+    private Context context;
+    private AgendaConfiguration config;
+    private Resources resources;
 
     public IncidentListAdapter(Context context, List<Incident> items) {
         super();
@@ -52,14 +51,14 @@ public class IncidentListAdapter extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.incident_list_item, null);
+            view = vi.inflate(R.layout.incident_list_item, parent, false);
         }
 
         Incident item = items.get(position);
 
         Utilities.setTextView(view, R.id.incidentTitle, item.title());
 
-        StringBuffer sb = new StringBuffer(30);
+        StringBuilder sb = new StringBuilder(30);
 
         if (!item.isAllDay()) {
             sb.append(MessageFormat.format(resources.getString(R.string.time_period),
@@ -69,13 +68,14 @@ public class IncidentListAdapter extends BaseAdapter {
 
         Utilities.setTextView(view, R.id.incidentperiod, sb.toString());
 
-        String location = "";
-
         if (Utilities.hasContent(item.eventLocation())) {
+            String location = "";
             location = resources.getString(R.string.location) + item.eventLocation();
+            Utilities.setTextView(view, R.id.incidentlocation, location);
+            Utilities.textViewVisibility(view, R.id.incidentlocation, true);
+        } else {
+            Utilities.textViewVisibility(view, R.id.incidentlocation, false);
         }
-
-        Utilities.setTextView(view, R.id.incidentlocation, location);
 
         return view;
     }

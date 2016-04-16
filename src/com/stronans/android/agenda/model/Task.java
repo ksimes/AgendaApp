@@ -2,6 +2,8 @@ package com.stronans.android.agenda.model;
 
 import com.stronans.android.agenda.BuildConfig;
 
+import java.util.List;
+
 public final class Task {
     public static final String IdKey = "id";
     public static final String ParentKey = "parent";
@@ -25,11 +27,13 @@ public final class Task {
     private final DateInfo lastUpdated;
     private final long parent;
     private final boolean hasChildren;
+    private final List<Task> children;
 
     public Task(final long id, final String title, final String description, final String notes, final DateInfo plannedStart,
                 final DateInfo started,
                 final int percentageComplete, final DateInfo targetDate, final DateInfo lastUpdated, final long parent,
-                final boolean hasChildren) {
+                final boolean hasChildren, List<Task> children
+    ) {
         super();
 
         if (BuildConfig.DEBUG) {
@@ -51,6 +55,7 @@ public final class Task {
         this.lastUpdated = lastUpdated;
         this.parent = parent;
         this.hasChildren = hasChildren;
+        this.children = children;
     }
 
     /**
@@ -128,5 +133,9 @@ public final class Task {
      */
     public boolean hasChildren() {
         return hasChildren;
+    }
+
+    public List<Task> children() {
+        return this.children;
     }
 }

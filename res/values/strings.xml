@@ -33,7 +33,10 @@
     <string name="targetdatetext">Target date</string>
     <string name="lastUpdated">Last Updated</string>
 
+    <string name="numberOftasks">Child tasks : {0,number,integer}</string>
     <string name="notYetStarted">Not started</string>
+    <string name="notStarted">{0,number,integer} not started</string>
+    <string name="taskCompleted">{0,number,integer} complete</string>
     <string name="taskComplete">Task complete</string>
     <string name="dateNotSet">Date not set</string>
 
@@ -57,7 +60,7 @@
     <string name="nothing_happening">No activities planned for next {0} days</string>
     <string name="time_period">Starts {0} till {1}</string>
     <string name="all_day_event"> (All day event)</string>
-    <string name="location">Location :</string>
+    <string name="location">Location : </string>
     <string name="agendaMessage">Message</string>
 
     <!-- Tabs descriptor strings. -->

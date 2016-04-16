@@ -24,12 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AgendaFragment extends ExpandableListFragment implements Refresher, DateChangeListener {
-    AgendaConfiguration config;
-    AgendaListAdapter agendaItemsAdapter;
-    int agendaRange;
-    ExpandableListView listView;
-    OnChildClickListener onChildClickListener;
-    List<AgendaItem> allAgendaItems;
+    private AgendaConfiguration config;
+    private AgendaListAdapter agendaItemsAdapter;
+    private int agendaRange;
+    private ExpandableListView listView;
+    private OnChildClickListener onChildClickListener;
+    private List<AgendaItem> allAgendaItems;
 
     public AgendaFragment() {
         super();

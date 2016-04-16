@@ -14,27 +14,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TaskListTable implements BaseColumns
+class TaskListTable implements BaseColumns
 {
-    public static final int ID = 0;
-    public static final String TITLE = "title";
-    public static final int TITLE_FIELD = 1;
-    public static final String DESCRIPTION = "description";
-    public static final int DESCRIPTION_FIELD = 2;
-    public static final String NOTES = "notes";
-    public static final int NOTES_FIELD = 3;
-    public static final String PLANNED_START = "plannedstart";
-    public static final int PLANNED_START_FIELD = 4;
-    public static final String STARTED = "started";
-    public static final int STARTED_FIELD = 5;
-    public static final String PERCENT_COMPLETE = "percentage";
-    public static final int PERCENT_COMPLETE_FIELD = 6;
-    public static final String TARGET_DATE = "targetdate";
-    public static final int TARGET_DATE_FIELD = 7;
-    public static final String LAST_UPDATED = "lastupdated";
-    public static final int LAST_UPDATED_FIELD = 8;
-    public static final String PARENT_TASK = "Parenttask";
-    public static final int PARENT_TASK_FIELD = 9;
+    private static final int ID = 0;
+    private static final String TITLE = "title";
+    private static final int TITLE_FIELD = 1;
+    private static final String DESCRIPTION = "description";
+    private static final int DESCRIPTION_FIELD = 2;
+    private static final String NOTES = "notes";
+    private static final int NOTES_FIELD = 3;
+    private static final String PLANNED_START = "plannedstart";
+    private static final int PLANNED_START_FIELD = 4;
+    private static final String STARTED = "started";
+    private static final int STARTED_FIELD = 5;
+    private static final String PERCENT_COMPLETE = "percentage";
+    private static final int PERCENT_COMPLETE_FIELD = 6;
+    private static final String TARGET_DATE = "targetdate";
+    private static final int TARGET_DATE_FIELD = 7;
+    private static final String LAST_UPDATED = "lastupdated";
+    private static final int LAST_UPDATED_FIELD = 8;
+    private static final String PARENT_TASK = "Parenttask";
+    private static final int PARENT_TASK_FIELD = 9;
 
     private static final String TASKLIST_TABLE_NAME = "tasklist";
     private static final String TASKLIST_TABLE_CREATE = "CREATE TABLE " + TASKLIST_TABLE_NAME + " ("
@@ -133,7 +133,7 @@ public class TaskListTable implements BaseColumns
         return count;
     }
 
-    public List<Task> getAllTasks()
+    List<Task> getAllTasks()
     {
         List<Task> tasks = new ArrayList<>();
 
@@ -142,7 +142,7 @@ public class TaskListTable implements BaseColumns
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
         {
-            Task task = cursorToTask(cursor);
+            Task task = cursorToTask(cursor, false);
             tasks.add(task);
             cursor.moveToNext();
         }
@@ -151,9 +151,16 @@ public class TaskListTable implements BaseColumns
         return tasks;
     }
 
-    private Task cursorToTask(Cursor cursor)
+    private Task cursorToTask(Cursor cursor, boolean getChildren)
     {
+        List<Task> childTasks = new ArrayList<>();
+
         long id = cursor.getLong(ID);
+
+        if(getChildren) {
+            childTasks = getTasksWithParent(id, false);
+        }
+
         return new Task(id,
                 cursor.getString(TITLE_FIELD),
                 cursor.getString(DESCRIPTION_FIELD),
@@ -164,10 +171,12 @@ public class TaskListTable implements BaseColumns
                 DateInfo.fromLong(cursor.getLong(TARGET_DATE_FIELD)),
                 DateInfo.fromLong(cursor.getLong(LAST_UPDATED_FIELD)),
                 cursor.getLong(PARENT_TASK_FIELD),
-                hasChildTasks(id));
+                childTasks.size() > 0,
+                childTasks
+                );
     }
 
-    public boolean hasChildTasks(long id) {
+    boolean hasChildTasks(long id) {
         boolean result = false;
         Cursor cursor = database.query(TASKLIST_TABLE_NAME, allColumns, TaskListTable.PARENT_TASK + " = " + id, null, null,
                 null, null);
@@ -183,7 +192,7 @@ public class TaskListTable implements BaseColumns
         return result;
     }
 
-    public List<Task> getTasksWithParent(long id)
+    List<Task> getTasksWithParent(long id, boolean getChildren)
     {
         List<Task> tasks = new ArrayList<>();
         Cursor cursor = database.query(TASKLIST_TABLE_NAME, allColumns, TaskListTable.PARENT_TASK + " = " + id, null, null,
@@ -193,7 +202,7 @@ public class TaskListTable implements BaseColumns
 
         while (!cursor.isAfterLast())
         {
-            tasks.add(cursorToTask(cursor));
+            tasks.add(cursorToTask(cursor, getChildren));
             cursor.moveToNext();
         }
 
@@ -202,13 +211,13 @@ public class TaskListTable implements BaseColumns
         return tasks;
     }
 
-    public Task getTask(long id)
+    public Task getTask(long id, boolean getChildren)
     {
         Cursor cursor = database.query(TASKLIST_TABLE_NAME, allColumns, TaskListTable._ID + " = " + id, null, null, null, null);
 
         cursor.moveToFirst();
 
-        Task taskObtained = cursorToTask(cursor);
+        Task taskObtained = cursorToTask(cursor, getChildren);
         cursor.close();
 
         return taskObtained;
@@ -238,7 +247,7 @@ public class TaskListTable implements BaseColumns
                 null, null, null, null);
         cursor.moveToFirst();
 
-        Task updatedNewTask = cursorToTask(cursor);
+        Task updatedNewTask = cursorToTask(cursor, false);
         cursor.close();
 
         return updatedNewTask;

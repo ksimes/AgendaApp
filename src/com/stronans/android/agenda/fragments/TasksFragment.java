@@ -17,29 +17,26 @@ import com.stronans.android.agenda.activities.TaskManagementDisplay;
 import com.stronans.android.agenda.activities.TasksDisplay;
 import com.stronans.android.agenda.adapters.TaskListAdapter;
 import com.stronans.android.agenda.dataaccess.AgendaData;
-import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.interfaces.Refresher;
 import com.stronans.android.agenda.interfaces.SetParent;
-import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.Task;
 
 import java.util.List;
 
 public class TasksFragment extends Fragment implements Refresher, SetParent {
-    public static final long ROOT = 1L;
+    private static final long ROOT = 1L;
 
-    AgendaConfiguration config;
-    TaskListAdapter taskItemsAdapter;
-    OnItemClickListener onClickListener;
-    OnItemLongClickListener onLongClickListener;
-    View mainView;
-    ListView listView;
-    List<Task> taskItems;
-    long parentPosition = ROOT;
+    //    private AgendaConfiguration config;
+    private OnItemClickListener onClickListener;
+    private OnItemLongClickListener onLongClickListener;
+    private View mainView;
+    private ListView listView;
+    private List<Task> taskItems;
+    private long parentPosition = ROOT;
 
     public TasksFragment() {
         super();
-        config = AgendaStaticData.getStaticData().getConfig();
+//        config = AgendaStaticData.getStaticData().getConfig();
         setHasOptionsMenu(true);
     }
 
@@ -67,7 +64,7 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        config = AgendaStaticData.getStaticData().getConfig();
+//        config = AgendaStaticData.getStaticData().getConfig();
         setHasOptionsMenu(true);
 
         onClickListener = new OnItemClickListener() {
@@ -124,7 +121,7 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
     private View.OnClickListener taskParentClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Task item = AgendaData.getInst().getTask(parentPosition);
+            Task item = AgendaData.getInst().getTask(parentPosition, true);
             long parent = 1;
 
             if (item != null) {
@@ -137,6 +134,8 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
 
     @Override
     public void refreshDisplay() {
+        TaskListAdapter taskItemsAdapter;
+
         taskItems = getTaskList(parentPosition);
 
         if (mainView != null) {
@@ -147,7 +146,7 @@ public class TasksFragment extends Fragment implements Refresher, SetParent {
                 tv.setText(getString(R.string.task_title));
                 imageButton.setVisibility(View.GONE);
             } else {
-                Task t = AgendaData.getInst().getTask(parentPosition);
+                Task t = AgendaData.getInst().getTask(parentPosition, true);
                 tv.setText(t.title());
                 imageButton.setVisibility(View.VISIBLE);
             }

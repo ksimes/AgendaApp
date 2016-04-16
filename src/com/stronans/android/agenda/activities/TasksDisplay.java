@@ -11,6 +11,7 @@ import com.stronans.android.agenda.model.Task;
 import java.util.List;
 
 /**
+ * Lists all tasks current in the database. *** This Activity only used for debugging.  ***
  * @author SimonKing
  */
 public class TasksDisplay extends FragmentActivity {

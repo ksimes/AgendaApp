@@ -23,25 +23,25 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.support.v4.content.ContextCompat.getColor;
+
 public class MonthGridView extends View implements RefreshNotifier {
     private static final int INFO_SIZE = 25;
 
     private AgendaController controller;
     private AgendaConfiguration config;
-    private Resources resources;
+    private Context context;
     private DateInfo selected;
     private GridSelection gridData;
     private List<Incident> eventList = null; // List of all events which occur in this grid (may include extra days before
     // beginning and after end of month).
-    private int monthTextSize;
-    private int weekTextSize;
     private Refresher refresher;
 
     // Used when being inflated from a layout
     public MonthGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setFocusable(true);
-        resources = context.getResources();
+        this.context = context;
         init();
     }
 
@@ -117,7 +117,7 @@ public class MonthGridView extends View implements RefreshNotifier {
 
     @Override
     public void onDraw(Canvas canvas) {
-        // canvas.drawColor(displayResources.getColor(R.color.Chalk));
+        // canvas.drawColor(private  R.color.Chalk));
         canvas.drawColor(Color.WHITE);
         selected = config.getDateInfo();
 
@@ -132,6 +132,9 @@ public class MonthGridView extends View implements RefreshNotifier {
     }
 
     private int drawMonthInformation(Canvas canvas, int top) {
+        int monthTextSize;
+        int weekTextSize;
+
         DateInfo startOfMonthGrid, endOfMonthGrid;
 
         Paint paint = new Paint();
@@ -170,7 +173,7 @@ public class MonthGridView extends View implements RefreshNotifier {
                         (int) ((i * gridData.getCellWidth()) + gridData.getCellWidth()), top
                         + (int) (gridData.getCellWidth() * 6));
 
-                wkpaint.setColor(resources.getColor(R.color.Chalk));
+                wkpaint.setColor(getColor(context, R.color.Chalk));
                 canvas.drawRect(wkRect, wkpaint);
             }
         }
@@ -233,11 +236,11 @@ public class MonthGridView extends View implements RefreshNotifier {
                     Rect background = new Rect(cellRect);
                     background.inset(1, 1);
                     Paint backPaint = new Paint(paint);
-                    backPaint.setColor(resources.getColor(R.color.LightGrey));
+                    backPaint.setColor(getColor(context, R.color.LightGrey));
                     backPaint.setStyle(Paint.Style.FILL);
                     canvas.drawRect(background, backPaint);
 
-                    backPaint.setColor(resources.getColor(R.color.DarkGrey));
+                    backPaint.setColor(getColor(context, R.color.DarkGrey));
                     Rect mRect = new Rect();
                     paint.getTextBounds(date, 0, date.length(), mRect);
                     canvas.drawText(date, background.left + 1, background.top + mRect.height() + 1, backPaint);
@@ -249,17 +252,17 @@ public class MonthGridView extends View implements RefreshNotifier {
                     paint.setStyle(Paint.Style.STROKE);
                     paint.setStrokeWidth(6);
                     if (startOfMonthGrid.isToday()) {
-                        paint.setColor(resources.getColor(R.color.SkyBlue));
+                        paint.setColor(getColor(context, R.color.SkyBlue));
                         canvas.drawRoundRect(selectedMarker, 10, 10, paint);
                     } else if (startOfMonthGrid.equals(selected)) {
-                        paint.setColor(resources.getColor(R.color.MossGreen));
+                        paint.setColor(getColor(context, R.color.MossGreen));
                         canvas.drawRoundRect(selectedMarker, 10, 10, paint);
                     }
 
                     //
                     paint.setStyle(Paint.Style.FILL);
                     paint.setStrokeWidth(1);
-                    paint.setColor(resources.getColor(R.color.Black));
+                    paint.setColor(getColor(context, R.color.Black));
 
                     Rect mRect = new Rect();
                     paint.getTextBounds(date, 0, date.length(), mRect);
@@ -295,10 +298,10 @@ public class MonthGridView extends View implements RefreshNotifier {
     }
 
     private class IconInfo {
-        public Bitmap allDay = null;
-        public List<Bitmap> others = null;
+        private Bitmap allDay = null;
+        private List<Bitmap> others = null;
 
-        public IconInfo() {
+        private IconInfo() {
             others = new ArrayList<Bitmap>();
         }
     }

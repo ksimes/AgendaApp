@@ -16,7 +16,7 @@
             android:id="@+id/MessageInfo"
             android:textSize="20sp"
             android:paddingStart="25dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:textColor="@color/White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

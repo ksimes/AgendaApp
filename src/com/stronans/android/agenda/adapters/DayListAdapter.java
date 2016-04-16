@@ -19,10 +19,10 @@ import java.text.MessageFormat;
 import java.util.List;
 
 public class DayListAdapter extends BaseAdapter {
-    List<Incident> items;
-    Context context;
-    AgendaConfiguration config;
-    Resources resources;
+    private List<Incident> items;
+    private Context context;
+    private AgendaConfiguration config;
+    private Resources resources;
 
     public DayListAdapter(Context context, List<Incident> items) {
         super();
@@ -65,16 +65,16 @@ public class DayListAdapter extends BaseAdapter {
 
         Utilities.setTextView(view, R.id.incidentTitle, item.title());
 
-        String periodTxt = new String();
+        String periodTxt;
         if (!item.isAllDay()) {
             periodTxt = MessageFormat.format(resources.getString(R.string.time_period),
-                    new Object[]{DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt())});
+                    DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt()));
         } else
             periodTxt = resources.getString(R.string.all_day_event);
 
         Utilities.setTextView(view, R.id.incidentperiod, periodTxt);
 
-        TextView location = (TextView) view.findViewById(R.id.incidentlocation);
+        TextView location = (TextView) view.findViewById(R.id.dayIncidentlocation);
         if (Utilities.hasContent(item.eventLocation())) {
             location.setVisibility(View.VISIBLE);
             location.setText(resources.getString(R.string.location) + item.eventLocation());

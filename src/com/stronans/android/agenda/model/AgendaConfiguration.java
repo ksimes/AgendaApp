@@ -15,25 +15,25 @@ import com.stronans.android.controllers.DateChangeListener;
 
 public class AgendaConfiguration
 {
-    DateInfo                 date              = DateInfo.getNow();
-    List<DateChangeListener> dateListeners     = new ArrayList<>();
+    private DateInfo                 date              = DateInfo.getNow();
+    private List<DateChangeListener> dateListeners     = new ArrayList<>();
     /**
      * It will be possible to customise the day the week starts on
      */
-    int                      weekStart         = Calendar.MONDAY;
-    LabelOrientation         headerOrientation = LabelOrientation.left;
-    String[]                 weekDaysShort     = null;
-    String[]                 monthNamesLong    = null;
-    Bitmap                   tokens            = null;
-    Bitmap                   window            = null;
+    private int                      weekStart         = Calendar.MONDAY;
+    private LabelOrientation         headerOrientation = LabelOrientation.left;
+    private String[]                 weekDaysShort     = null;
+    private String[]                 monthNamesLong    = null;
+    private Bitmap                   tokens            = null;
+    private Bitmap                   window            = null;
     /**
      * By default the agenda page shows the next ten days, this will be customisable.
      */
-    int                      agendaRange       = 10;
+    private int                      agendaRange       = 10;
     /**
      * By default the start tab should be agenda, this will be customisable.
      */
-    ViewType                 initialViewType   = ViewType.Agenda;
+    private ViewType                 initialViewType   = ViewType.Agenda;
 
     public void setResources(Resources resources)
     {

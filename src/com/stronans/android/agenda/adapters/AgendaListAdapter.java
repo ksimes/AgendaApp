@@ -87,9 +87,9 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
         if (view == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (item.isMessageOnly()) {
-                view = vi.inflate(R.layout.agenda_message_item, null);
+                view = vi.inflate(R.layout.agenda_message_item, parent, false);
             } else {
-                view = vi.inflate(R.layout.agenda_list_item, null);
+                view = vi.inflate(R.layout.agenda_list_item, parent, false);
             }
         }
 
@@ -120,7 +120,7 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
 
         if (view == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.incident_list_item, null);
+            view = vi.inflate(R.layout.incident_list_item, parent, false);
         }
 
         AgendaItem agendaItem = agendaItems.get(groupPosition);
@@ -145,9 +145,11 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
             String location = "";
             if (Utilities.hasContent(item.eventLocation())) {
                 location = resources.getString(R.string.location) + item.eventLocation();
+                Utilities.setTextView(view, R.id.incidentlocation, location);
+                Utilities.textViewVisibility(view, R.id.incidentlocation, true);
+            } else {
+                Utilities.textViewVisibility(view, R.id.incidentlocation, false);
             }
-
-            Utilities.setTextView(view, R.id.incidentlocation, location);
 
             int dayOfWeek = agendaItems.get(groupPosition).date().getCurrentDayOfMonth();
 

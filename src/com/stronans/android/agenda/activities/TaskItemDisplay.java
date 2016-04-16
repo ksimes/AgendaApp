@@ -12,21 +12,21 @@ import com.stronans.android.agenda.model.Task;
  * @author SimonKing
  */
 public class TaskItemDisplay extends FragmentActivity {
-    long taskId = 1;
 
     private void populateView(int resourceID, String parameter) {
         TextView field = (TextView) findViewById(resourceID);
         field.setText(parameter);
     }
 
-    /*
+    /**
      * (non-Javadoc)
-     * 
+     *
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        long taskId;
 
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.task_popup);
@@ -37,7 +37,7 @@ public class TaskItemDisplay extends FragmentActivity {
             taskId = parameters.getLong(Task.IdKey);
 
             if(taskId > 0) {
-                Task task = AgendaData.getInst().getTask(taskId);
+                Task task = AgendaData.getInst().getTask(taskId, true);
 
                 populateView(R.id.title, task.title());
                 populateView(R.id.description, task.description());
