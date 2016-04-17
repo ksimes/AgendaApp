@@ -33,10 +33,10 @@
     <string name="targetdatetext">Target date</string>
     <string name="lastUpdated">Last Updated</string>
 
-    <string name="numberOftasks">Child tasks : {0,number,integer}</string>
+    <string name="numberOftasks">{0,number,integer} child tasks</string>
     <string name="notYetStarted">Not started</string>
     <string name="notStarted">{0,number,integer} not started</string>
-    <string name="taskCompleted">{0,number,integer} complete</string>
+    <string name="tasksCompleted">{0,number,integer} complete</string>
     <string name="taskComplete">Task complete</string>
     <string name="dateNotSet">Date not set</string>
 

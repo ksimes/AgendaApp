@@ -1,14 +1,11 @@
 package com.stronans.android.agenda.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.stronans.android.agenda.R;
-import com.stronans.android.agenda.dataaccess.AgendaStaticData;
-import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.AgendaLinkedMap;
 import com.stronans.android.agenda.support.Utilities;
 
@@ -16,16 +13,16 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 public class AboutListAdapter extends BaseAdapter {
-    AgendaLinkedMap<String, String> items = new AgendaLinkedMap<>();
-    Context context;
-    AgendaConfiguration config;
-    Resources resources;
+    private AgendaLinkedMap<String, String> items = new AgendaLinkedMap<>();
+    private Context context;
+//    private AgendaConfiguration config;
+//    private Resources resources;
 
     public AboutListAdapter(Context context) {
         super();
         this.context = context;
-        config = AgendaStaticData.getStaticData().getConfig();
-        resources = context.getResources();
+//        config = AgendaStaticData.getStaticData().getConfig();
+//        resources = context.getResources();
         populateItems();
     }
 
@@ -74,7 +71,7 @@ public class AboutListAdapter extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.aboutlistitem, null);
+            view = vi.inflate(R.layout.aboutlistitem, parent, false);
         }
 
         for (Map.Entry<String, String> entry : items.entrySet()) {

@@ -50,6 +50,9 @@ public class TaskListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        int childTasksNotStarted = 0;
+        int childTasksCompleted = 0;
+
         View view = convertView;
 
         if (view == null) {
@@ -64,15 +67,32 @@ public class TaskListAdapter extends BaseAdapter {
         Utilities.setTextView(view, R.id.taskTitle, item.title());
         TextView field = (TextView) view.findViewById(R.id.taskTitle);
 
+        // black text shows that the task is on-going, i.e. started but not yet 100%
         field.setTextColor(Color.BLACK);
-        switch (item.percentageComplete()) {
-            case 0:
-                field.setTextColor(Color.BLUE);
-                break;
+        int size = item.children().size();
 
-            case 100:
+        // If we have child tasks then the status presented is based on the number of child tasks completed and
+        // the value of the percentComplete field in this parent task is ignore.
+        if (size > 0) {
+            childTasksNotStarted = analyseNotStarted(item.children());
+            childTasksCompleted = analyseCompleted(item.children());
+
+            if (childTasksNotStarted == size) {
+                field.setTextColor(Color.BLUE);
+            } else if (childTasksCompleted == size) {
                 field.setPaintFlags(field.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                break;
+            }
+        } else {
+            // We have no child tasks then the status presented is based on the percentComplete field.
+            switch (item.percentageComplete()) {
+                case 0:
+                    field.setTextColor(Color.BLUE);
+                    break;
+
+                case 100:
+                    field.setPaintFlags(field.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    break;
+            }
         }
 
         View v = view.findViewById(R.id.taskChildren);
@@ -80,8 +100,20 @@ public class TaskListAdapter extends BaseAdapter {
             v.setTag(item);
             v.setVisibility(View.VISIBLE);
 
-            String children = MessageFormat.format(context.getResources().getString(R.string.numberOftasks), item.children().size());
-            Utilities.setTextView(view, R.id.childTasksMsg, children, true);
+            StringBuilder children = new StringBuilder(100);
+            children.append(MessageFormat.format(context.getResources().getString(R.string.numberOftasks), item.children().size()));
+
+            if (childTasksNotStarted > 0) {
+                children.append(", ");
+                children.append(MessageFormat.format(context.getResources().getString(R.string.notStarted), childTasksNotStarted));
+            }
+
+            if (childTasksCompleted > 0) {
+                children.append(", ");
+                children.append(MessageFormat.format(context.getResources().getString(R.string.tasksCompleted), childTasksCompleted));
+            }
+
+            Utilities.setTextView(view, R.id.childTasksMsg, children.toString(), true);
         } else {
             Utilities.textViewVisibility(view, R.id.childTasksMsg, false);
         }
@@ -103,6 +135,26 @@ public class TaskListAdapter extends BaseAdapter {
 //            updateList();
         }
     };
+
+    private int sumPercentages(List<Task> childTasks, int value) {
+        int result = 0;
+
+        for (Task task : childTasks) {
+            if (task.percentageComplete() == value) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
+    private int analyseNotStarted(List<Task> childTasks) {
+        return sumPercentages(childTasks, 0);
+    }
+
+    private int analyseCompleted(List<Task> childTasks) {
+        return sumPercentages(childTasks, 100);
+    }
 
     public void updateList() {
         notifyDataSetChanged();
