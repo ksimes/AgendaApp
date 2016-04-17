@@ -37,6 +37,7 @@
     <string name="notYetStarted">Not started</string>
     <string name="notStarted">{0,number,integer} not started</string>
     <string name="tasksCompleted">{0,number,integer} complete</string>
+    <string name="percentagecomplete">{0,number,integer}% completed</string>
     <string name="taskComplete">Task complete</string>
     <string name="dateNotSet">Date not set</string>
 

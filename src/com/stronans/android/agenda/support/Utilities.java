@@ -18,11 +18,11 @@ public class Utilities {
         return result;
     }
 
-    public static void setTextView(View view, int resourceID, String value) {
-        setTextView(view, resourceID, value, true);
+    public static TextView setTextView(View view, int resourceID, String value) {
+        return setTextView(view, resourceID, value, true);
     }
 
-    public static void setTextView(View view, int resourceID, String value, boolean visibility) {
+    public static TextView setTextView(View view, int resourceID, String value, boolean visibility) {
         TextView field = (TextView) view.findViewById(resourceID);
 
         if (value != null) {
@@ -36,6 +36,8 @@ public class Utilities {
         } else {
             field.setVisibility(View.GONE);
         }
+
+        return field;
     }
 
     public static void textViewVisibility(View view, int resourceID, boolean status) {

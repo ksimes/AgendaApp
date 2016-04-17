@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.fragments.TasksFragment;
+import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Task;
 import com.stronans.android.agenda.support.Utilities;
 
@@ -64,8 +65,7 @@ public class TaskListAdapter extends BaseAdapter {
 
         Task item = items.get(position);
 
-        Utilities.setTextView(view, R.id.taskTitle, item.title());
-        TextView field = (TextView) view.findViewById(R.id.taskTitle);
+        TextView field = Utilities.setTextView(view, R.id.taskTitle, item.title());
 
         // black text shows that the task is on-going, i.e. started but not yet 100%
         field.setTextColor(Color.BLACK);
@@ -77,28 +77,11 @@ public class TaskListAdapter extends BaseAdapter {
             childTasksNotStarted = analyseNotStarted(item.children());
             childTasksCompleted = analyseCompleted(item.children());
 
-            if (childTasksNotStarted == size) {
+            if (childTasksNotStarted == size) {     // No child tasks started.
                 field.setTextColor(Color.BLUE);
-            } else if (childTasksCompleted == size) {
+            } else if (childTasksCompleted == size) {     // All child tasks complete.
                 field.setPaintFlags(field.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
-        } else {
-            // We have no child tasks then the status presented is based on the percentComplete field.
-            switch (item.percentageComplete()) {
-                case 0:
-                    field.setTextColor(Color.BLUE);
-                    break;
-
-                case 100:
-                    field.setPaintFlags(field.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    break;
-            }
-        }
-
-        View v = view.findViewById(R.id.taskChildren);
-        if (v != null && item.hasChildren()) {
-            v.setTag(item);
-            v.setVisibility(View.VISIBLE);
 
             StringBuilder children = new StringBuilder(100);
             children.append(MessageFormat.format(context.getResources().getString(R.string.numberOftasks), item.children().size()));
@@ -115,7 +98,42 @@ public class TaskListAdapter extends BaseAdapter {
 
             Utilities.setTextView(view, R.id.childTasksMsg, children.toString(), true);
         } else {
-            Utilities.textViewVisibility(view, R.id.childTasksMsg, false);
+            // We have no child tasks then the status presented is based on the percentComplete field.
+            StringBuilder completionState = new StringBuilder(100);
+
+            switch (item.percentageComplete()) {
+                case 0:     // If the task is not started then highlight in blue.
+                    completionState.append(context.getResources().getString(R.string.notYetStarted));
+                    field.setTextColor(Color.BLUE);
+                    break;
+
+                case 100:   // If the task is completed then strike through the text.
+                    completionState.append(context.getResources().getString(R.string.taskComplete));
+                    field.setPaintFlags(field.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    break;
+
+                default:    // Otherwise task text is black with percentage complete shown below.
+                    completionState.append(MessageFormat.format(context.getResources().getString(R.string.percentagecomplete), item.percentageComplete()));
+            }
+
+            // Task target date is also shown if available.
+            completionState.append(", ");
+            completionState.append(context.getResources().getString(R.string.targetdatetext));
+            completionState.append(" : ");
+
+            if (item.targetDate().isDefined()) {
+                completionState.append(DateInfo.getDateString(item.targetDate()));
+            } else {
+                completionState.append(context.getResources().getString(R.string.dateNotSet));
+            }
+
+            Utilities.setTextView(view, R.id.childTasksMsg, completionState.toString(), true);
+        }
+
+        View v = view.findViewById(R.id.taskChildren);
+        if (item.hasChildren()) {
+            v.setTag(item);
+            v.setVisibility(View.VISIBLE);
         }
 
         return view;
