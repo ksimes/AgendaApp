@@ -86,8 +86,8 @@ class TaskListTable implements BaseColumns
         onCreate(db);
     }
 
-    TaskListDb taskListdb;
-    SQLiteDatabase database;
+    private TaskListDb taskListdb;
+    private SQLiteDatabase database;
 
     public TaskListTable(Context context)
     {

@@ -9,18 +9,18 @@ import java.util.List;
  * @author SimonKing
  */
 public final class AgendaItem {
-    private final List<Incident> eventsOnThisDay;
+    private final List<Happening> eventsOnThisDay;
     private final DateInfo dateToday;
     private final boolean messageOnly;
 
-    public AgendaItem(final DateInfo dateToday, final List<Incident> eventsOnThisDay, boolean messageOnly) {
+    public AgendaItem(final DateInfo dateToday, final List<Happening> eventsOnThisDay, boolean messageOnly) {
         super();
         this.eventsOnThisDay = eventsOnThisDay;
         this.dateToday = dateToday;
         this.messageOnly = messageOnly;
     }
 
-    public AgendaItem(final DateInfo dateToday, final List<Incident> eventsOnThisDay) {
+    public AgendaItem(final DateInfo dateToday, final List<Happening> eventsOnThisDay) {
         this(dateToday, eventsOnThisDay, false);
     }
 
@@ -34,7 +34,7 @@ public final class AgendaItem {
     /**
      * @return the list of eventsOnThisDay
      */
-    public List<Incident> eventsOnThisDay() {
+    public List<Happening> eventsOnThisDay() {
         return eventsOnThisDay;
     }
 

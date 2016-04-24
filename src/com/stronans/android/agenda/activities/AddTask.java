@@ -157,14 +157,16 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
         field = (EditText) findViewById(R.id.inputnotes);
         field.setText(task.notes());
 
+        plannedStart = task.plannedStart();
         Button button = (Button) findViewById(R.id.inputplannedstart);
-        setButtonText(R.id.inputplannedstart, task.plannedStart());
+        setButtonText(R.id.inputplannedstart, plannedStart);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 processDateSelection(task.plannedStart(), Task.PlannedKey);
             }
         });
 
+        actualStart = task.started();
         button = (Button) findViewById(R.id.inputstarted);
         setButtonText(R.id.inputstarted, task.started());
         button.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +175,7 @@ public class AddTask extends Activity implements DateSelectionDialog.DialogListe
             }
         });
 
+        targetDate = task.targetDate();
         button = (Button) findViewById(R.id.inputtargetdate);
         setButtonText(R.id.inputtargetdate, task.targetDate());
         button.setOnClickListener(new View.OnClickListener() {

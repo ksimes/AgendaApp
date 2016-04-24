@@ -14,6 +14,7 @@ import com.stronans.android.agenda.interfaces.RefreshNotifier;
 import com.stronans.android.agenda.interfaces.Refresher;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
+import com.stronans.android.agenda.model.Happening;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.GridSelection;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.support.v4.content.ContextCompat.getColor;
+import static com.stronans.android.agenda.support.AgendaUtilities.extractForDate;
 
 public class MonthGridView extends View implements RefreshNotifier {
     private static final int INFO_SIZE = 25;
@@ -33,7 +35,7 @@ public class MonthGridView extends View implements RefreshNotifier {
     private Context context;
     private DateInfo selected;
     private GridSelection gridData;
-    private List<Incident> eventList = null; // List of all events which occur in this grid (may include extra days before
+    private List<Happening> eventList = null; // List of all events which occur in this grid (may include extra days before
     // beginning and after end of month).
     private Refresher refresher;
 
@@ -306,19 +308,22 @@ public class MonthGridView extends View implements RefreshNotifier {
         }
     }
 
-    private IconInfo getTokens(List<Incident> eventList, DateInfo selected) {
+    private IconInfo getTokens(List<Happening> eventList, DateInfo selected) {
         IconInfo images = new IconInfo();
 
-        List<Incident> todaysEvents = Incident.extractForDate(eventList, selected);
+        List<Happening> todaysEvents = extractForDate(eventList, selected);
 
-        for (Incident event : todaysEvents) {
-            if (event.isAllDay())
-                images.allDay = this.config.getScaledToken(event.category().marker(),
-                        gridData.getCellWidth() / 2 - 2, gridData.getCellWidth() / 2 - 2);
-            else {
-                images.others.add(this.config.getScaledToken(event.category().marker(),
-                        gridData.getCellWidth() / 2 - 2, gridData.getCellWidth() / 2 - 2));
-                // images.others.add(this.config.getToken(event.getCategory().getMarker()));
+        for (Happening event : todaysEvents) {
+            if(event.classType() == Happening.ClassType.Incident ) {
+                Incident incident = event.getAsIncident();
+                if (incident.isAllDay())
+                    images.allDay = this.config.getScaledToken(incident.category().marker(),
+                            gridData.getCellWidth() / 2 - 2, gridData.getCellWidth() / 2 - 2);
+                else {
+                    images.others.add(this.config.getScaledToken(incident.category().marker(),
+                            gridData.getCellWidth() / 2 - 2, gridData.getCellWidth() / 2 - 2));
+                    // images.others.add(this.config.getToken(event.getCategory().getMarker()));
+                }
             }
         }
 
@@ -332,13 +337,13 @@ public class MonthGridView extends View implements RefreshNotifier {
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(INFO_SIZE);
 
-        List<Incident> todaysEvents = Incident.extractForDate(eventList, selected); // Assumed that eventList set in last
+        List<Happening> todaysEvents = extractForDate(eventList, selected); // Assumed that eventList set in last
         // routine.
         top += 5;
 
-        for (Incident event : todaysEvents) {
+        for (Happening event : todaysEvents) {
             top += Math.round(Math.abs(paint.ascent()));
-            canvas.drawText(FormattedInfo.getShortEventString(event), 10, top, paint);
+            canvas.drawText(FormattedInfo.getShortEventString(event.getAsIncident()), 10, top, paint);
             top += paint.descent();
         }
 

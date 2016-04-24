@@ -12,6 +12,7 @@ import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
+import com.stronans.android.agenda.model.Happening;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.controllers.AgendaController;
@@ -94,7 +95,7 @@ public class DayView extends View {
         DateInfo end = DateInfo.fromDateInfo(selected);
         end.setToMidnight();
 
-        List<Incident> todaysEvents = AgendaData.getInst().getEvents(0, start, end);
+        List<Happening> todaysEvents = AgendaData.getInst().getEvents(0, start, end);
 
         top += 5;
 
@@ -102,25 +103,27 @@ public class DayView extends View {
             paint.setTextSize(titleSize);
             top += FormattedInfo.drawTextWrapped(resources.getString(R.string.no_activities), 10, top, getWidth() - 20, paint, canvas);
         } else {
-            for (Incident event : todaysEvents) {
+            for (Happening event : todaysEvents) {
                 paint.setTextSize(titleSize);
                 top += FormattedInfo.drawTextWrapped(event.title(), 10, top, getWidth() - 20, paint, canvas);
 
                 paint.setTextSize(infoSize);
                 StringBuilder sb = new StringBuilder(30);
 
-                if (!event.isAllDay()) {
+                Incident incident = event.getAsIncident();
+
+                if (!incident.isAllDay()) {
                     sb.append(MessageFormat.format(resources.getString(R.string.time_period),
-                            new Object[]{DateInfo.getTimeString(event.startAt()), DateInfo.getTimeString(event.endsAt())}));
+                            new Object[]{DateInfo.getTimeString(incident.startAt()), DateInfo.getTimeString(incident.endsAt())}));
                 } else
                     sb.append(resources.getString(R.string.all_day_event));
 
                 top += Math.round(Math.abs(paint.ascent()));
                 canvas.drawText(sb.toString(), 10, top, paint);
                 top += paint.descent();
-                if (event.eventLocation() != null)
-                    if (event.eventLocation().length() > 0) {
-                        top += FormattedInfo.drawTextWrapped(resources.getString(R.string.location) + event.eventLocation(),
+                if (incident.eventLocation() != null)
+                    if (incident.eventLocation().length() > 0) {
+                        top += FormattedInfo.drawTextWrapped(resources.getString(R.string.location) + incident.eventLocation(),
                                 10, top, getWidth() - 20, paint, canvas);
                     }
 

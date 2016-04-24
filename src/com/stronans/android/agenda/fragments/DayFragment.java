@@ -12,6 +12,7 @@ import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.interfaces.Refresher;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
+import com.stronans.android.agenda.model.Happening;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.views.DateHeaderView;
 import com.stronans.android.controllers.DateChangeListener;
@@ -32,7 +33,7 @@ public final class DayFragment extends Fragment implements Refresher, DateChange
         setHasOptionsMenu(true);
     }
 
-    private List<Incident> getTodaysEvents(DateInfo selected) {
+    private List<Happening> getTodaysEvents(DateInfo selected) {
         DateInfo start = DateInfo.fromDateInfo(selected);
         start.setToJustPastMidnight();
         DateInfo end = DateInfo.fromDateInfo(selected);
@@ -44,7 +45,7 @@ public final class DayFragment extends Fragment implements Refresher, DateChange
     public void refreshDisplay() {
         DateInfo selected = config.getDateInfo();
 
-        List<Incident> todaysEvents = getTodaysEvents(selected);
+        List<Happening> todaysEvents = getTodaysEvents(selected);
 
         if (todaysEvents.isEmpty()) {
             dayListEmpty.setVisibility(View.VISIBLE);

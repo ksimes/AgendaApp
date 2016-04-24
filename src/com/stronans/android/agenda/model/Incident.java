@@ -12,14 +12,12 @@ import java.util.List;
  *
  * @author SimonKing
  */
-public final class Incident {
+public final class Incident extends Happening {
     public static final String Title = "title";
     public static final String Description = "description";
     public static final String Location = "location";
     public static final String Period = "period";
 
-    private final String title;                      // Short title of an event
-    private final String description;                // Detailed description
     private final String location;                   // Location (or alternate notes)
     private final DateInfo start;                    // Start date and time
     private final DateInfo end;                      // End date and time
@@ -32,15 +30,14 @@ public final class Incident {
     public Incident(final String title, final String description, final String location, final DateInfo start,
                     final DateInfo end, final boolean allDay,
                     final int eventStatus, final EventCategory category, final int calendarColour, final int calendarId) {
-        super();
+
+        super(title, description);
         if (BuildConfig.DEBUG) {
 //            if(id != 0) throw new IllegalArgumentException();
             if (start == null) throw new IllegalArgumentException();
             if (end == null) throw new IllegalArgumentException();
         }
 
-        this.title = title;
-        this.description = description;
         this.location = location;
         this.start = start;
         this.end = end;
@@ -51,18 +48,16 @@ public final class Incident {
         this.category = category;
     }
 
+    @Override
+    public ClassType classType() {
+        return ClassType.Incident;
+    }
+
     // Although this constructor creates an incident this item should be treated like a message which will appear on the display.
     public Incident(final String title) {
         this(title, null, null,
                 DateInfo.getUndefined(), DateInfo.getUndefined(), true, -1, null,
                 Color.BLACK, 1);
-    }
-
-    /**
-     * @return the title
-     */
-    public String title() {
-        return title;
     }
 
     /**
@@ -77,13 +72,6 @@ public final class Incident {
                 result = true;
 
         return result;
-    }
-
-    /**
-     * @return the description
-     */
-    public String description() {
-        return description;
     }
 
     /**
@@ -168,25 +156,5 @@ public final class Incident {
      */
     public int calendarColour() {
         return calendarColour;
-    }
-
-    /**
-     * Extracts a subset of data for a specific date assuming that the list passed in contains a larger range such as a week or
-     * Month.
-     *
-     * @param events   The larger list of events for a week, month or year
-     * @param thisDate The date that the data is being extracted for
-     */
-    static public List<Incident> extractForDate(List<Incident> events, DateInfo thisDate) {
-        List<Incident> result = new ArrayList<Incident>();
-
-        if (events != null)
-            for (Incident anEvent : events) {
-                if (anEvent.startAt().equals(thisDate)) {
-                    result.add(anEvent);
-                }
-            }
-
-        return result;
     }
 }

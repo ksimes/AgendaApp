@@ -17,8 +17,8 @@ public final class Task {
     public static final String UpdatedKey = "lastupdated";
 
     private final long id;
-    private final String title;
-    private final String description;
+    private final String title;                      // Short title of an Happening
+    private final String description;                // Detailed description of the Happening.
     private final String notes;
     private final DateInfo plannedStart;
     private final DateInfo started;
@@ -34,7 +34,6 @@ public final class Task {
                 final int percentageComplete, final DateInfo targetDate, final DateInfo lastUpdated, final long parent,
                 final boolean hasChildren, List<Task> children
     ) {
-        super();
 
         if (BuildConfig.DEBUG) {
 //            if(id == 0) throw new IllegalArgumentException();
@@ -66,13 +65,6 @@ public final class Task {
     }
 
     /**
-     * @return the parent
-     */
-    public long parent() {
-        return parent;
-    }
-
-    /**
      * @return the title
      */
     public String title() {
@@ -84,6 +76,12 @@ public final class Task {
      */
     public String description() {
         return description;
+    }
+    /**
+     * @return the parent
+     */
+    public long parent() {
+        return parent;
     }
 
     /**

@@ -11,6 +11,7 @@ import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
+import com.stronans.android.agenda.model.Happening;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.Utilities;
@@ -19,12 +20,12 @@ import java.text.MessageFormat;
 import java.util.List;
 
 public class DayListAdapter extends BaseAdapter {
-    private List<Incident> items;
+    private List<Happening> items;
     private Context context;
     private AgendaConfiguration config;
     private Resources resources;
 
-    public DayListAdapter(Context context, List<Incident> items) {
+    public DayListAdapter(Context context, List<Happening> items) {
         super();
         this.context = context;
         this.items = items;
@@ -32,7 +33,7 @@ public class DayListAdapter extends BaseAdapter {
         resources = context.getResources();
     }
 
-    public void updateList(List<Incident> items) {
+    public void updateList(List<Happening> items) {
         this.items = items;
         notifyDataSetChanged();
     }
@@ -61,7 +62,7 @@ public class DayListAdapter extends BaseAdapter {
             view = vi.inflate(R.layout.daylistitem, null);
         }
 
-        Incident item = items.get(position);
+        Incident item = items.get(position).getAsIncident();
 
         Utilities.setTextView(view, R.id.incidentTitle, item.title());
 

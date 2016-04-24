@@ -16,6 +16,7 @@ import com.stronans.android.agenda.enums.ViewType;
 import com.stronans.android.agenda.fragments.WeekFragment;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
+import com.stronans.android.agenda.model.Happening;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.controllers.AgendaController;
@@ -32,7 +33,7 @@ public class WeekDayView extends View {
     private DateInfo weekDay;
     private Paint paint;
     private String[] weekNames;
-    private List<Incident> todaysEvents;
+    private List<Happening> todaysEvents;
     private int dayMarker;
     private WeekFragment weekFragment;
     private Context context;
@@ -78,7 +79,7 @@ public class WeekDayView extends View {
         invalidate();
     }
 
-    public void setDaysEvents(List<Incident> events) {
+    public void setDaysEvents(List<Happening> events) {
         this.todaysEvents = events;
         invalidate();
     }
@@ -188,15 +189,19 @@ public class WeekDayView extends View {
 
         int shift = 3;
         paint.setTextSize(infoSize);
-        for (Incident event : todaysEvents) {
+        for (Happening event : todaysEvents) {
             // TODO: Put in icons for the calendar account/event type
             Rect markerRect = new Rect(getPaddingLeft(), shift, getPaddingLeft() + infoSize, shift + infoSize);
-            paint.setColor(event.calendarColour());
-            canvas.drawRect(markerRect, paint);
 
-            paint.setColor(getColor(context, R.color.Black));
-            shift += FormattedInfo.drawTextWrapped(FormattedInfo.getShortEventString(event),
-                    getPaddingLeft() + infoSize + getPaddingLeft(), shift, displayWidth - 10, paint, canvas);
+            if(event.classType() == Happening.ClassType.Incident) {
+                Incident incident = event.getAsIncident();
+                paint.setColor(incident.calendarColour());
+                canvas.drawRect(markerRect, paint);
+
+                paint.setColor(getColor(context, R.color.Black));
+                shift += FormattedInfo.drawTextWrapped(FormattedInfo.getShortEventString(incident),
+                        getPaddingLeft() + infoSize + getPaddingLeft(), shift, displayWidth - 10, paint, canvas);
+            }
         }
 
         paint.setColor(getColor(context, R.color.DarkGrey));

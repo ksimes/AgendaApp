@@ -9,10 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.enums.FormatStyle;
-import com.stronans.android.agenda.model.AgendaConfiguration;
-import com.stronans.android.agenda.model.AgendaItem;
-import com.stronans.android.agenda.model.DateInfo;
-import com.stronans.android.agenda.model.Incident;
+import com.stronans.android.agenda.model.*;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.ResourceInfo;
 import com.stronans.android.agenda.support.Utilities;
@@ -22,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.support.v4.content.ContextCompat.getColor;
+import static com.stronans.android.agenda.support.AgendaUtilities.getTaskWarningColour;
 
 public class AgendaListAdapter extends BaseExpandableListAdapter {
     private List<AgendaItem> agendaItems;
@@ -111,11 +109,11 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
+    /**
+     * Show each happening in a particular day.
+     */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        /**
-         * Show each incident in a particular day.
-         */
         View view = convertView;
 
         if (view == null) {
@@ -125,39 +123,67 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
 
         AgendaItem agendaItem = agendaItems.get(groupPosition);
 
-        Incident item = agendaItem.eventsOnThisDay().get(childPosition);
+        Happening item = agendaItem.eventsOnThisDay().get(childPosition);
 
         Utilities.setTextView(view, R.id.incidentTitle, item.title());
+        Utilities.textViewVisibility(view, R.id.incidentlocation, false);
+        Utilities.textViewVisibility(view, R.id.incidentperiod, false);
 
-        if (agendaItem.isMessageOnly()) {
-            view.setBackgroundColor(getColor(context, R.color.Ivory));
-        } else {
-            StringBuilder sb = new StringBuilder(30);
-
-            if (!item.isAllDay()) {
-                sb.append(MessageFormat.format(resources.getString(R.string.time_period),
-                        DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt())));
-            } else
-                sb.append(resources.getString(R.string.all_day_event));
-
-            Utilities.setTextView(view, R.id.incidentperiod, sb.toString());
-
-            String location = "";
-            if (Utilities.hasContent(item.eventLocation())) {
-                location = resources.getString(R.string.location) + item.eventLocation();
-                Utilities.setTextView(view, R.id.incidentlocation, location);
-                Utilities.textViewVisibility(view, R.id.incidentlocation, true);
-            } else {
-                Utilities.textViewVisibility(view, R.id.incidentlocation, false);
-            }
-
-            int dayOfWeek = agendaItems.get(groupPosition).date().getCurrentDayOfMonth();
-
-            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                view.setBackgroundColor(getColor(context, R.color.Chalk));
-            } else {
+        switch (item.classType()) {
+            case Message: {
                 view.setBackgroundColor(getColor(context, R.color.Ivory));
             }
+            break;
+
+            case Incident: {
+                Incident incident = item.getAsIncident();
+                String period;
+
+                if (!incident.isAllDay()) {
+                    period = MessageFormat.format(resources.getString(R.string.time_period),
+                            DateInfo.getTimeString(incident.startAt()),
+                            DateInfo.getTimeString(incident.endsAt()));
+
+                } else
+                    period = resources.getString(R.string.all_day_event);
+
+                Utilities.setTextView(view, R.id.incidentperiod, period);
+                Utilities.textViewVisibility(view, R.id.incidentperiod, true);
+
+                String location;
+                if (Utilities.hasContent(incident.eventLocation())) {
+                    location = resources.getString(R.string.location) + incident.eventLocation();
+                    Utilities.setTextView(view, R.id.incidentlocation, location);
+                    Utilities.textViewVisibility(view, R.id.incidentlocation, true);
+                }
+
+                int dayOfWeek = agendaItems.get(groupPosition).date().getCurrentDayOfMonth();
+
+                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+                    view.setBackgroundColor(getColor(context, R.color.Chalk));
+                } else {
+                    view.setBackgroundColor(getColor(context, R.color.Ivory));
+                }
+            }
+            break;
+
+            case TaskWrapper: {
+                TaskWrapper wrappedTask = item.getAsTaskWrapper();
+
+                String taskTitle = wrappedTask.task().title();
+
+                if (wrappedTask.status() == TaskWrapper.Status.PlannedStart) {
+                    Utilities.setTextView(view, R.id.incidentTitle, resources.getString(R.string.plannedstarttext) + ": " + taskTitle);
+                    view.setBackgroundColor(getColor(context, R.color.LightGreen));
+                }
+
+                if (wrappedTask.status() == TaskWrapper.Status.TargetDate) {
+                    Utilities.setTextView(view, R.id.incidentTitle, resources.getString(R.string.targetcompletetext) + ": " + taskTitle);
+
+                    view.setBackgroundColor(getColor(context, getTaskWarningColour(agendaItem.date(), config)));
+                }
+            }
+            break;
         }
 
         return view;

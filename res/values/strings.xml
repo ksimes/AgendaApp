@@ -32,6 +32,7 @@
     <string name="percentagetext">% Completed</string>
     <string name="targetdatetext">Target date</string>
     <string name="lastUpdated">Last Updated</string>
+    <string name="targetcompletetext">To complete</string>
 
     <string name="numberOftasks">{0,number,integer} child tasks</string>
     <string name="notYetStarted">Not started</string>

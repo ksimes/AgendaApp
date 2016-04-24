@@ -17,23 +17,36 @@ public class AgendaConfiguration
 {
     private DateInfo                 date              = DateInfo.getNow();
     private List<DateChangeListener> dateListeners     = new ArrayList<>();
-    /**
-     * It will be possible to customise the day the week starts on
-     */
-    private int                      weekStart         = Calendar.MONDAY;
-    private LabelOrientation         headerOrientation = LabelOrientation.left;
     private String[]                 weekDaysShort     = null;
     private String[]                 monthNamesLong    = null;
     private Bitmap                   tokens            = null;
     private Bitmap                   window            = null;
+    // customisable settings.
+    /*
+     * It will be possible to customise the day the week starts on
+     */
+    private int                      weekStart         = Calendar.MONDAY;
+    private LabelOrientation         headerOrientation = LabelOrientation.left;
     /**
-     * By default the agenda page shows the next ten days, this will be customisable.
+     * By default the agenda page shows the next ten days
      */
     private int                      agendaRange       = 10;
     /**
-     * By default the start tab should be agenda, this will be customisable.
+     * By default the start tab will be agenda.
      */
     private ViewType                 initialViewType   = ViewType.Agenda;
+    /**
+     * By default the task first level warning will be 5.
+     */
+    private int                      TaskWarningFirst = 5;
+    private int                      TaskWarningFirstColour = R.color.Amber;
+    /**
+     * By default the task second and final level warning will be 3.
+     */
+    private int                      TaskWarningFinal = 3;
+    private int                      TaskWarningFinalColour = R.color.SoftPink;
+
+    private int                      defaultTaskColour = R.color.AvocadoGreen;
 
     public void setResources(Resources resources)
     {
@@ -159,5 +172,53 @@ public class AgendaConfiguration
     public ViewType initalViewType()
     {
         return initialViewType;
+    }
+
+    public int getTaskWarningFirstColour() {
+        return TaskWarningFirstColour;
+    }
+
+    public void setTaskWarningFirstColour(int taskWarningFirstColour) {
+        TaskWarningFirstColour = taskWarningFirstColour;
+    }
+
+    public int getTaskWarningFirst() {
+        return TaskWarningFirst;
+    }
+
+    public void setTaskWarningFirst(int taskWarningFirst) {
+        TaskWarningFirst = taskWarningFirst;
+    }
+
+    public int getTaskWarningFinal() {
+        return TaskWarningFinal;
+    }
+
+    public void setTaskWarningFinal(int taskWarningFinal) {
+        TaskWarningFinal = taskWarningFinal;
+    }
+
+    public int getTaskWarningFinalColour() {
+        return TaskWarningFinalColour;
+    }
+
+    public void setTaskWarningFinalColour(int taskWarningFinalColour) {
+        TaskWarningFinalColour = taskWarningFinalColour;
+    }
+
+    public int getDefaultTaskColour() {
+        return defaultTaskColour;
+    }
+
+    public void setDefaultTaskColour(int defaultTaskColour) {
+        this.defaultTaskColour = defaultTaskColour;
+    }
+
+    public ViewType getInitialViewType() {
+        return initialViewType;
+    }
+
+    public void setInitialViewType(ViewType initialViewType) {
+        this.initialViewType = initialViewType;
     }
 }

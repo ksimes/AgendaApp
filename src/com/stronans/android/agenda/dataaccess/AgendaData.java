@@ -57,9 +57,9 @@ public class AgendaData {
         setupTaskDB();
     }
 
-    private List<Incident> getEventsEmulator(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
+    private List<Happening> getEventsEmulator(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         Date currentTime = new Date();
-        List<Incident> result = new ArrayList<>();
+        List<Happening> result = new ArrayList<>();
 
         Calendar x = Calendar.getInstance();
         x.setTime(currentTime);
@@ -154,10 +154,10 @@ public class AgendaData {
         return result;
     }
 
-    private List<Incident> getEventsAndroid2_2(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
+    private List<Happening> getEventsAndroid2_2(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         final String ORDER_BY = "begin ASC, end ASC";
 
-        List<Incident> result = new ArrayList<>();
+        List<Happening> result = new ArrayList<>();
 
         Uri.Builder builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
         ContentUris.appendId(builder, startDate.getMilliseconds());
@@ -199,7 +199,7 @@ public class AgendaData {
         return result;
     }
 
-    private List<Incident> getEventsAndroid4Above(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
+    private List<Happening> getEventsAndroid4Above(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         // final String ORDER_BY = "begin ASC, end ASC";
         final String ORDER_BY = Instances.BEGIN + " ASC, " + Instances.END + " ASC";
 
@@ -224,7 +224,7 @@ public class AgendaData {
                     "calendar_id=?", new String[]{Integer.toString(selectedCalendarId)},
                     ORDER_BY);
 
-        List<Incident> result = new ArrayList<>();
+        List<Happening> result = new ArrayList<>();
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -261,7 +261,7 @@ public class AgendaData {
         return result;
     }
 
-    public List<Incident> getEvents(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
+    public List<Happening> getEvents(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
         String build = android.os.Build.MODEL;
         int version = android.os.Build.VERSION.SDK_INT;
 

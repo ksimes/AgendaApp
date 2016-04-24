@@ -10,12 +10,15 @@ import com.stronans.android.agenda.interfaces.Refresher;
 import com.stronans.android.agenda.interfaces.WeekViewParent;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
+import com.stronans.android.agenda.model.Happening;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.views.DateHeaderView;
 import com.stronans.android.agenda.views.WeekDayView;
 import com.stronans.android.controllers.DateChangeListener;
 
 import java.util.List;
+
+import static com.stronans.android.agenda.support.AgendaUtilities.extractForDate;
 
 public class WeekFragment extends Fragment implements WeekViewParent, Refresher, DateChangeListener {
     AgendaConfiguration config;
@@ -34,7 +37,7 @@ public class WeekFragment extends Fragment implements WeekViewParent, Refresher,
         setHasOptionsMenu(true);
     }
 
-    private List<Incident> getWeeksEvents(DateInfo weekDay) {
+    private List<Happening> getWeeksEvents(DateInfo weekDay) {
         DateInfo weekEndsOn = DateInfo.fromDateInfo(weekDay);
         weekEndsOn.addToDate(7);
         weekEndsOn.setToMidnight();
@@ -59,13 +62,13 @@ public class WeekFragment extends Fragment implements WeekViewParent, Refresher,
         weekDay.addToDate(-weekBegins);
         weekDay.setToJustPastMidnight();
 
-        List<Incident> events = getWeeksEvents(weekDay);
+        List<Happening> events = getWeeksEvents(weekDay);
 
         for (int i = 0; i < 7; i++, weekstart++) {
             if (weekstart == 8)
                 weekstart = 1;
 
-            List<Incident> todaysEvents = Incident.extractForDate(events, weekDay);
+            List<Happening> todaysEvents = extractForDate(events, weekDay);
 
             WeekDayView dayView = (WeekDayView) fragmentView.findViewById(Week[i]);
 

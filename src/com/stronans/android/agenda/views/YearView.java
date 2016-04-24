@@ -13,6 +13,7 @@ import com.stronans.android.agenda.enums.LabelOrientation;
 import com.stronans.android.agenda.enums.ViewType;
 import com.stronans.android.agenda.model.AgendaConfiguration;
 import com.stronans.android.agenda.model.DateInfo;
+import com.stronans.android.agenda.model.Happening;
 import com.stronans.android.agenda.model.Incident;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.controllers.AgendaController;
@@ -21,6 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.support.v4.content.ContextCompat.getColor;
+import static com.stronans.android.agenda.support.AgendaUtilities.extractForDate;
 
 public class YearView extends View {
     private static final int MONTHNAME_SIZE = 30;
@@ -30,7 +32,7 @@ public class YearView extends View {
     private DateInfo selected;
     private String[] monthNames;
     private AgendaController controller;
-    private List<Incident> eventList = null; // List of all events which occur in this grid (may include extra days before
+    private List<Happening> eventList = null; // List of all events which occur in this grid (may include extra days before
     // beginning and after end of month).
     private int cellBackground, singleEvent, doubleEvent, moreEvents, weekend;
     private Context context;
@@ -93,9 +95,9 @@ public class YearView extends View {
         eventList = AgendaData.getInst().getEvents(0, startOfYearGrid, endOfYearGrid);
     }
 
-    private int getbackgroundColour(List<Incident> eventList, DateInfo selected) {
+    private int getbackgroundColour(List<Happening> eventList, DateInfo selected) {
         int backColour = cellBackground;
-        switch (Incident.extractForDate(eventList, selected).size()) {
+        switch (extractForDate(eventList, selected).size()) {
             case 0:
                 backColour = cellBackground;
                 break;

@@ -30,6 +30,7 @@ public class DateInfo {
 
     /**
      * Factory method which returns defined object set to current date and time.
+     *
      * @return defined DataInfo object set to now.
      */
     public static DateInfo getNow() {
@@ -38,6 +39,7 @@ public class DateInfo {
 
     /**
      * Factory method which returns undefined DateInfo object.
+     *
      * @return undefined DataInfo object.
      */
     public static DateInfo getUndefined() {
@@ -48,6 +50,7 @@ public class DateInfo {
 
     /**
      * Factory method which returns defined object set to date and time corresponding to long millisecond value.
+     *
      * @return defined DataInfo object set to corresponding millisecond value for Date/Time.
      */
     public static DateInfo fromLong(Long newDateInMilli) {
@@ -121,21 +124,42 @@ public class DateInfo {
     public int intervalToToday() {
         DateTime today = DateTime.today(TimeZone.getDefault());
 
-        DateTime current = DateTime.forDateOnly(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
-                calendar.get(Calendar.DATE));
+        DateTime current = getDateTimeAsDate(this);
 
         int diff = current.numDaysFrom(today);
 
         return diff;
     }
 
-    public boolean isDefined()
-    {
+    static private DateTime getDateTimeAsDate(DateInfo dateToConvert) {
+        return DateTime.forDateOnly(dateToConvert.calendar.get(Calendar.YEAR), dateToConvert.calendar.get(Calendar.MONTH) + 1,
+                dateToConvert.calendar.get(Calendar.DATE));
+    }
+
+    /**
+     * @return true is a given date falls into the range provided.
+     */
+    static public boolean inRange(DateInfo dateToCheck, DateInfo startOfRange, DateInfo endOfRange) {
+        boolean result = false;
+
+        DateTime comparison = getDateTimeAsDate(dateToCheck);
+        DateTime start = getDateTimeAsDate(startOfRange);
+        DateTime end = getDateTimeAsDate(endOfRange);
+
+        if (comparison.gteq(start) && comparison.lteq(end)) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    public boolean isDefined() {
         return !notDefined;
     }
 
     /**
      * Formats the dateTime in this instance into a displayable string. If undefined then returns a blank string.
+     *
      * @param format Must conform to the formatting characters from
      * @return String holding formatted date/Time of blank if undefined.
      */
@@ -243,7 +267,7 @@ public class DateInfo {
     public Long getMilliseconds() {
         long x = Long.MIN_VALUE;
 
-        if(!notDefined) {
+        if (!notDefined) {
             x = calendar.getTime().getTime();
         }
         return x;
@@ -277,8 +301,7 @@ public class DateInfo {
     static public DateInfo fromUniversalString(String dateTimeInfo) {
         DateInfo result = new DateInfo();
 
-        if(DateTime.isParseable(dateTimeInfo))
-        {
+        if (DateTime.isParseable(dateTimeInfo)) {
             DateTime newTime = new DateTime(dateTimeInfo);
 
             return DateInfo.fromLong(newTime.getMilliseconds(TimeZone.getDefault()));
