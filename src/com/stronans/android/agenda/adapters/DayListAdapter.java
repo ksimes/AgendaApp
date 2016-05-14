@@ -10,14 +10,13 @@ import android.widget.TextView;
 import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaStaticData;
 import com.stronans.android.agenda.model.AgendaConfiguration;
-import com.stronans.android.agenda.model.DateInfo;
 import com.stronans.android.agenda.model.Happening;
 import com.stronans.android.agenda.model.Incident;
-import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.Utilities;
 
-import java.text.MessageFormat;
 import java.util.List;
+
+import static com.stronans.android.agenda.support.AgendaUtilities.getPeriodData;
 
 public class DayListAdapter extends BaseAdapter {
     private List<Happening> items;
@@ -59,35 +58,37 @@ public class DayListAdapter extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.daylistitem, null);
+            view = vi.inflate(R.layout.daylistitem, parent, false);
         }
 
-        Incident item = items.get(position).getAsIncident();
+        Happening happening = items.get(position);
+        Utilities.setTextView(view, R.id.incidentTitle, happening.title());
 
-        Utilities.setTextView(view, R.id.incidentTitle, item.title());
+        switch(happening.classType())
+        {
+            case Incident:
+                Incident item = happening.getAsIncident();
 
-        String periodTxt;
-        if (!item.isAllDay()) {
-            periodTxt = MessageFormat.format(resources.getString(R.string.time_period),
-                    DateInfo.getTimeString(item.startAt()), DateInfo.getTimeString(item.endsAt()));
-        } else
-            periodTxt = resources.getString(R.string.all_day_event);
+                Utilities.setTextView(view, R.id.incidentperiod, getPeriodData(item, resources));
 
-        Utilities.setTextView(view, R.id.incidentperiod, periodTxt);
+                TextView location = (TextView) view.findViewById(R.id.dayIncidentlocation);
+                if (Utilities.hasContent(item.eventLocation())) {
+                    location.setVisibility(View.VISIBLE);
+                    location.setText(resources.getString(R.string.location) + item.eventLocation());
+                } else
+                    location.setVisibility(View.GONE);
 
-        TextView location = (TextView) view.findViewById(R.id.dayIncidentlocation);
-        if (Utilities.hasContent(item.eventLocation())) {
-            location.setVisibility(View.VISIBLE);
-            location.setText(resources.getString(R.string.location) + item.eventLocation());
-        } else
-            location.setVisibility(View.GONE);
+                TextView description = (TextView) view.findViewById(R.id.incidentdescription);
+                if (Utilities.hasContent(item.description())) {
+                    description.setVisibility(View.VISIBLE);
+                    description.setText(item.description());
+                } else
+                    description.setVisibility(View.GONE);
+                break;
 
-        TextView description = (TextView) view.findViewById(R.id.incidentdescription);
-        if (Utilities.hasContent(item.description())) {
-            description.setVisibility(View.VISIBLE);
-            description.setText(item.description());
-        } else
-            description.setVisibility(View.GONE);
+            case TaskWrapper:
+                break;
+        }
 
         return view;
     }

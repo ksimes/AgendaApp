@@ -12,14 +12,19 @@ import com.stronans.android.agenda.enums.FormatStyle;
 import com.stronans.android.agenda.model.*;
 import com.stronans.android.agenda.support.FormattedInfo;
 import com.stronans.android.agenda.support.ResourceInfo;
-import com.stronans.android.agenda.support.Utilities;
 
 import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.List;
 
 import static android.support.v4.content.ContextCompat.getColor;
+import static com.stronans.android.agenda.support.AgendaUtilities.getLocationData;
+import static com.stronans.android.agenda.support.AgendaUtilities.getPeriodData;
 import static com.stronans.android.agenda.support.AgendaUtilities.getTaskWarningColour;
+import static com.stronans.android.agenda.support.Utilities.hasContent;
+import static com.stronans.android.agenda.support.Utilities.setTextView;
+import static com.stronans.android.agenda.support.Utilities.textViewVisibility;
+
 
 public class AgendaListAdapter extends BaseExpandableListAdapter {
     private List<AgendaItem> agendaItems;
@@ -92,7 +97,7 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
         }
 
         if (item.isMessageOnly()) {
-            Utilities.setTextView(view, R.id.MessageInfo, resources.getString(R.string.agendaMessage));
+            setTextView(view, R.id.MessageInfo, resources.getString(R.string.agendaMessage));
         } else {
             String newDateFormat = MessageFormat.format(dateFormat, FormattedInfo.suffix(item.date().getDateInMonth()));
             String dateInfoTxt = item.date().format(newDateFormat);
@@ -102,8 +107,8 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
                 dateInfoTxt += " " + DateInfo.getYearString(item.date());
             }
 
-            Utilities.setTextView(view, R.id.IntervalInfo, intervalTxt);
-            Utilities.setTextView(view, R.id.DateInfo, "(" + dateInfoTxt + ")");
+            setTextView(view, R.id.IntervalInfo, intervalTxt);
+            setTextView(view, R.id.DateInfo, "(" + dateInfoTxt + ")");
         }
 
         return view;
@@ -125,9 +130,9 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
 
         Happening item = agendaItem.eventsOnThisDay().get(childPosition);
 
-        Utilities.setTextView(view, R.id.incidentTitle, item.title());
-        Utilities.textViewVisibility(view, R.id.incidentlocation, false);
-        Utilities.textViewVisibility(view, R.id.incidentperiod, false);
+        setTextView(view, R.id.incidentTitle, item.title());
+        textViewVisibility(view, R.id.incidentlocation, false);
+        textViewVisibility(view, R.id.incidentperiod, false);
 
         switch (item.classType()) {
             case Message: {
@@ -137,24 +142,14 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
 
             case Incident: {
                 Incident incident = item.getAsIncident();
-                String period;
 
-                if (!incident.isAllDay()) {
-                    period = MessageFormat.format(resources.getString(R.string.time_period),
-                            DateInfo.getTimeString(incident.startAt()),
-                            DateInfo.getTimeString(incident.endsAt()));
+                setTextView(view, R.id.incidentperiod, getPeriodData(incident, resources));
+                textViewVisibility(view, R.id.incidentperiod, true);
 
-                } else
-                    period = resources.getString(R.string.all_day_event);
-
-                Utilities.setTextView(view, R.id.incidentperiod, period);
-                Utilities.textViewVisibility(view, R.id.incidentperiod, true);
-
-                String location;
-                if (Utilities.hasContent(incident.eventLocation())) {
-                    location = resources.getString(R.string.location) + incident.eventLocation();
-                    Utilities.setTextView(view, R.id.incidentlocation, location);
-                    Utilities.textViewVisibility(view, R.id.incidentlocation, true);
+                String location = getLocationData(incident, resources);
+                if (hasContent(location)) {
+                    setTextView(view, R.id.incidentlocation, location);
+                    textViewVisibility(view, R.id.incidentlocation, true);
                 }
 
                 int dayOfWeek = agendaItems.get(groupPosition).date().getCurrentDayOfMonth();
@@ -173,12 +168,12 @@ public class AgendaListAdapter extends BaseExpandableListAdapter {
                 String taskTitle = wrappedTask.task().title();
 
                 if (wrappedTask.status() == TaskWrapper.Status.PlannedStart) {
-                    Utilities.setTextView(view, R.id.incidentTitle, resources.getString(R.string.plannedstarttext) + ": " + taskTitle);
+                    setTextView(view, R.id.incidentTitle, resources.getString(R.string.plannedstarttext) + ": " + taskTitle);
                     view.setBackgroundColor(getColor(context, R.color.LightGreen));
                 }
 
                 if (wrappedTask.status() == TaskWrapper.Status.TargetDate) {
-                    Utilities.setTextView(view, R.id.incidentTitle, resources.getString(R.string.targetcompletetext) + ": " + taskTitle);
+                    setTextView(view, R.id.incidentTitle, resources.getString(R.string.targetcompletetext) + ": " + taskTitle);
 
                     view.setBackgroundColor(getColor(context, getTaskWarningColour(agendaItem.date(), config)));
                 }

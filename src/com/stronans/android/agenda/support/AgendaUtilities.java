@@ -1,8 +1,11 @@
 package com.stronans.android.agenda.support;
 
+import android.content.res.Resources;
+import com.stronans.android.agenda.R;
 import com.stronans.android.agenda.dataaccess.AgendaData;
 import com.stronans.android.agenda.model.*;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +103,7 @@ public class AgendaUtilities {
      * @param endDate            End of date range (inclusive)
      * @return List of combined tasks and events for that date range.
      */
-    static private List<Happening> getAgendaHappenings(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
+    static public List<Happening> getAgendaHappenings(int selectedCalendarId, DateInfo startDate, DateInfo endDate) {
 
         // Get all events which occur on this day.
         List<Happening> allHappeningItems = AgendaData.getInst().getEvents(selectedCalendarId, startDate, endDate);
@@ -143,5 +146,35 @@ public class AgendaUtilities {
         }
 
         return result;
+    }
+
+    /**
+     * Petrieves the period description made up from the resources of the system
+     * @param incident the incident from which to build the period it occues in
+     * @param resources The system resources
+     * @return String holding data to be displayed.
+     */
+    static public String getPeriodData(Incident incident, Resources resources) {
+        String period;
+
+        if (!incident.isAllDay()) {
+            period = MessageFormat.format(resources.getString(R.string.time_period),
+                    DateInfo.getTimeString(incident.startAt()),
+                    DateInfo.getTimeString(incident.endsAt()));
+
+        } else
+            period = resources.getString(R.string.all_day_event);
+
+        return period;
+    }
+
+    static public String getLocationData(Incident incident, Resources resources)
+    {
+        String location = "";
+        if (Utilities.hasContent(incident.eventLocation())) {
+            location = resources.getString(R.string.location) + incident.eventLocation();
+        }
+
+        return location;
     }
 }

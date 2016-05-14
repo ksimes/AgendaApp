@@ -20,6 +20,8 @@ import com.stronans.android.controllers.DateChangeListener;
 import java.util.Date;
 import java.util.List;
 
+import static com.stronans.android.agenda.support.AgendaUtilities.getAgendaHappenings;
+
 public final class DayFragment extends Fragment implements Refresher, DateChangeListener {
     private AgendaConfiguration config;
     private ListView incidentsToday;
@@ -39,7 +41,7 @@ public final class DayFragment extends Fragment implements Refresher, DateChange
         DateInfo end = DateInfo.fromDateInfo(selected);
         end.setToMidnight();
 
-        return AgendaData.getInst().getEvents(0, start, end);
+        return getAgendaHappenings(0, start, end);
     }
 
     public void refreshDisplay() {
